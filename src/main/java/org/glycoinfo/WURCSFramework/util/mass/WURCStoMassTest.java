@@ -3,7 +3,7 @@ package org.glycoinfo.WURCSFramework.util.mass;
 import java.io.File;
 import java.util.LinkedList;
 
-import org.glycoinfo.WURCSFramework.util.WURCSImporter2;
+import org.glycoinfo.WURCSFramework.util.WURCSImporter;
 import org.glycoinfo.WURCSFramework.wurcs.WURCSArray;
 
 
@@ -24,7 +24,7 @@ public class WURCStoMassTest {
 		if(input == null || input.equals("")) throw new Exception();
 
 		WURCSArray t_objWURCS = new WURCSArray("2.0", 0, 0, 0);
-		WURCSImporter2 ws = new WURCSImporter2();
+		WURCSImporter ws = new WURCSImporter();
 		File file = new File(input);
 
 		if(file.isFile()) {

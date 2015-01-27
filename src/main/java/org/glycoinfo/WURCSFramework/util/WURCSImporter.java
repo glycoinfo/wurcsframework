@@ -1,299 +1,505 @@
 package org.glycoinfo.WURCSFramework.util;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.glycoinfo.WURCSFramework.wurcs.UniqueRES;
-import org.glycoinfo.WURCSFramework.wurcs.LIP;
+import org.glycoinfo.WURCSFramework.wurcs.FuzzyGLIP;
+import org.glycoinfo.WURCSFramework.wurcs.FuzzyLIP;
+import org.glycoinfo.WURCSFramework.wurcs.GLIP;
 import org.glycoinfo.WURCSFramework.wurcs.LIN;
+import org.glycoinfo.WURCSFramework.wurcs.LIP;
+import org.glycoinfo.WURCSFramework.wurcs.MOD;
+import org.glycoinfo.WURCSFramework.wurcs.RES;
+import org.glycoinfo.WURCSFramework.wurcs.UniqueRES;
 import org.glycoinfo.WURCSFramework.wurcs.WURCSArray;
 
 public class WURCSImporter {
 
 	public WURCSArray WURCSsepalator(String a_strWURCS) {
-		String version = "";
-		int numBMU = 0;
-		int numMLU = 0;
-	
-		Matcher size = Pattern.compile("=(.+)/(\\d+),(\\d+)").matcher(a_strWURCS);
-		if(size.find()) {
-			version = size.group(1);
-			numBMU = Integer.parseInt(size.group(2));
-			numMLU = Integer.parseInt(size.group(3));
+
+		java.lang.System.out.println(a_strWURCS);
+		String version =         "";
+		int numUniqueRES =        0;
+		int numRES =              0;
+		int numLIN =              0;
+		String strUniqueRESs =   "";
+		String strResSequenses = "";
+		String strLINs =         "";
+
+		//String strExp = "WURCS=(.+)\\/(\\d+),(\\d+),(\\d+)\\/(.+)\\]/([0-9-]+)/(.+)";
+		String strExp = "WURCS=(.+)/(\\d+),(\\d+),(\\d+)/(.+)]/([0-9-]+)/(.+)";
+
+		Matcher wurcsMatch = Pattern.compile(strExp).matcher(a_strWURCS);
+		//WURCS=2.0/7,10,9/[x2122h-1x_1-5_2*NCC/3=O][12122h-1b_1-5_2*NCC/3=O][11122h-1b_1-5][21122h-1a_1-5][12112h-1b_1-5_2*NCC/3=O][12112h-1b_1-5][11221m-1a_1-5]/1-2-3-4-2-5-4-2-6-7/a4-b1_a6-j1_b4-c1_d2-e1_e4-f1_g2-h1_h4-i1_d1-c3\c6_g1-c3\c6
+		//		group(0)	WURCS=2.0/7,10,9/[x2122h-1x_1-5_2*NCC/3=O][12122h-1b_1-5_2*NCC/3=O][11122h-1b_1-5][21122h-1a_1-5][12112h-1b_1-5_2*NCC/3=O][12112h-1b_1-5][11221m-1a_1-5]/1-2-3-4-2-5-4-2-6-7/a4-b1_a6-j1_b4-c1_d2-e1_e4-f1_g2-h1_h4-i1_d1-c3\c6_g1-c3\c6
+		//		group(1)	2.0
+		//		group(2)	7
+		//		group(3)	10
+		//		group(4)	9
+		//		group(5)	[x2122h-1x_1-5_2*NCC/3=O][12122h-1b_1-5_2*NCC/3=O][11122h-1b_1-5][21122h-1a_1-5][12112h-1b_1-5_2*NCC/3=O][12112h-1b_1-5][11221m-1a_1-5
+		//		group(6)	1-2-3-4-2-5-4-2-6-7
+		//		group(7)	a4-b1_a6-j1_b4-c1_d2-e1_e4-f1_g2-h1_h4-i1_d1-c3\c6_g1-c3\c6
+		int t_iVersion = 1;
+		int t_iNumuRES = 2;
+		int t_iNumRES = 3;
+		int t_iNumLIN = 4;
+		int t_iUniqueRESs = 5;
+		int t_iResSequenses = 6;
+		int t_iLINs = 7;
+//		if ( !wurcsMatch.matches() )
+//			return null;
+		//if ( !wurcsMatch.find() )
+		//return null;
+		if(wurcsMatch.find()) {
+			version =                              wurcsMatch.group(t_iVersion);
+			numUniqueRES =        Integer.parseInt(wurcsMatch.group(t_iNumuRES));
+			numRES =              Integer.parseInt(wurcsMatch.group(t_iNumRES));
+			numLIN =              Integer.parseInt(wurcsMatch.group(t_iNumLIN));
+			strUniqueRESs = "]" +                  wurcsMatch.group(t_iUniqueRESs);
+			strResSequenses =                      wurcsMatch.group(t_iResSequenses);
+			strLINs =                              wurcsMatch.group(t_iLINs);
 		}
 
-		WURCSArray wurcsContainer = new WURCSArray(version, numBMU, numMLU);
-		
-		//extract SkeletonCode and generate a residue
-		Matcher mat = Pattern.compile("\\[(.+)\\]").matcher(a_strWURCS);
-		if(mat.find()) 
-			for(String s : mat.group(1).split("\\]\\[", -1)) 
-				wurcsContainer = generateBMU(s, wurcsContainer);
-			
-		//extract MLU
-		if(wurcsContainer.getRESCount() > 0) {
-			for(String s : a_strWURCS.split("\\|", -1)) {
-				s = s.replaceAll(".+\\]", "");
-				if(s.matches("^\\d+\\+.+")) wurcsContainer =  extractMLU(s, wurcsContainer);
+		WURCSArray wurcsContainer = new WURCSArray(version, numUniqueRES, numRES, numLIN);
+
+		// generate a Unique RES
+		// [x2122h-1x_1-5_2*NCC/3=O][12122h-1b_1-5_2*NCC/3=O][11122h-1b_1-5][21122h-1a_1-5][12112h-1b_1-5_2*NCC/3=O][12112h-1b_1-5][11221m-1a_1-5
+		// replace "["
+		String strRep = "([\\[])";
+		strUniqueRESs = strUniqueRESs.replaceAll(strRep,"");
+
+		// split "]"
+		String[] t_aURESs = strUniqueRESs.split("]");
+		int t_iURESID = 1; // count of uniqueRES
+		for(String t_strURES : t_aURESs) {
+			if (t_strURES.length() > 0) {
+//				wurcsContainer = this.extractUniqueRES(t_strURES, wurcsContainer, t_iURESID);
+				wurcsContainer.addUniqueRES(this.extractUniqueRES(t_strURES, t_iURESID));
+				t_iURESID++;
 			}
 		}
-		
+		// generate a RES sequences and a LIN
+		if(wurcsContainer.getRESCount() > 0) {
+			// generate RESsequences
+			// 1-2-3-4-2-5-4-2-6-7
+			// split "-"
+			String[] RESSequenceArray = strResSequenses.split("-");
+			int i = 1; // count of RES
+			for(String s : RESSequenceArray) {
+				if (s.length() > 0) {
+					String expRESseq = "([0-9-]+)";
+					if(s.matches(expRESseq)) wurcsContainer = this.extractRESSeqs(s, wurcsContainer, i);
+					i++;
+				}
+			}
+
+			// generate a LIN
+			// a4-b1_a6-j1_b4-c1_d2-e1_e4-f1_g2-h1_h4-i1_d1-c3\c6_g1-c3\c6
+			// split "_"
+			String[] LINArray = strLINs.split("_");
+			for(String s : LINArray) {
+				//String expLIN = "([a-zA-Z0-9\\&&[^*]]+)-([a-zA-Z0-9\\&&[^*]]+)*(.*)";
+				//String expLIN = "([a-zA-Z0-9|&&[^*]]+)-([a-zA-Z0-9|&&[^*]]+)*(.*)";
+				//if(s.matches(expLIN)) wurcsContainer = extractLINs(s, wurcsContainer);
+				wurcsContainer = this.extractLINs(s, wurcsContainer);
+			}
+		}
 		return wurcsContainer;
 	}
 
-	public WURCSArray generateBMU(String a_strSkeletonCode, WURCSArray a_objWURCS) {
-		//regex list
-		String skeletonCode = "([a-zA-Z1-9<>]+)";
-		String anomer = "(([\\d\\?]+)\\:([\\w\\?]+))?";
-		String ringPositiron = "(([\\?\\w]),([\\?\\w]))?";
-		String modification = ".*";
+	public UniqueRES extractUniqueRES(String a_strURES, int a_iURESID) {
+		// input: 12122h-1b_1-5_2*NCC/3=O
+		// Split SkeletonCode and MODs
+		String[] t_aSplitURES = a_strURES.split("_");
 
-		//group(0) : 12122h+1:b|1,5|2*NCC/3=O
-		//group(1) : 12122h
-		//group(2) : 1:b|1,5 (into Matcher)
-		//group(3) : 1,b
-		//group(4) : 1
-		//group(5) : b
-		//group(6) : 1,5
-		//group(7) : 1
-		//group(8) : 5
-		//group(9) : 2*NCC/3=O (all of modification)
+		// t_aSplitRES[0] = 12122h-1b  // basetype
+		// t_aSplitRES[1] = 1-5        // MOD 1
+		// t_aSplitRES[2] = 2*NCC/3=O  // MOD 2
 
-		Matcher skeletonParts = Pattern.compile(skeletonCode + "\\+?(" + anomer + "\\|?" + ringPositiron + ")?" + "\\|?(" + modification + ")?").matcher(a_strSkeletonCode);
+		String[] t_aSplitSC = t_aSplitURES[0].split("-");
 
-		if(skeletonParts.find()) {
-			UniqueRES bmu = new UniqueRES("", -1, ' ');
-			LinkedList<LIP> colinUnit = new LinkedList<LIP>();
-			
-			//extract SkeletonCode, anomeric state
-			if(skeletonParts.group(3) == null)
-				bmu = new UniqueRES(skeletonParts.group(1), -1, 'x');
-			else if(skeletonParts.group(4).equals("?"))
-				bmu = new UniqueRES(skeletonParts.group(1), -1, skeletonParts.group(5).charAt(0));
-			else
-				bmu = new UniqueRES(skeletonParts.group(1), Integer.parseInt(skeletonParts.group(4)), skeletonParts.group(5).charAt(0));
-			
-			//extract ring size
-			if(skeletonParts.group(6) != null) {
-				LIN mlu = new LIN("");
-				for(String modPos : skeletonParts.group(6).split(",", -1)) {
-					colinUnit = new LinkedList<LIP>();
-					colinUnit.addLast(new LIP(0, 
-							modPos.equals("?") ? -1 : Integer.parseInt(modPos), 
-							modPos.indexOf(":") != -1 ? modPos.substring(modPos.indexOf(":") + 1, modPos.indexOf(":") + 2).charAt(0) : '0',
-							modPos.indexOf("-") != -1 ? Integer.parseInt(modPos.substring(modPos.indexOf("-") + 1, modPos.indexOf("-") + 2)) : 1
-					));
-					mlu.addCOLIN(colinUnit);
-				}
-				bmu.addLIN(mlu);
+		// SkeletonCode and anomeric information
+		String t_strSkeletonCode   = t_aSplitSC[0];
+		int    t_iAnomericPosition =        0;
+		char   t_cAnomericSymbol   =       ' ';
+		if ( t_aSplitSC.length > 1 ) {
+			String strExp = "(\\?|[0-9]+)([abx])";
+			Matcher matchAnomerInfo = Pattern.compile(strExp).matcher(t_aSplitSC[1]);
+			if(matchAnomerInfo.find()) {
+				t_iAnomericPosition = (matchAnomerInfo.group(1).equals("?") ? -1 : Integer.parseInt(matchAnomerInfo.group(1))) ;
+				t_cAnomericSymbol = matchAnomerInfo.group(2).toCharArray()[0];
 			}
-			
-			//extract modification
-			if(skeletonParts.group(9) != null && !skeletonParts.group(9).equals("")) {
-				for(String m: skeletonParts.group(9).split("\\|")) {
-					colinUnit = new LinkedList<LIP>();
-					String map = m.indexOf("*") != -1 ? m.substring(m.indexOf("*")) : "";
-					LIN mlu = new LIN(map);
+		}
+		UniqueRES t_oURES = new UniqueRES(a_iURESID, t_strSkeletonCode, t_iAnomericPosition, t_cAnomericSymbol );
 
-					if(m.indexOf("\\") != -1) { //ambiguous position
-						String separatePos = m.substring(0, m.indexOf("*"));
-						for(String ambPos : separatePos.split("\\\\", -1))
-							colinUnit.addLast(new LIP(0, Integer.parseInt(ambPos), '0', 1));
-						mlu.addCOLIN(colinUnit);
-					}else if(m.indexOf(",") != -1) {
-						if(m.indexOf("*") != -1) { //pyruvate
-							for(String modPos : m.substring(0, m.indexOf("*")).split(",",-1)) {
-								colinUnit = new LinkedList<LIP>();
-								colinUnit.addLast(new LIP(0, 
-										modPos.equals("?") ? -1 : Integer.parseInt(modPos), 
-										modPos.indexOf(":") != -1 ? modPos.substring(modPos.indexOf(":") + 1, modPos.indexOf(":") + 2).charAt(0) : '0',
-										modPos.indexOf("-") != -1 ? Integer.parseInt(modPos.substring(modPos.indexOf("-") + 1, modPos.indexOf("-") + 2)) : 1
-								)); 
-								mlu.addCOLIN(colinUnit);
-							}
-						}else { //unhydro
-							for(String modPos : m.split(",",-1)) {
-								colinUnit = new LinkedList<LIP>();
-								colinUnit.addLast(new LIP(0, 
-										modPos.equals("?") ? -1 : Integer.parseInt(modPos), 
-										modPos.indexOf(":") != -1 ? modPos.substring(modPos.indexOf(":") + 1, modPos.indexOf(":") + 2).charAt(0) : '0',
-										modPos.indexOf("-") != -1 ? Integer.parseInt(modPos.substring(modPos.indexOf("-") + 1, modPos.indexOf("-") + 2)) : 1
-								));
-								mlu.addCOLIN(colinUnit);
-							}
-						}
-					}else { //single bond position
-						int backbone = m.substring(0, m.indexOf("*")).equals("?") ? -1 : Integer.parseInt(m.substring(0, m.indexOf("*")));
-						colinUnit.addLast(new LIP(0, 
-								backbone, 
-								m.indexOf(":") != -1 ? m.substring(m.indexOf(":") + 1, m.indexOf(":") + 2).charAt(0) : '0',
-								m.indexOf("-") != -1 ? Integer.parseInt(m.substring(m.indexOf("-") + 1, m.indexOf("-") + 2)) : 1
-						));
-						mlu.addCOLIN(colinUnit);
-					}
-					bmu.addLIN(mlu);
-				}
+		// MODs
+		for ( int i=1; i<t_aSplitURES.length; i++ ) {
+			String t_strMOD = t_aSplitURES[i];
+			MOD t_oMOD = this.extractMOD(t_strMOD);
+			t_oURES.addMOD(t_oMOD);
+		}
+		return t_oURES;
+	}
+
+	public MOD extractMOD( String a_strMOD ) {
+		String t_strMAP = "";
+		String t_strLIPs = a_strMOD;
+		if ( a_strMOD.indexOf("*") != -1 ) {
+			t_strMAP = a_strMOD.substring( a_strMOD.indexOf("*") );
+			t_strLIPs = a_strMOD.substring(0, a_strMOD.indexOf("*") );
+		}
+		MOD t_oMOD = new MOD(t_strMAP);
+
+		// LIP ^:
+		for ( String t_strLIP : t_strLIPs.split("-") ) {
+			if ( t_strLIP.contains("|") ) {
+				FuzzyLIP t_oFLIP = this.extractFLIP(t_strLIP);
+				t_oMOD.addFuzzyLIP(t_oFLIP);
+			} else {
+				LIP t_oLIP = this.extractLIP(t_strLIP);
+				t_oMOD.addLIP(t_oLIP);
 			}
-			a_objWURCS.addRES(bmu);
+		}
+		return t_oMOD;
+	}
+
+	public FuzzyLIP extractFLIP( String a_strFuzzyLIP ) {
+		LinkedList<LIP> t_aLIPs = new LinkedList<LIP>();
+		// separate Alternative GLIP "|"
+		for ( String t_strLIP : a_strFuzzyLIP.split("\\|") ) {
+			t_aLIPs.addLast( this.extractLIP(t_strLIP) );
+		}
+		return new FuzzyLIP(t_aLIPs);
+
+	}
+
+	public LIP extractLIP( String a_strLIP ) {
+		String prob = "(%(.+)%)?";
+//		String nodeIndex = "(\\?|[a-zA-Z]+)";
+		String SCPosition = "(\\?|[0-9]+)";
+		String direction = "([nudtezx])?";
+		String MAPPosition = "(\\?|[0-9]+)?";
+//		String strExp = prob+ nodeIndex+SCPosition+direction+MAPPosition +prob;
+		String strExp = prob+ SCPosition+direction+MAPPosition +prob;
+		Matcher size = Pattern.compile(strExp).matcher(a_strLIP);
+		// %.21%a2u1%.5%
+		//	group(0)	%.21%a2u1%.5%
+		//	group(1)	%.21%
+		//	group(2)	.21
+		//	group(3)	2
+		//	group(4)	u
+		//	group(5)	1
+		//	group(6)	%.5%
+		//	group(7)	.5
+
+		// TODO: Error message for not match
+		if ( !size.find() ) System.exit(0);
+
+		String t_strSCPos     = size.group(3);
+		String t_strDirection = size.group(4);
+		String t_strMAPPos    = size.group(5);
+
+		int t_iSCPos = 0;
+		char t_cDirection = ' ';
+		int t_iMAPPos = 0;
+
+		// TODO: Error message for not number
+		if ( t_strSCPos.equals("?") ) t_strSCPos = "-1";
+		if (! WURCSNumberUtils.isInteger(t_strSCPos) ) System.exit(0);
+
+		t_iSCPos = Integer.parseInt(t_strSCPos);
+
+		if ( t_strDirection != null )
+			t_cDirection = t_strDirection.charAt(0);
+
+		if (t_strMAPPos != null ) {
+			// TODO: Error message for not number
+			if ( t_strMAPPos.equals("?") ) t_strMAPPos = "-1";
+
+			if (! WURCSNumberUtils.isInteger(t_strMAPPos) ) System.exit(0);
+			t_iMAPPos = Integer.parseInt(t_strMAPPos);
+		}
+
+		LIP t_oLIP = new LIP(t_iSCPos, t_cDirection, t_iMAPPos);
+
+		// Probabilities
+		String t_strBackboneProb = size.group(2);
+		String t_strModificationProb = size.group(7);
+		if ( t_strBackboneProb != null ) {
+			System.out.println(t_strBackboneProb);
+			// Extract Probabilities
+			double[] t_aProbs = this.extractProbabilities(t_strBackboneProb);
+			t_oLIP.setBackboneProbabilityLower(t_aProbs[0]);
+			t_oLIP.setBackboneProbabilityUpper( ( t_aProbs[0] == t_aProbs[1] )? t_aProbs[0] : t_aProbs[1] );
+		}
+
+		if ( t_strModificationProb != null ) {
+			System.out.println(t_strModificationProb);
+			// Extract Probabilities
+			double[] t_aProbs = this.extractProbabilities(t_strModificationProb);
+			t_oLIP.setModificationProbabilityLower(t_aProbs[0]);
+			t_oLIP.setModificationProbabilityUpper( ( t_aProbs[0] == t_aProbs[1] )? t_aProbs[0] : t_aProbs[1] );
+		}
+
+		return t_oLIP;
+
+	}
+
+	private double[] extractProbabilities( String a_strProb ) {
+		// t_aProbs[0] : lower probability
+		// t_aProbs[1] : Upper probability
+		double[] t_adProbs = {1.0, 1.0};
+
+		// TODO: Error message for not double
+		String[] t_asProbs = a_strProb.split(":");
+		if ( t_asProbs[0].matches("[^\\?\\.0-9]") ) System.exit(0);
+		// Lower
+		if ( t_asProbs[0].equals("?") ) t_asProbs[0] = "-1";
+		t_adProbs[0] = Double.parseDouble(t_asProbs[0]);
+		t_adProbs[1] = Double.parseDouble(t_asProbs[0]);
+		// Upper
+		if ( t_asProbs.length > 1 ) {
+			if ( t_asProbs[1].matches("[^\\?\\.0-9]") ) System.exit(0);
+			if ( t_asProbs[1].equals("?") ) t_asProbs[1] = "-1";
+			t_adProbs[1] = Double.parseDouble(t_asProbs[1]);
+		}
+
+		return t_adProbs;
+	}
+
+	private String[] splitString(String a_strString, String strSplit){
+		String[] t_aSplitString = {"",""};
+		if (a_strString.contains(strSplit)){
+			int index = a_strString.indexOf(strSplit);
+			if (t_aSplitString.length > 1) {
+				t_aSplitString[0] = a_strString.substring(0, index);
+				t_aSplitString[1] = a_strString.substring(index);
+			}
+		}
+		else {
+			t_aSplitString[0] = a_strString;
+			t_aSplitString[1] = "";
+		}
+		return t_aSplitString;
+	}
+
+
+	public WURCSArray extractRESSeqs(String a_strRESseqs, WURCSArray a_objWURCS, int iRESCount) {
+
+		String strExp = "([0-9]+)";
+		Matcher size = Pattern.compile(strExp).matcher(a_strRESseqs);
+		if (size.find()){
+																							// int to string
+				RES a_objRES = new RES( Integer.parseInt(size.group(1)), WURCSDataConverter.convertRESIDToIndex(iRESCount) );
+
+			a_objWURCS.addRESs(a_objRES);
 		}
 		return a_objWURCS;
 	}
 
-	public WURCSArray extractMLU(String a_strMLU, WURCSArray a_objWURCS) {
-		LinkedList<LIP> colinUnit = new LinkedList<LIP>();
-		
-		String left = "((\\d+)\\+(.+))";
-		String right = "\\(?(\\d+)\\+([\\)?\\(?\\w+\\d+\\+\\\\?:\\-\\*^/=]*)";
-		String prob = "[%\\.\\d+\\?\\+]*";
-		String mod = "((\\*.+[^~])~(n|\\d+-?(\\d)?))";
-		String rep = "(~(n|\\d+)-?(\\d)?)";
+	public WURCSArray extractLINs(String a_strLIN, WURCSArray a_objWURCS) {
+		//	a1n1|c1n1-b1n1|c1n1*S*~n-100
+		//	b1n1|c1n1													GLIP
+		//	b1n1|c1n1
+		// <GLIP>-<GLIP><MAP><REP>
+		// {%.31%b1n1%.3%}-{%.21%c1n1%.5%}*S*~n-100
+		//		{%.31%1d1%.3%}-{%.21%2u1%.5%}*S*		<-- GLIP-GLIP<MAP>
+		//		n-100										<-- <REP>
 
-		//group(0) : all
-		//group(1) : parent
-		//group(2) : NodeID
-		//group(3) : Parent Postion
-		//group(4) : child/probability + child position
-		//group(5) : direction
-		//group(6) : child Position
-		//group(7) : modification~n
-		//group(8) : modification
-		//group(9) : n/min, group(10) : max
-		//group(11) : ~rep
-		//group(12) : n/min, (13) : max
-		
-		Matcher mluString = Pattern.compile(left + "," + "(" + right + "|" + prob + ")" + mod+"?" + rep + "?").matcher(a_strMLU);
-		if(mluString.find()) {
-			
-			String strColin = mluString.group(0);
-			LIN mlu = new LIN(strColin.indexOf("*") != -1 ? strColin.substring(strColin.indexOf("*")) : "");
-			
-			if(mluString.group(7) != null || mluString.group(11) != null) {
-				if(mluString.group(8) != null) mlu = new LIN(mluString.group(8));
-				mlu.setRepeatingUnit(true);
-			}
-			
-			String parent = mluString.group(0).substring(0, mluString.group(0).indexOf(","));
-			colinUnit.addLast(new LIP(
-					Integer.parseInt(parent.substring(0, parent.indexOf("+"))), 
-					parent.substring(parent.indexOf("+") + 1, parent.indexOf("+") + 2).equals("?") ? -1 : Integer.parseInt(parent.substring(parent.indexOf("+") + 1, parent.indexOf("+") + 2)), 
-					parent.indexOf(":") != -1 ? parent.substring(parent.indexOf(":") + 1, parent.indexOf(":") + 2).charAt(0) : '0',
-					parent.indexOf("-") != -1 ? Integer.parseInt(parent.substring(parent.indexOf("-") + 1, parent.indexOf("-") + 2)) : 1));
-			mlu.addCOLIN(colinUnit);
-			strColin = strColin.replace(parent+",", "");
-			
-			if(strColin.indexOf("\\") != -1 && mlu.isRepeatingUnit() == false) { //ambiguous bond
-				colinUnit = new LinkedList<LIP>();
-				for(String s : mluString.group(4).split("\\\\", -1)) {
-					s = s.replace("(", "");
-					s = s.replace(")", "");
-					colinUnit.addLast(new LIP(
-							Integer.parseInt(s.substring(0, s.indexOf("+"))),
-							s.indexOf("?") == -1 ? Integer.parseInt(s.substring(s.indexOf("+") + 1, s.indexOf("+") + 2)) : -1,
-							s.indexOf(":") != -1 ? s.substring(s.indexOf(":") + 1, s.indexOf(":") + 2).charAt(0) : '0',
-							s.indexOf("-") != -1 ? Integer.parseInt(s.substring(s.indexOf("-") + 1, s.indexOf("-") + 2)) : 1));
-				}
-				mlu.addCOLIN(colinUnit);
-				a_objWURCS.addLIN(mlu);
-			}else if(strColin.indexOf("%") != -1) {//probability bond
-				colinUnit = new LinkedList<LIP>();
-				String probColin = strColin.substring(strColin.lastIndexOf("%") + 1);
-				strColin = strColin.replace(probColin, "");
-				
-				colinUnit.addLast(new LIP(
-						Integer.parseInt(probColin.substring(0, probColin.indexOf("+"))),
-						probColin.substring(probColin.indexOf("+") + 1, probColin.indexOf("+") + 2).equals("?") ? -1 : Integer.parseInt(probColin.substring(probColin.indexOf("+") + 1, probColin.indexOf("+") + 2)),
-						probColin.indexOf(":") != -1 ? probColin.substring(probColin.indexOf(":") + 1, probColin.indexOf(":") + 2).charAt(0) : '0',
-						probColin.indexOf("-") != -1 ? Integer.parseInt(probColin.substring(probColin.indexOf("-") + 1, probColin.indexOf("-") + 2)) : 1));
-			
-				List<String> list = new ArrayList<String>(Arrays.asList(strColin.split("%"))); // 新インスタンスを生成
-				list.remove("");
-				String[] trimProb = (String[]) list.toArray(new String[list.size()]);
-			
-				//set Probability parameter
-				if(trimProb.length < 2) {
-					if(trimProb[0].equals("?")) colinUnit.get(0).setProbabilityLower(-1);
-					else	colinUnit.get(0).setProbabilityLower(Double.parseDouble(trimProb[0]));
-				}else {
-					if(trimProb[0].equals("?")) colinUnit.get(0).setProbabilityLower(-1);
-					else	colinUnit.get(0).setProbabilityLower(Double.parseDouble(trimProb[0]));
-					if(trimProb[1].equals("?")) colinUnit.get(0).setProbabilityUpper(-1);
-					else colinUnit.get(0).setProbabilityUpper(Double.parseDouble(trimProb[1]));
-				}
-	
-				mlu.addCOLIN(colinUnit);
-				a_objWURCS.addLIN(mlu);
-			}else if(strColin.equals(mluString.group(4))) {//extract single bond
-				for(String unit : strColin.split(",")) {
-					colinUnit = new LinkedList<LIP>();
-					colinUnit.addLast(new LIP(
-						Integer.parseInt(unit.substring(0, unit.indexOf("+"))),
-						!unit.substring(unit.indexOf("+") + 1).equals("?") ? Integer.parseInt(unit.substring(unit.indexOf("+") + 1, unit.indexOf("+") + 2)) : -1,
-						unit.indexOf(":") != -1 ? unit.substring(unit.indexOf(":") + 1, unit.indexOf(":") + 2).charAt(0) : '0',
-						unit.indexOf("-") != -1 ? Integer.parseInt(unit.substring(unit.indexOf("-") + 1, unit.indexOf("-") + 2)) : 1));
-					mlu.addCOLIN(colinUnit);
-				}
-	
-				a_objWURCS.addLIN(mlu);
-			}
-				
-			//extract modification with colin, repetition
-			if(mlu.isRepeatingUnit() == true) { 
-				if(mluString.group(4).indexOf("\\") != -1) {
-					colinUnit = new LinkedList<LIP>();
-					for(String s : mluString.group(4).split("\\\\", -1)) {
-						s = s.replace("(", "");
-						s = s.replace(")", "");
-						colinUnit.addLast(new LIP(
-							Integer.parseInt(s.substring(0, s.indexOf("+"))),
-							s.indexOf("?") == -1 ? Integer.parseInt(s.substring(s.indexOf("+") + 1, s.indexOf("+") + 2)) : -1,
-							s.indexOf(":") != -1 ? s.substring(s.indexOf(":") + 1, s.indexOf(":") + 2).charAt(0) : '0',
-							s.indexOf("-") != -1 ? Integer.parseInt(s.substring(s.indexOf("-") + 1, s.indexOf("-") + 2)) : 1));
-							
-					}
-					mlu.addCOLIN(colinUnit);
-				}else {
-					for(String unit : strColin.split(",")) {
-						colinUnit = new LinkedList<LIP>();
-						if(unit.indexOf("~") != -1) unit = unit.replaceAll("~.+", "");
-						if(unit.indexOf("*") != -1) unit = unit.replaceAll("\\*.+", "");
-						
-						colinUnit.addLast(new LIP(
-							Integer.parseInt(unit.substring(0, unit.indexOf("+"))),
-							!unit.substring(unit.indexOf("+") + 1).equals("?") ? Integer.parseInt(unit.substring(unit.indexOf("+") + 1, unit.indexOf("+") + 2)) : -1,
-							unit.indexOf(":") != -1 ? unit.substring(unit.indexOf(":") + 1, unit.indexOf(":") + 2).charAt(0) : '0',
-							unit.indexOf("-") != -1 ? Integer.parseInt(unit.substring(unit.indexOf("-") + 1, unit.indexOf("-") + 2)) : 1));
-						mlu.addCOLIN(colinUnit);
-					}
+		String LINsString = "";
+		// REPEAR Section
+		String[] a_strRepArray = a_strLIN.split("~");
+		// Repeart split "~"
+		// <LIP>-<LIP><MAP><REP>
+		// {%.31%1d1%.3%}-{%.21%2u1%.5%}*NCCC/3=O~n-100
+		//		{%.31%1d1%.3%}-{%.21%2u1%.5%}*NCCC/3=O		<-- a_strRepArray[0]
+		//		n-100										<-- a_strRepArray[1]
+		if (a_strRepArray.length > 1) {
+			LINsString = a_strRepArray[0];
+		}
+		else {
+			LINsString = a_strLIN;
+		}
+
+		// MAP Section
+		String LINs = "";
+		String t_strMAP = "";
+		String[] LIPsMAP = this.splitString(LINsString, "*");
+		// MAP split "*"
+		//	{%.31%1d1%.3%}-{%.21%2u1%.5%}	<-- LIPsMAP[0]
+		//	*NCCC/3=O						<-- LIPsMAP[1]
+		if (LIPsMAP.length > 1 ) {
+			LINs = LIPsMAP[0];
+//			t_objLIN = new LIN(LIPsMAP[0], LIPsMAP[1]);
+			t_strMAP = LIPsMAP[1];
+			//a_objmod = new MOD(LIPsMAP[1]);
+		}
+/*		else {
+			LINs = LINsString;
+			t_objLIN = new LIN(LINs, "");
+			//a_objmod = new MOD("");
+		}
+*/		LIN t_objLIN = new LIN(t_strMAP);
+
+		// set Repeating unit
+		// not  "~"    -> min =  0; max = 0
+		// ~5          -> min =  5; max = 5
+		// ~5-10       -> min =  5; max = 10
+		// ~10-5       -> min =  5; max = 10  <--- sort
+		// ~1-n       -> min =  1; max = -1  <---  n => -1
+		// ~n          -> min = -1; max = -1
+		// ~n-m is ~n 　-> min = -1; max = -1
+		// ~n-m is ~n 　-> min = -1; max = -1
+		if (a_strRepArray.length > 1) {
+//			LINsString = a_strRepArray[0];
+
+			int t_iMin = 0;
+			int t_iMax = 0;
+
+			String[] rep = a_strRepArray[1].split(":");
+			if (rep.length > 1) {
+
+				t_iMin = WURCSNumberUtils.isInteger(rep[0]) ? Integer.parseInt(rep[0]) : -1;
+				t_iMax = WURCSNumberUtils.isInteger(rep[1]) ? Integer.parseInt(rep[1]) : -1;
+
+				//TODO: write log Max -> Min; Min -> Max
+				int temp_iMin = -1;
+				if (t_iMin > t_iMax && t_iMax != -1) {
+					temp_iMin = t_iMax;
+					t_iMax = t_iMin;
+					t_iMin = temp_iMin;
 				}
 
-				if(mluString.group(7) != null)
-					a_objWURCS.addLIN(setRepetingCount(mluString.group(9), mluString.group(10), mlu));
-				if(mluString.group(11) != null)
-					a_objWURCS.addLIN(setRepetingCount(mluString.group(12), mluString.group(13), mlu));
+
+				t_objLIN.setMinRepeatCount(t_iMin);
+				t_objLIN.setMaxRepeatCount(t_iMax);
+				t_objLIN.setRepeatingUnit(true);
+//				java.lang.System.out.println("rep[true]:" + t_objLIN.isRepeatingUnit());
+//				java.lang.System.out.println("rep[0]:" + rep[0]);
+//				java.lang.System.out.println("rep[1]:" + rep[1]);
+			}
+			else {
+//				java.lang.System.out.println("rep[true]:" + t_objLIN.isRepeatingUnit());
+				t_iMin = WURCSNumberUtils.isInteger(rep[0]) ? Integer.parseInt(rep[0]) : -1;
+				t_objLIN.setMaxRepeatCount(t_iMin);
+				t_objLIN.setMinRepeatCount(t_iMin);
+				t_objLIN.setRepeatingUnit(true);
 			}
 		}
+
+
+		// LIN separation
+		String[] a_strLIPArray = LINs.split("-");
+		// LIP List
+		// {%.31%1d1%.3%}-{%.21%2u1%.5%}
+		//	{%.31%1d1%.3%}				<---	a_strLIPArray[0]
+		//	{%.21%2u1%.5%}				<---	a_strLIPArray[1]
+
+		// generation for LINs
+		for (String a_strGLIP : a_strLIPArray ) {
+
+			GLIP t_oGLIP;
+			if ( a_strGLIP.contains("|") ) {
+			FuzzyGLIP t_oFuzzyGLIP = this.extractFuzzyGLIP(a_strGLIP);
+				t_objLIN.addFuzzyGLIP(t_oFuzzyGLIP);
+			} else {
+				t_oGLIP = this.extractGLIP(a_strGLIP);
+				t_objLIN.addGLIP(t_oGLIP);
+			}
+
+		}
+
+		a_objWURCS.addLIN(t_objLIN);
+
 		return a_objWURCS;
 	}
-	
-	public LIN setRepetingCount(String a_sRepMin, String a_sRepMax, LIN a_objMLU) {
-		if(a_sRepMin.equals("n")) {
-			a_objMLU.setMaxRepeatCount(-1);
-			a_objMLU.setMinRepeatCount(-1);
-		}else if(a_sRepMax == null) {
-			a_objMLU.setMinRepeatCount(Integer.parseInt(a_sRepMin));
-		}else {
-			a_objMLU.setMinRepeatCount(Integer.parseInt(a_sRepMin));
-			a_objMLU.setMaxRepeatCount(Integer.parseInt(a_sRepMax));
+
+	private GLIP extractGLIP(String a_strGLIP) {
+		String prob = "(%(\\?|\\.[0-9]+)%)?";
+		String nodeIndex = "(\\?|[a-zA-Z]+)";
+		String SCPosition = "(\\?|[0-9]+)";
+		String direction = "([nudtezx])?";
+		String MAPPosition = "(\\?|[0-9]+)?";
+		String strExp = prob+ nodeIndex+SCPosition+direction+MAPPosition +prob;
+//		String strExp = "^([%]*)([.]*)([0-9?]*)([%]*)([a-zA-Z?\\\\]+)([0-9?\\\\]+)([a-zA-Z?\\\\]*)([0-9?\\\\]*)([%]*)([.]*)([0-9?]*)([%]*)";
+		Matcher size = Pattern.compile(strExp).matcher(a_strGLIP);
+		// %.21%a2u1%.5%
+		//	group(0)	%.21%a2u1%.5%
+		//	group(1)	%.21%
+		//	group(2)	.21
+		//	group(3)	a
+		//	group(4)	2
+		//	group(5)	u
+		//	group(6)	1
+		//	group(7)	%.5%
+		//	group(8)	.5
+
+		int t_iRESIndexGroup  = 3;
+		int t_iSCPosGroup     = 4;
+		int t_iDirectionGroup = 5;
+		int t_iMAPPosGroup    = 6;
+		String t_strRESIndex  = "";
+		String t_strSCPos     = "";
+		String t_strDirection = "";
+		String t_strMAPPos = "";
+
+		int t_iSC_Position = 0;
+		char t_cDirection = ' ';
+		int t_iModStarPositionOnMAP = 0;
+
+		// TODO: Error message for not match
+		if ( !size.find() )
+			return null;
+
+		t_strRESIndex  = size.group(t_iRESIndexGroup);
+		t_strSCPos     = size.group(t_iSCPosGroup);
+		t_strDirection = size.group(t_iDirectionGroup);
+		t_strMAPPos    = size.group(t_iMAPPosGroup);
+
+		// TODO: Error message for not number
+		t_strSCPos = t_strSCPos.equals("?") ? "-1" : t_strSCPos ;
+
+		if (! WURCSNumberUtils.isInteger(t_strSCPos) )
+			return null;
+
+		t_iSC_Position = Integer.parseInt(t_strSCPos);
+
+		if ( t_strDirection != null && t_strDirection.length() > 0)
+			t_cDirection = t_strDirection.charAt(0);
+
+		if (t_strMAPPos != null ) {
+			// TODO: Error message for not number
+			t_strMAPPos = t_strMAPPos.equals("?") ? "-1" : t_strMAPPos ;
+
+			if (! WURCSNumberUtils.isInteger(t_strMAPPos) )
+				return null;
+			t_iModStarPositionOnMAP = Integer.parseInt(t_strMAPPos);
 		}
-		return a_objMLU;
+
+		GLIP a_oGLIP = new GLIP(t_strRESIndex, t_iSC_Position, t_cDirection, t_iModStarPositionOnMAP);
+
+		return a_oGLIP;
 	}
-	
-	public void extractAmbiguousPosition(String a_strAmbiguous) {
-		
-	} 
+
+	private FuzzyGLIP extractFuzzyGLIP(String a_strFuzzyGLIP) {
+		// set Alternative character in fuzzyGLIP
+		// and repleace {,} to ""
+		String strAlternative = "";
+		if ( a_strFuzzyGLIP.contains("}") ) {
+			strAlternative = "}";
+			a_strFuzzyGLIP = a_strFuzzyGLIP.replace("}", "");
+		}else if ( a_strFuzzyGLIP.contains("{") ) {
+			strAlternative = "{";
+			a_strFuzzyGLIP = a_strFuzzyGLIP.replace("{", "");
+		}
+
+		LinkedList<GLIP> t_aGLIP = new LinkedList<GLIP>();
+		// separate Alternative GLIP "|"
+		String[] GLIPList = a_strFuzzyGLIP.split("\\|");
+		for ( String GLIP : GLIPList ) {
+			t_aGLIP.addLast( this.extractGLIP(GLIP) );
+		}
+		return new FuzzyGLIP(t_aGLIP, strAlternative);
+	}
 
 }
