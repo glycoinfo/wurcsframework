@@ -25,16 +25,16 @@ public class ReadWURCSExample {
 		if(input == null || input.equals("")) throw new Exception();
 		
 		TreeMap<Integer, String> wurcsIndex = new TreeMap<Integer, String>();
-		WURCSImporter ws = new WURCSImporter();
+		WURCSImporterOld ws = new WURCSImporterOld();
 		File file = new File(input);
 		
 		if(file.isFile()) {
 			wurcsIndex = openString(input);
 			for(Integer key : wurcsIndex.keySet()) {
-				WURCSArray wurcs = ws.WURCSsepalator(wurcsIndex.get(key));
+				WURCSArray wurcs = ws.extractWURCSArray(wurcsIndex.get(key));
 			}
 		}else if(input.indexOf("WURCS") != -1) {
-			ws.WURCSsepalator(input.substring(input.indexOf("W")));
+			ws.extractWURCSArray(input.substring(input.indexOf("W")));
 		}else {
 			throw new Exception("This file is not found");
 		}

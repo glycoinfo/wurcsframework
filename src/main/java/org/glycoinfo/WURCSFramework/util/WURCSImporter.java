@@ -3,111 +3,141 @@ import java.util.LinkedList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.glycoinfo.WURCSFramework.wurcs.FuzzyGLIP;
-import org.glycoinfo.WURCSFramework.wurcs.FuzzyLIP;
 import org.glycoinfo.WURCSFramework.wurcs.GLIP;
+import org.glycoinfo.WURCSFramework.wurcs.GLIPs;
 import org.glycoinfo.WURCSFramework.wurcs.LIN;
 import org.glycoinfo.WURCSFramework.wurcs.LIP;
+import org.glycoinfo.WURCSFramework.wurcs.LIPs;
 import org.glycoinfo.WURCSFramework.wurcs.MOD;
 import org.glycoinfo.WURCSFramework.wurcs.RES;
 import org.glycoinfo.WURCSFramework.wurcs.UniqueRES;
 import org.glycoinfo.WURCSFramework.wurcs.WURCSArray;
+import org.glycoinfo.WURCSFramework.wurcs.WURCSFormatException;
 
+/**
+ * Importer class for WURCSArray from WURCS string
+ * @author ShinichiroTsuchiya
+ * @author IssakuYamada
+ * @author MasaakiMatsubara
+ *
+ */
 public class WURCSImporter {
 
-	public WURCSArray WURCSsepalator(String a_strWURCS) {
+	/**
+	 * Extract WURCSArray from the string
+	 * @param a_strWURCS String of WURCS
+	 * @return WURCSArray
+	 * @throws WURCSFormatException
+	 */
+	public WURCSArray extractWURCSArray(String a_strWURCS) throws WURCSFormatException {
 
-		java.lang.System.out.println(a_strWURCS);
-		String version =         "";
-		int numUniqueRES =        0;
-		int numRES =              0;
-		int numLIN =              0;
-		String strUniqueRESs =   "";
-		String strResSequenses = "";
-		String strLINs =         "";
+//		java.lang.System.out.println(a_strWURCS);
+		String t_strVersion =      "";
+		int t_numUniqueRES =        0;
+		int t_numRES =              0;
+		int t_numLIN =              0;
+		String t_strUniqueRESs =   "";
+		String t_strRESSequence = "";
+		String t_strLINs =         "";
 
 		//String strExp = "WURCS=(.+)\\/(\\d+),(\\d+),(\\d+)\\/(.+)\\]/([0-9-]+)/(.+)";
-		String strExp = "WURCS=(.+)/(\\d+),(\\d+),(\\d+)/(.+)]/([0-9-]+)/(.+)";
+		String strExp = "WURCS=(.+)/(\\d+),(\\d+),(\\d+)/\\[(.+)\\]/([\\d\\-]+)/(.*)";
 
-		Matcher wurcsMatch = Pattern.compile(strExp).matcher(a_strWURCS);
+		Matcher t_oMatcher = Pattern.compile(strExp).matcher(a_strWURCS);
 		//WURCS=2.0/7,10,9/[x2122h-1x_1-5_2*NCC/3=O][12122h-1b_1-5_2*NCC/3=O][11122h-1b_1-5][21122h-1a_1-5][12112h-1b_1-5_2*NCC/3=O][12112h-1b_1-5][11221m-1a_1-5]/1-2-3-4-2-5-4-2-6-7/a4-b1_a6-j1_b4-c1_d2-e1_e4-f1_g2-h1_h4-i1_d1-c3\c6_g1-c3\c6
 		//		group(0)	WURCS=2.0/7,10,9/[x2122h-1x_1-5_2*NCC/3=O][12122h-1b_1-5_2*NCC/3=O][11122h-1b_1-5][21122h-1a_1-5][12112h-1b_1-5_2*NCC/3=O][12112h-1b_1-5][11221m-1a_1-5]/1-2-3-4-2-5-4-2-6-7/a4-b1_a6-j1_b4-c1_d2-e1_e4-f1_g2-h1_h4-i1_d1-c3\c6_g1-c3\c6
 		//		group(1)	2.0
 		//		group(2)	7
 		//		group(3)	10
 		//		group(4)	9
-		//		group(5)	[x2122h-1x_1-5_2*NCC/3=O][12122h-1b_1-5_2*NCC/3=O][11122h-1b_1-5][21122h-1a_1-5][12112h-1b_1-5_2*NCC/3=O][12112h-1b_1-5][11221m-1a_1-5
+		//		group(5)	x2122h-1x_1-5_2*NCC/3=O][12122h-1b_1-5_2*NCC/3=O][11122h-1b_1-5][21122h-1a_1-5][12112h-1b_1-5_2*NCC/3=O][12112h-1b_1-5][11221m-1a_1-5
 		//		group(6)	1-2-3-4-2-5-4-2-6-7
 		//		group(7)	a4-b1_a6-j1_b4-c1_d2-e1_e4-f1_g2-h1_h4-i1_d1-c3\c6_g1-c3\c6
-		int t_iVersion = 1;
-		int t_iNumuRES = 2;
-		int t_iNumRES = 3;
-		int t_iNumLIN = 4;
-		int t_iUniqueRESs = 5;
+		int t_iVersion      = 1;
+		int t_iNumuRES      = 2;
+		int t_iNumRES       = 3;
+		int t_iNumLIN       = 4;
+		int t_iUniqueRESs   = 5;
 		int t_iResSequenses = 6;
-		int t_iLINs = 7;
+		int t_iLINs         = 7;
 //		if ( !wurcsMatch.matches() )
 //			return null;
 		//if ( !wurcsMatch.find() )
 		//return null;
-		if(wurcsMatch.find()) {
-			version =                              wurcsMatch.group(t_iVersion);
-			numUniqueRES =        Integer.parseInt(wurcsMatch.group(t_iNumuRES));
-			numRES =              Integer.parseInt(wurcsMatch.group(t_iNumRES));
-			numLIN =              Integer.parseInt(wurcsMatch.group(t_iNumLIN));
-			strUniqueRESs = "]" +                  wurcsMatch.group(t_iUniqueRESs);
-			strResSequenses =                      wurcsMatch.group(t_iResSequenses);
-			strLINs =                              wurcsMatch.group(t_iLINs);
-		}
+		if ( ! t_oMatcher.find() )
+			throw new WURCSFormatException("Not match as WURCS: "+a_strWURCS);
 
-		WURCSArray wurcsContainer = new WURCSArray(version, numUniqueRES, numRES, numLIN);
+		t_strVersion     =                  t_oMatcher.group(t_iVersion);
+		t_numUniqueRES   = Integer.parseInt(t_oMatcher.group(t_iNumuRES));
+		t_numRES         = Integer.parseInt(t_oMatcher.group(t_iNumRES));
+		t_numLIN         = Integer.parseInt(t_oMatcher.group(t_iNumLIN));
+		t_strUniqueRESs  =                  t_oMatcher.group(t_iUniqueRESs);
+		t_strRESSequence =                  t_oMatcher.group(t_iResSequenses);
+		t_strLINs        =                  t_oMatcher.group(t_iLINs);
 
-		// generate a Unique RES
-		// [x2122h-1x_1-5_2*NCC/3=O][12122h-1b_1-5_2*NCC/3=O][11122h-1b_1-5][21122h-1a_1-5][12112h-1b_1-5_2*NCC/3=O][12112h-1b_1-5][11221m-1a_1-5
-		// replace "["
-		String strRep = "([\\[])";
-		strUniqueRESs = strUniqueRESs.replaceAll(strRep,"");
+		WURCSArray t_objWURCSContainer = new WURCSArray(t_strVersion, t_numUniqueRES, t_numRES, t_numLIN);
 
-		// split "]"
-		String[] t_aURESs = strUniqueRESs.split("]");
-		int t_iURESID = 1; // count of uniqueRES
+		// Extract UniqueRES list
+		// x2122h-1x_1-5_2*NCC/3=O][12122h-1b_1-5_2*NCC/3=O][11122h-1b_1-5][21122h-1a_1-5][12112h-1b_1-5_2*NCC/3=O][12112h-1b_1-5][11221m-1a_1-5
+		// Split by "]["
+		String[] t_aURESs = t_strUniqueRESs.split("\\]\\[");
+		int i = 0; // count of uniqueRES
 		for(String t_strURES : t_aURESs) {
-			if (t_strURES.length() > 0) {
-//				wurcsContainer = this.extractUniqueRES(t_strURES, wurcsContainer, t_iURESID);
-				wurcsContainer.addUniqueRES(this.extractUniqueRES(t_strURES, t_iURESID));
-				t_iURESID++;
-			}
+			if (t_strURES.length() == 0) continue;
+			i++;
+			t_objWURCSContainer.addUniqueRES(this.extractUniqueRES(t_strURES, i));
 		}
-		// generate a RES sequences and a LIN
-		if(wurcsContainer.getRESCount() > 0) {
-			// generate RESsequences
-			// 1-2-3-4-2-5-4-2-6-7
-			// split "-"
-			String[] RESSequenceArray = strResSequenses.split("-");
-			int i = 1; // count of RES
-			for(String s : RESSequenceArray) {
-				if (s.length() > 0) {
-					String expRESseq = "([0-9-]+)";
-					if(s.matches(expRESseq)) wurcsContainer = this.extractRESSeqs(s, wurcsContainer, i);
-					i++;
-				}
-			}
 
-			// generate a LIN
-			// a4-b1_a6-j1_b4-c1_d2-e1_e4-f1_g2-h1_h4-i1_d1-c3\c6_g1-c3\c6
-			// split "_"
-			String[] LINArray = strLINs.split("_");
-			for(String s : LINArray) {
-				//String expLIN = "([a-zA-Z0-9\\&&[^*]]+)-([a-zA-Z0-9\\&&[^*]]+)*(.*)";
-				//String expLIN = "([a-zA-Z0-9|&&[^*]]+)-([a-zA-Z0-9|&&[^*]]+)*(.*)";
-				//if(s.matches(expLIN)) wurcsContainer = extractLINs(s, wurcsContainer);
-				wurcsContainer = this.extractLINs(s, wurcsContainer);
-			}
+		if ( t_numUniqueRES != i )
+			throw new WURCSFormatException("Number of UniqueRES is not correct: "+t_numUniqueRES+" vs "+i);
+
+		// Extract RES sequence
+		// 1-2-3-4-2-5-4-2-6-7
+		// Split by "-"
+		String[] t_aRESSequence = t_strRESSequence.split("\\-");
+		i = 0; // count RES
+		for(String t_strRES : t_aRESSequence) {
+			if (t_strRES.length() == 0) continue;
+			if (! t_strRES.matches("\\d+") )
+				throw new WURCSFormatException("UniqueRES ID in RES sequence must be numeric: "+t_strRESSequence);
+
+			i++;
+			RES t_objRES = new RES( Integer.parseInt(t_strRES), WURCSDataConverter.convertRESIDToIndex(i) );
+			t_objWURCSContainer.addRES(t_objRES);
 		}
-		return wurcsContainer;
+
+		if ( t_numRES != i )
+			throw new WURCSFormatException("Number of RES is not correct: "+t_numRES+" vs "+i);
+
+		if ( t_strLINs == null || t_strLINs.equals("") )
+			return t_objWURCSContainer;
+
+		// Extract LIN list
+		// a4-b1_a6-j1_b4-c1_d2-e1_e4-f1_g2-h1_h4-i1_d1-c3\c6_g1-c3\c6
+		// Split by "_"
+		String[] t_aLINs = t_strLINs.split("_");
+
+		i = 0; // count LIN
+		for(String t_strLIN : t_aLINs) {
+			i++;
+			t_objWURCSContainer.addLIN( this.extractLIN(t_strLIN) );
+//			t_objWURCSContainer = this.extractLINs(t_strLIN, t_objWURCSContainer);
+		}
+
+		if ( t_numLIN != i )
+			throw new WURCSFormatException("Number of LIN is not correct: "+t_numLIN+" vs "+i);
+
+		return t_objWURCSContainer;
 	}
 
-	public UniqueRES extractUniqueRES(String a_strURES, int a_iURESID) {
+	/**
+	 * Extract UniqueRES from the string
+	 * @param a_strURES String of UniqueRES
+	 * @param a_iURESID Index number of UniqueRES in the list
+	 * @return UniqueRES
+	 * @throws WURCSFormatException
+	 */
+	public UniqueRES extractUniqueRES(String a_strURES, int a_iURESID) throws WURCSFormatException {
 		// input: 12122h-1b_1-5_2*NCC/3=O
 		// Split SkeletonCode and MODs
 		String[] t_aSplitURES = a_strURES.split("_");
@@ -120,15 +150,18 @@ public class WURCSImporter {
 
 		// SkeletonCode and anomeric information
 		String t_strSkeletonCode   = t_aSplitSC[0];
-		int    t_iAnomericPosition =        0;
-		char   t_cAnomericSymbol   =       ' ';
+		int    t_iAnomericPosition = 0;
+		char   t_cAnomericSymbol   = ' ';
+		// if Anomeric information is exist
 		if ( t_aSplitSC.length > 1 ) {
 			String strExp = "(\\?|[0-9]+)([abx])";
 			Matcher matchAnomerInfo = Pattern.compile(strExp).matcher(t_aSplitSC[1]);
-			if(matchAnomerInfo.find()) {
-				t_iAnomericPosition = (matchAnomerInfo.group(1).equals("?") ? -1 : Integer.parseInt(matchAnomerInfo.group(1))) ;
-				t_cAnomericSymbol = matchAnomerInfo.group(2).toCharArray()[0];
-			}
+
+			if (! matchAnomerInfo.find() )
+				throw new WURCSFormatException("Error in extract anomeric information: "+a_strURES);
+
+			t_iAnomericPosition = (matchAnomerInfo.group(1).equals("?") ? -1 : Integer.parseInt(matchAnomerInfo.group(1))) ;
+			t_cAnomericSymbol = matchAnomerInfo.group(2).toCharArray()[0];
 		}
 		UniqueRES t_oURES = new UniqueRES(a_iURESID, t_strSkeletonCode, t_iAnomericPosition, t_cAnomericSymbol );
 
@@ -141,29 +174,62 @@ public class WURCSImporter {
 		return t_oURES;
 	}
 
-	public MOD extractMOD( String a_strMOD ) {
+	/**
+	 * Extract MOD from the string
+	 * @param a_strMOD String of MOD
+	 * @return MOD
+	 * @throws WURCSFormatException
+	 */
+	public MOD extractMOD( String a_strMOD ) throws WURCSFormatException {
+		// Extract MAP
 		String t_strMAP = "";
 		String t_strLIPs = a_strMOD;
-		if ( a_strMOD.indexOf("*") != -1 ) {
-			t_strMAP = a_strMOD.substring( a_strMOD.indexOf("*") );
+		if ( a_strMOD.contains("*") ) {
+			t_strMAP  = a_strMOD.substring( a_strMOD.indexOf("*") );
 			t_strLIPs = a_strMOD.substring(0, a_strMOD.indexOf("*") );
 		}
+
 		MOD t_oMOD = new MOD(t_strMAP);
 
-		// LIP ^:
+		// LIPs and FuzzyLIPs
 		for ( String t_strLIP : t_strLIPs.split("-") ) {
+/*
 			if ( t_strLIP.contains("|") ) {
-				FuzzyLIP t_oFLIP = this.extractFLIP(t_strLIP);
+				FuzzyLIP t_oFLIP = this.extractFuzzyLIP(t_strLIP);
 				t_oMOD.addFuzzyLIP(t_oFLIP);
 			} else {
 				LIP t_oLIP = this.extractLIP(t_strLIP);
 				t_oMOD.addLIP(t_oLIP);
 			}
+*/
+			t_oMOD.addLIPs(this.extractLIPs(t_strLIP));
 		}
 		return t_oMOD;
 	}
 
-	public FuzzyLIP extractFLIP( String a_strFuzzyLIP ) {
+	/**
+	 * Extract List of LIPs from the string
+	 * @param a_strLIPs
+	 * @return LIPs (List of LIP)
+	 * @throws WURCSFormatException
+	 */
+	public LIPs extractLIPs(String a_strLIPs) throws WURCSFormatException {
+		LinkedList<LIP> t_aLIPs = new LinkedList<LIP>();
+		// separate Alternative GLIP "|"
+		for ( String t_strLIP : a_strLIPs.split("\\|") ) {
+			t_aLIPs.addLast( this.extractLIP(t_strLIP) );
+		}
+		return new LIPs(t_aLIPs);
+	}
+
+	/**
+	 * Extract fuzzy LIP from the string
+	 * @param a_strFuzzyLIP String of FuzzyLIP
+	 * @return FuzzyLIP
+	 * @throws WURCSFormatException
+	 */
+/*
+	public FuzzyLIP extractFuzzyLIP( String a_strFuzzyLIP ) throws WURCSFormatException {
 		LinkedList<LIP> t_aLIPs = new LinkedList<LIP>();
 		// separate Alternative GLIP "|"
 		for ( String t_strLIP : a_strFuzzyLIP.split("\\|") ) {
@@ -172,15 +238,20 @@ public class WURCSImporter {
 		return new FuzzyLIP(t_aLIPs);
 
 	}
+*/
 
-	public LIP extractLIP( String a_strLIP ) {
-		String prob = "(%(.+)%)?";
-//		String nodeIndex = "(\\?|[a-zA-Z]+)";
-		String SCPosition = "(\\?|[0-9]+)";
-		String direction = "([nudtezx])?";
-		String MAPPosition = "(\\?|[0-9]+)?";
-//		String strExp = prob+ nodeIndex+SCPosition+direction+MAPPosition +prob;
-		String strExp = prob+ SCPosition+direction+MAPPosition +prob;
+	/**
+	 * Extract LIP from the string
+	 * @param a_strLIP String of LIP
+	 * @return LIP
+	 * @throws WURCSFormatException
+	 */
+	public LIP extractLIP( String a_strLIP ) throws WURCSFormatException {
+		String SCPosition  = "(\\?|[0-9]+)";
+		String direction   = "([nudtezx])?";   // Can omit
+		String MAPPosition = "(\\?|[0-9]+)?";  // Can omit
+		String prob        = "(%(.+)%)?";      // Can omit
+		String strExp = "^"+prob+ SCPosition+direction+MAPPosition +prob+"$";
 		Matcher size = Pattern.compile(strExp).matcher(a_strLIP);
 		// %.21%a2u1%.5%
 		//	group(0)	%.21%a2u1%.5%
@@ -192,8 +263,8 @@ public class WURCSImporter {
 		//	group(6)	%.5%
 		//	group(7)	.5
 
-		// TODO: Error message for not match
-		if ( !size.find() ) System.exit(0);
+		if ( !size.find() )
+			throw new WURCSFormatException("Not match as LIP: "+a_strLIP);
 
 		String t_strSCPos     = size.group(3);
 		String t_strDirection = size.group(4);
@@ -203,9 +274,9 @@ public class WURCSImporter {
 		char t_cDirection = ' ';
 		int t_iMAPPos = 0;
 
-		// TODO: Error message for not number
 		if ( t_strSCPos.equals("?") ) t_strSCPos = "-1";
-		if (! WURCSNumberUtils.isInteger(t_strSCPos) ) System.exit(0);
+		if (! WURCSNumberUtils.isInteger(t_strSCPos) )
+			throw new WURCSFormatException("SkeletonCode position must be number in LIP : "+a_strLIP);
 
 		t_iSCPos = Integer.parseInt(t_strSCPos);
 
@@ -213,10 +284,10 @@ public class WURCSImporter {
 			t_cDirection = t_strDirection.charAt(0);
 
 		if (t_strMAPPos != null ) {
-			// TODO: Error message for not number
 			if ( t_strMAPPos.equals("?") ) t_strMAPPos = "-1";
 
-			if (! WURCSNumberUtils.isInteger(t_strMAPPos) ) System.exit(0);
+			if (! WURCSNumberUtils.isInteger(t_strMAPPos) )
+				throw new WURCSFormatException("MAP position must be number in LIP : "+a_strLIP);
 			t_iMAPPos = Integer.parseInt(t_strMAPPos);
 		}
 
@@ -226,262 +297,116 @@ public class WURCSImporter {
 		String t_strBackboneProb = size.group(2);
 		String t_strModificationProb = size.group(7);
 		if ( t_strBackboneProb != null ) {
-			System.out.println(t_strBackboneProb);
+//			System.out.println(t_strBackboneProb);
 			// Extract Probabilities
 			double[] t_aProbs = this.extractProbabilities(t_strBackboneProb);
-			t_oLIP.setBackboneProbabilityLower(t_aProbs[0]);
-			t_oLIP.setBackboneProbabilityUpper( ( t_aProbs[0] == t_aProbs[1] )? t_aProbs[0] : t_aProbs[1] );
+			t_oLIP.setBackboneProbabilityLower( t_aProbs[0] );
+			t_oLIP.setBackboneProbabilityUpper( t_aProbs[1] );
 		}
 
 		if ( t_strModificationProb != null ) {
-			System.out.println(t_strModificationProb);
+//			System.out.println(t_strModificationProb);
 			// Extract Probabilities
 			double[] t_aProbs = this.extractProbabilities(t_strModificationProb);
-			t_oLIP.setModificationProbabilityLower(t_aProbs[0]);
-			t_oLIP.setModificationProbabilityUpper( ( t_aProbs[0] == t_aProbs[1] )? t_aProbs[0] : t_aProbs[1] );
+			t_oLIP.setModificationProbabilityLower( t_aProbs[0] );
+			t_oLIP.setModificationProbabilityUpper( t_aProbs[1] );
 		}
 
 		return t_oLIP;
 
 	}
 
-	private double[] extractProbabilities( String a_strProb ) {
-		// t_aProbs[0] : lower probability
-		// t_aProbs[1] : Upper probability
-		double[] t_adProbs = {1.0, 1.0};
+	/**
+	 * Extract LIN from the string
+	 * @param a_strLIN String of LIN
+	 * @return LIN
+	 * @throws WURCSFormatException
+	 */
+	public LIN extractLIN( String a_strLIN ) throws WURCSFormatException {
+		String t_strLIN = a_strLIN;
 
-		// TODO: Error message for not double
-		String[] t_asProbs = a_strProb.split(":");
-		if ( t_asProbs[0].matches("[^\\?\\.0-9]") ) System.exit(0);
-		// Lower
-		if ( t_asProbs[0].equals("?") ) t_asProbs[0] = "-1";
-		t_adProbs[0] = Double.parseDouble(t_asProbs[0]);
-		t_adProbs[1] = Double.parseDouble(t_asProbs[0]);
-		// Upper
-		if ( t_asProbs.length > 1 ) {
-			if ( t_asProbs[1].matches("[^\\?\\.0-9]") ) System.exit(0);
-			if ( t_asProbs[1].equals("?") ) t_asProbs[1] = "-1";
-			t_adProbs[1] = Double.parseDouble(t_asProbs[1]);
+		// Extract repeat section
+		String t_strRep = "";
+		if ( a_strLIN.contains("~") ) {
+			t_strRep = a_strLIN.split("~")[1];
+			t_strLIN = a_strLIN.split("~")[0];
 		}
 
-		return t_adProbs;
-	}
-
-	private String[] splitString(String a_strString, String strSplit){
-		String[] t_aSplitString = {"",""};
-		if (a_strString.contains(strSplit)){
-			int index = a_strString.indexOf(strSplit);
-			if (t_aSplitString.length > 1) {
-				t_aSplitString[0] = a_strString.substring(0, index);
-				t_aSplitString[1] = a_strString.substring(index);
-			}
-		}
-		else {
-			t_aSplitString[0] = a_strString;
-			t_aSplitString[1] = "";
-		}
-		return t_aSplitString;
-	}
-
-
-	public WURCSArray extractRESSeqs(String a_strRESseqs, WURCSArray a_objWURCS, int iRESCount) {
-
-		String strExp = "([0-9]+)";
-		Matcher size = Pattern.compile(strExp).matcher(a_strRESseqs);
-		if (size.find()){
-																							// int to string
-				RES a_objRES = new RES( Integer.parseInt(size.group(1)), WURCSDataConverter.convertRESIDToIndex(iRESCount) );
-
-			a_objWURCS.addRESs(a_objRES);
-		}
-		return a_objWURCS;
-	}
-
-	public WURCSArray extractLINs(String a_strLIN, WURCSArray a_objWURCS) {
-		//	a1n1|c1n1-b1n1|c1n1*S*~n-100
-		//	b1n1|c1n1													GLIP
-		//	b1n1|c1n1
-		// <GLIP>-<GLIP><MAP><REP>
-		// {%.31%b1n1%.3%}-{%.21%c1n1%.5%}*S*~n-100
-		//		{%.31%1d1%.3%}-{%.21%2u1%.5%}*S*		<-- GLIP-GLIP<MAP>
-		//		n-100										<-- <REP>
-
-		String LINsString = "";
-		// REPEAR Section
-		String[] a_strRepArray = a_strLIN.split("~");
-		// Repeart split "~"
-		// <LIP>-<LIP><MAP><REP>
-		// {%.31%1d1%.3%}-{%.21%2u1%.5%}*NCCC/3=O~n-100
-		//		{%.31%1d1%.3%}-{%.21%2u1%.5%}*NCCC/3=O		<-- a_strRepArray[0]
-		//		n-100										<-- a_strRepArray[1]
-		if (a_strRepArray.length > 1) {
-			LINsString = a_strRepArray[0];
-		}
-		else {
-			LINsString = a_strLIN;
-		}
-
-		// MAP Section
-		String LINs = "";
+		// Extract MAP
 		String t_strMAP = "";
-		String[] LIPsMAP = this.splitString(LINsString, "*");
-		// MAP split "*"
-		//	{%.31%1d1%.3%}-{%.21%2u1%.5%}	<-- LIPsMAP[0]
-		//	*NCCC/3=O						<-- LIPsMAP[1]
-		if (LIPsMAP.length > 1 ) {
-			LINs = LIPsMAP[0];
-//			t_objLIN = new LIN(LIPsMAP[0], LIPsMAP[1]);
-			t_strMAP = LIPsMAP[1];
-			//a_objmod = new MOD(LIPsMAP[1]);
-		}
-/*		else {
-			LINs = LINsString;
-			t_objLIN = new LIN(LINs, "");
-			//a_objmod = new MOD("");
-		}
-*/		LIN t_objLIN = new LIN(t_strMAP);
-
-		// set Repeating unit
-		// not  "~"    -> min =  0; max = 0
-		// ~5          -> min =  5; max = 5
-		// ~5-10       -> min =  5; max = 10
-		// ~10-5       -> min =  5; max = 10  <--- sort
-		// ~1-n       -> min =  1; max = -1  <---  n => -1
-		// ~n          -> min = -1; max = -1
-		// ~n-m is ~n 　-> min = -1; max = -1
-		// ~n-m is ~n 　-> min = -1; max = -1
-		if (a_strRepArray.length > 1) {
-//			LINsString = a_strRepArray[0];
-
-			int t_iMin = 0;
-			int t_iMax = 0;
-
-			String[] rep = a_strRepArray[1].split(":");
-			if (rep.length > 1) {
-
-				t_iMin = WURCSNumberUtils.isInteger(rep[0]) ? Integer.parseInt(rep[0]) : -1;
-				t_iMax = WURCSNumberUtils.isInteger(rep[1]) ? Integer.parseInt(rep[1]) : -1;
-
-				//TODO: write log Max -> Min; Min -> Max
-				int temp_iMin = -1;
-				if (t_iMin > t_iMax && t_iMax != -1) {
-					temp_iMin = t_iMax;
-					t_iMax = t_iMin;
-					t_iMin = temp_iMin;
-				}
-
-
-				t_objLIN.setMinRepeatCount(t_iMin);
-				t_objLIN.setMaxRepeatCount(t_iMax);
-				t_objLIN.setRepeatingUnit(true);
-//				java.lang.System.out.println("rep[true]:" + t_objLIN.isRepeatingUnit());
-//				java.lang.System.out.println("rep[0]:" + rep[0]);
-//				java.lang.System.out.println("rep[1]:" + rep[1]);
-			}
-			else {
-//				java.lang.System.out.println("rep[true]:" + t_objLIN.isRepeatingUnit());
-				t_iMin = WURCSNumberUtils.isInteger(rep[0]) ? Integer.parseInt(rep[0]) : -1;
-				t_objLIN.setMaxRepeatCount(t_iMin);
-				t_objLIN.setMinRepeatCount(t_iMin);
-				t_objLIN.setRepeatingUnit(true);
-			}
+		if ( t_strLIN.contains("*") ) {
+			t_strMAP = t_strLIN.substring( t_strLIN.indexOf('*') );
+			t_strLIN = t_strLIN.substring( 0, t_strLIN.indexOf('*') );
 		}
 
+		LIN t_objLIN = new LIN(t_strMAP);
 
-		// LIN separation
-		String[] a_strLIPArray = LINs.split("-");
-		// LIP List
-		// {%.31%1d1%.3%}-{%.21%2u1%.5%}
-		//	{%.31%1d1%.3%}				<---	a_strLIPArray[0]
-		//	{%.21%2u1%.5%}				<---	a_strLIPArray[1]
-
-		// generation for LINs
-		for (String a_strGLIP : a_strLIPArray ) {
-
-			GLIP t_oGLIP;
-			if ( a_strGLIP.contains("|") ) {
-			FuzzyGLIP t_oFuzzyGLIP = this.extractFuzzyGLIP(a_strGLIP);
+		String[] t_aGLIPs = t_strLIN.split("\\-");
+		for (String t_strGLIP : t_aGLIPs ) {
+/*
+			if ( t_strGLIP.contains("|") ) {
+				FuzzyGLIP t_oFuzzyGLIP = this.extractFuzzyGLIP(t_strGLIP);
 				t_objLIN.addFuzzyGLIP(t_oFuzzyGLIP);
 			} else {
-				t_oGLIP = this.extractGLIP(a_strGLIP);
+				GLIP t_oGLIP = this.extractGLIP(t_strGLIP);
 				t_objLIN.addGLIP(t_oGLIP);
 			}
+*/
+			t_objLIN.addGLIPs( this.extractGLIPs(t_strGLIP));
 
 		}
 
-		a_objWURCS.addLIN(t_objLIN);
+		// If no repeat
+		if ( t_strRep.equals("") ) return t_objLIN;
 
-		return a_objWURCS;
+		int[] t_aRep = this.extractRepeat(t_strRep);
+		t_objLIN.setMinRepeatCount(t_aRep[0]);
+		t_objLIN.setMaxRepeatCount(t_aRep[1]);
+		t_objLIN.setRepeatingUnit(true);
+
+		return t_objLIN;
 	}
-
-	private GLIP extractGLIP(String a_strGLIP) {
-		String prob = "(%(\\?|\\.[0-9]+)%)?";
-		String nodeIndex = "(\\?|[a-zA-Z]+)";
-		String SCPosition = "(\\?|[0-9]+)";
-		String direction = "([nudtezx])?";
-		String MAPPosition = "(\\?|[0-9]+)?";
-		String strExp = prob+ nodeIndex+SCPosition+direction+MAPPosition +prob;
-//		String strExp = "^([%]*)([.]*)([0-9?]*)([%]*)([a-zA-Z?\\\\]+)([0-9?\\\\]+)([a-zA-Z?\\\\]*)([0-9?\\\\]*)([%]*)([.]*)([0-9?]*)([%]*)";
-		Matcher size = Pattern.compile(strExp).matcher(a_strGLIP);
-		// %.21%a2u1%.5%
-		//	group(0)	%.21%a2u1%.5%
-		//	group(1)	%.21%
-		//	group(2)	.21
-		//	group(3)	a
-		//	group(4)	2
-		//	group(5)	u
-		//	group(6)	1
-		//	group(7)	%.5%
-		//	group(8)	.5
-
-		int t_iRESIndexGroup  = 3;
-		int t_iSCPosGroup     = 4;
-		int t_iDirectionGroup = 5;
-		int t_iMAPPosGroup    = 6;
-		String t_strRESIndex  = "";
-		String t_strSCPos     = "";
-		String t_strDirection = "";
-		String t_strMAPPos = "";
-
-		int t_iSC_Position = 0;
-		char t_cDirection = ' ';
-		int t_iModStarPositionOnMAP = 0;
-
-		// TODO: Error message for not match
-		if ( !size.find() )
-			return null;
-
-		t_strRESIndex  = size.group(t_iRESIndexGroup);
-		t_strSCPos     = size.group(t_iSCPosGroup);
-		t_strDirection = size.group(t_iDirectionGroup);
-		t_strMAPPos    = size.group(t_iMAPPosGroup);
-
-		// TODO: Error message for not number
-		t_strSCPos = t_strSCPos.equals("?") ? "-1" : t_strSCPos ;
-
-		if (! WURCSNumberUtils.isInteger(t_strSCPos) )
-			return null;
-
-		t_iSC_Position = Integer.parseInt(t_strSCPos);
-
-		if ( t_strDirection != null && t_strDirection.length() > 0)
-			t_cDirection = t_strDirection.charAt(0);
-
-		if (t_strMAPPos != null ) {
-			// TODO: Error message for not number
-			t_strMAPPos = t_strMAPPos.equals("?") ? "-1" : t_strMAPPos ;
-
-			if (! WURCSNumberUtils.isInteger(t_strMAPPos) )
-				return null;
-			t_iModStarPositionOnMAP = Integer.parseInt(t_strMAPPos);
+	/**
+	 * Extract list of GLIP from the string
+	 * @param a_strGLIPs String of list of GLIP
+	 * @return GLIPs (list of GLIP)
+	 * @throws WURCSFormatException
+	 */
+	public GLIPs extractGLIPs(String a_strGLIPs) throws WURCSFormatException {
+		// set Alternative character in GLIPs
+		// and repleace {,} to ""
+		String strAlternative = "";
+		if ( a_strGLIPs.contains("}") ) {
+			strAlternative = "}";
+			a_strGLIPs = a_strGLIPs.replace("}", "");
+		}else if ( a_strGLIPs.contains("{") ) {
+			strAlternative = "{";
+			a_strGLIPs = a_strGLIPs.replace("{", "");
 		}
 
-		GLIP a_oGLIP = new GLIP(t_strRESIndex, t_iSC_Position, t_cDirection, t_iModStarPositionOnMAP);
+		LinkedList<GLIP> t_aGLIP = new LinkedList<GLIP>();
+		// separate Alternative GLIP "|"
+		String[] GLIPList = a_strGLIPs.split("\\|");
+		for ( String GLIP : GLIPList ) {
+			t_aGLIP.addLast( this.extractGLIP(GLIP) );
+		}
 
-		return a_oGLIP;
+		GLIPs t_oGLIPs = new GLIPs(t_aGLIP);
+		if (! strAlternative.equals("") )
+			t_oGLIPs.setAlternative(strAlternative);
+
+		return t_oGLIPs;
 	}
 
-	private FuzzyGLIP extractFuzzyGLIP(String a_strFuzzyGLIP) {
+
+	/**
+	 * Extract FuzzyGLIP from the string
+	 * @param a_strFuzzyGLIP String of FuzzyGLIP
+	 * @return FuzzyGLIP
+	 * @throws WURCSFormatException
+	 */
+/*
+	public FuzzyGLIP extractFuzzyGLIP(String a_strFuzzyGLIP) throws WURCSFormatException {
 		// set Alternative character in fuzzyGLIP
 		// and repleace {,} to ""
 		String strAlternative = "";
@@ -500,6 +425,175 @@ public class WURCSImporter {
 			t_aGLIP.addLast( this.extractGLIP(GLIP) );
 		}
 		return new FuzzyGLIP(t_aGLIP, strAlternative);
+	}
+*/
+
+	/**
+	 * Extract GLIP from the string
+	 * @param a_strGLIP String of GLIP
+	 * @return GLIP
+	 * @throws WURCSFormatException
+	 */
+	public GLIP extractGLIP(String a_strGLIP) throws WURCSFormatException {
+		String nodeIndex   = "(\\?|[a-zA-Z]+)";
+		String SCPosition  = "(\\?|[0-9]+)";
+		String direction   = "([nudtezx])?";    // Can omit
+		String MAPPosition = "(\\?|[0-9]+)?";   // Can omit
+		String prob        = "(%(.+)%)?";       // Can omit
+		String strExp = "^"+prob+ nodeIndex+SCPosition+direction+MAPPosition +prob+"$";
+//		String strExp = "^([%]*)([.]*)([0-9?]*)([%]*)([a-zA-Z?\\\\]+)([0-9?\\\\]+)([a-zA-Z?\\\\]*)([0-9?\\\\]*)([%]*)([.]*)([0-9?]*)([%]*)";
+		Matcher size = Pattern.compile(strExp).matcher(a_strGLIP);
+		// %.21%a2u1%.5%
+		//	group(0)	%.21%a2u1%.5%
+		//	group(1)	%.21%
+		//	group(2)	.21
+		//	group(3)	a
+		//	group(4)	2
+		//	group(5)	u
+		//	group(6)	1
+		//	group(7)	%.5%
+		//	group(8)	.5
+
+		if ( !size.find() )
+			throw new WURCSFormatException("Not match as GLIP: "+a_strGLIP);
+
+		String t_strRESIndex  = size.group(3);
+		String t_strSCPos     = size.group(4);
+		String t_strDirection = size.group(5);
+		String t_strMAPPos    = size.group(6);
+
+		int  t_iSC_Position          = 0;
+		char t_cDirection            = ' ';
+		int  t_iModStarPositionOnMAP = 0;
+
+		// SkeletonCode position
+		t_strSCPos = t_strSCPos.equals("?") ? "-1" : t_strSCPos ;
+		if (! WURCSNumberUtils.isInteger(t_strSCPos) )
+			throw new WURCSFormatException("SkeletonCode position must be number in GLIP : "+a_strGLIP);
+
+		t_iSC_Position = Integer.parseInt(t_strSCPos);
+
+		// Direction
+		if ( t_strDirection != null && t_strDirection.length() > 0)
+			t_cDirection = t_strDirection.charAt(0);
+
+		// MAP position
+		if (t_strMAPPos != null ) {
+			t_strMAPPos = t_strMAPPos.equals("?") ? "-1" : t_strMAPPos ;
+
+			if (! WURCSNumberUtils.isInteger(t_strMAPPos) )
+				throw new WURCSFormatException("MAP position must be number in GLIP : "+a_strGLIP);
+			t_iModStarPositionOnMAP = Integer.parseInt(t_strMAPPos);
+		}
+
+		GLIP t_oGLIP = new GLIP(t_strRESIndex, t_iSC_Position, t_cDirection, t_iModStarPositionOnMAP);
+
+		// Probabilities
+		String t_strBackboneProb = size.group(2);
+		String t_strModificationProb = size.group(8);
+		if ( t_strBackboneProb != null ) {
+//			System.out.println(t_strBackboneProb);
+			// Extract Probabilities
+			double[] t_aProbs = this.extractProbabilities(t_strBackboneProb);
+			t_oGLIP.setBackboneProbabilityLower( t_aProbs[0] );
+			t_oGLIP.setBackboneProbabilityUpper( t_aProbs[1] );
+		}
+
+		if ( t_strModificationProb != null ) {
+//			System.out.println(t_strModificationProb);
+			// Extract Probabilities
+			double[] t_aProbs = this.extractProbabilities(t_strModificationProb);
+			t_oGLIP.setModificationProbabilityLower( t_aProbs[0] );
+			t_oGLIP.setModificationProbabilityUpper( t_aProbs[1] );
+		}
+
+		return t_oGLIP;
+	}
+
+	/**
+	 * Extract probabilities in LIP/GLIP from the string
+	 * @param a_strProb String of probabilities in LIP/GLIP
+	 * @return Values of min and max probabilities
+	 * @throws WURCSFormatException
+	 */
+	private double[] extractProbabilities( String a_strProb ) throws WURCSFormatException {
+		// t_adProbs[0] : lower probability
+		// t_adProbs[1] : Upper probability
+		double[] t_adProbs = {1.0, 1.0};
+
+		String[] t_asProbs = a_strProb.split(":");
+		if ( t_asProbs[0].matches("[^\\?\\.0-9]") )
+			throw new WURCSFormatException("Not match as probability in LIP/GLIP : "+a_strProb);
+
+		// Lower
+		if ( t_asProbs[0].equals("?") ) t_asProbs[0] = "-1";
+//		System.out.println(t_asProbs[0]);
+		if (! WURCSNumberUtils.isDouble(t_asProbs[0]) )
+			throw new WURCSFormatException("probability must be double type number : "+a_strProb);
+
+		t_adProbs[0] = Double.parseDouble(t_asProbs[0]);
+		t_adProbs[1] = t_adProbs[0];
+		// Upper (if exist)
+		if ( t_asProbs.length > 1 ) {
+			if ( t_asProbs[1].matches("[^\\?\\.0-9]") )
+				throw new WURCSFormatException("Not match as probability in LIP/GLIP : "+a_strProb);
+
+			if ( t_asProbs[1].equals("?") ) t_asProbs[1] = "-1";
+			if (! WURCSNumberUtils.isDouble(t_asProbs[1]) )
+				throw new WURCSFormatException("probability must be double type number : "+a_strProb);
+			t_adProbs[1] = Double.parseDouble(t_asProbs[1]);
+		}
+
+		return t_adProbs;
+	}
+
+	/**
+	 * Extract repeat counts in LIN from the string
+	 * @param a_strRepeat String of repeat counts in LIN
+	 * @return Repeat count(s)
+	 * @throws WURCSFormatException
+	 */
+	private int[] extractRepeat(String a_strRepeat) throws WURCSFormatException {
+		// 5    : one parameter 5 repeat count
+		// n    : one parameter unkown repeat count
+		// 5-10 : two parameter 5 to 10 repeat count
+		// n-10 : two parameter lower 10 repeat count
+		// 5-n  : two parameter upper 5 repeat count
+		// n-m  : not allow "m"
+		// n-n  : not allow unkown to unkown, it must be one parameter "n"
+
+		// t_aiReps[0] : Min repeat count
+		// t_aiReps[1] : Max repeat count
+		int[] t_aiReps = {1, 1};
+		// Split min and max
+		String[] t_asRep = a_strRepeat.split(":");
+
+		if ( t_asRep[0].equals("n") ) t_asRep[0] = "-1";
+		if (! WURCSNumberUtils.isInteger( t_asRep[0] ) )
+			throw new WURCSFormatException("Repeat unit is must be number or \"n\": ~"+a_strRepeat);
+
+		t_aiReps[0] = Integer.parseInt(t_asRep[0]);
+		t_aiReps[1] = t_aiReps[0];
+
+		// Repeat is only one parameter
+		if (t_asRep.length == 1) return t_aiReps;
+
+
+		if ( t_asRep[1].equals("n") ) t_asRep[1] = "-1";
+		if (! WURCSNumberUtils.isInteger( t_asRep[1] ) )
+			throw new WURCSFormatException("Repeat unit is must be number or \"n\": ~"+a_strRepeat);
+
+		t_aiReps[1] = Integer.parseInt(t_asRep[1]);
+
+		//TODO: write log Max -> Min; Min -> Max
+		int temp_iMin = -1;
+		if (t_aiReps[0] > t_aiReps[1] && t_aiReps[1] != -1) {
+			temp_iMin = t_aiReps[1];
+			t_aiReps[1] = t_aiReps[0];
+			t_aiReps[0] = temp_iMin;
+		}
+
+		return t_aiReps;
 	}
 
 }

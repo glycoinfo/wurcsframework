@@ -65,6 +65,8 @@ public class GlycosequenceTriple {
 			// object of wurcs:has_monosaccharide
 			this.m_object_monosaccharides.add(m_strObjectURI + "2.0/monosaccharide/" + WURCSStringUtils.getURLString(export.getUniqueRESString(uRES)));
 			
+//			System.out.println("uRES.getUniqueRESID(): " + uRES.getUniqueRESID());
+			
 			if (uRES.getUniqueRESID() == 1){
 				// object of wurcs:has_root_RES <http://rdf.glycoinfo.org/glycan/GxxxxxMS/wurcs/2.0/RES/a> ;
 				this.m_object_uriHas_root_RES = t_strWURCS2 + "RES/a";
@@ -79,14 +81,29 @@ public class GlycosequenceTriple {
 	}
 	
 	//TODO: 
-	public String get_GlycosequenceTriple(Boolean a_bPrefix) {
+	public String get_GlycosequenceTriple(WURCSArray a_objWURCS, Boolean a_bPrefix) {
 		StringBuilder sb = new StringBuilder();
+//		WURCSExporter export = new WURCSExporter();
 		
 		sb.append("# Glycosequence\n");
 		// subject
 		sb.append("<" + this.m_subject_uriGlycosequence + ">\n");
 		// a glycan:glycosequence ;
 		sb.append("\ta " + Predicate.getPredicateString("glycan", "glycosequence", a_bPrefix) + " ;\n");
+		
+		// wurcs:uniqueRES_count
+		sb.append("\t" + Predicate.getPredicateString("wurcs", Predicate.getUniqueRES_count(), a_bPrefix) + " \"" + a_objWURCS.getUniqueRESCount() + "\"^^xsd:integer ;\n");
+		// wurcs:RES_count
+		sb.append("\t" + Predicate.getPredicateString("wurcs", Predicate.getRES_count(), a_bPrefix) + " \"" + a_objWURCS.getRESCount() + "\"^^xsd:integer ;\n");
+		
+		// wurcs:LIN_count
+		sb.append("\t" + Predicate.getPredicateString("wurcs", Predicate.getLIN_count(), a_bPrefix) + " \"" + a_objWURCS.getLINCount() + "\"^^xsd:integer ;\n");
+
+		// has_root_RES
+		// this.m_object_uriHas_root_RES
+		sb.append("\t" + Predicate.getPredicateString("wurcs", Predicate.getHas_root_RES(), a_bPrefix) + " <" + this.m_object_uriHas_root_RES + "> ;\n");
+		
+		
 		
 		for (String ures : m_object_uniqueRESIndexs) {
 			// wurcs:has_uniqueRES <http://rdf.glycoinfo.org/glycan/GxxxxxMS/wurcs/2.0/uniqueRES/1> ;

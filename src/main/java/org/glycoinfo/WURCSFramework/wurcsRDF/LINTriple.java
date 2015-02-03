@@ -58,7 +58,7 @@ public class LINTriple {
 			}
 			
 			// GLIP
-			for (GLIP glip : lin.getGLIPs()) {
+			for (GLIP glip : export. lin.getGLIPs()) {
 				m_obj.add(new String[] {"has_GLIP", "wurcs:has_GLIP\t<" + URI.getGlycoInfoGlycanURI() + a_strAccessionNumber + "/wurcs/2.0/GLIP/" + WURCSStringUtils.getURLString(export.getGLIPString(glip)) + ">"});
 			}
 			

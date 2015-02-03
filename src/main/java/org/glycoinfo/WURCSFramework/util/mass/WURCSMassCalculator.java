@@ -3,17 +3,28 @@ package org.glycoinfo.WURCSFramework.util.mass;
 import java.util.HashMap;
 import java.util.LinkedList;
 
+import org.glycoinfo.WURCSFramework.util.WURCSExporter;
 import org.glycoinfo.WURCSFramework.wurcs.LIN;
 import org.glycoinfo.WURCSFramework.wurcs.MOD;
 import org.glycoinfo.WURCSFramework.wurcs.RES;
 import org.glycoinfo.WURCSFramework.wurcs.UniqueRES;
 import org.glycoinfo.WURCSFramework.wurcs.WURCSArray;
 
-
+/**
+ * Class for calculation of mass from WURCS
+ * @author MasaakiMatsubara
+ *
+ */
 public class WURCSMassCalculator {
 
-	public static double getMassWURCS(WURCSArray a_objWURCS) {
+	/**
+	 * Calculate mass for WURCSArray
+	 * @param a_objWURCS WURCSArray
+	 * @return Value of mass
+	 */
+	public static double calcMassWURCS(WURCSArray a_objWURCS) {
 
+		WURCSExporter t_oExporter = new WURCSExporter();
 		// For unique RES mass
 		HashMap<UniqueRES, Double> t_hashUniqREStoMass = new HashMap<UniqueRES, Double>();
 		LinkedList<UniqueRES> uRESList = a_objWURCS.getUniqueRESs();
@@ -24,7 +35,9 @@ public class WURCSMassCalculator {
 			System.out.println(skCode+": "+skMass);
 			t_dMass += skMass;
 			for ( MOD mod : ures.getMODs() ) {
-				t_dMass += getMassGlycosidic(mod.getMAPCode(), mod.getLIPs().size() );
+				double t_dMassMOD = calcMassLinkage(mod.getMAPCode(), mod.getListOfLIPs().size() );
+				System.out.println(t_oExporter.getMODString(mod)+": "+t_dMassMOD);
+				t_dMass += t_dMassMOD;
 			}
 			t_hashUniqREStoMass.put(ures, t_dMass);
 		}
@@ -37,35 +50,42 @@ public class WURCSMassCalculator {
 		}
 
 		for ( LIN lin : a_objWURCS.getLINs() ) {
-			t_dMass += getMassGlycosidic(lin.getMAPCode(), lin.getGLIPs().size()+lin.getFuzzyGLIPs().size() );
+			double t_dMassLIN = calcMassLinkage(lin.getMAPCode(), lin.getListOfGLIPs().size() );
+			System.out.println(t_oExporter.getLINString(lin)+": "+t_dMassLIN);
+			t_dMass += t_dMassLIN;
 		}
 
 		return t_dMass;
 	}
 
-	public static double getMassGlycosidic(String MAPCode, int nLink) {
+	/**
+	 * Calculate mass for linkage
+	 * @param a_strMAPCode MAP in linkage
+	 * @param nLink Number of connection in linkage
+	 * @return Value of mass
+	 */
+	public static double calcMassLinkage(String a_strMAPCode, int nLink) {
 		double OHMass = getMassMAP("*O");
-		double HMass = getMassMAP("H");
+		double HMass = getMassMAP("*H");
 		double hydrateMass = OHMass+HMass;
 
-		System.out.println(nLink);
 		double t_dMass = 0;
 		// Dehydration for glycosidic linkage
 		int nDehydration = 0;
 		if ( nLink > 1 ) {
 			nDehydration = nLink - 1;
-			System.out.println("Glycosidic linkage");
+			System.out.println("Glycosidic linkage: " );
 			t_dMass -= hydrateMass * nDehydration;
 		}
 
 		// Continue if MAPCode is omitted
-		if ( MAPCode.length() == 0 ) return t_dMass;
+		if ( a_strMAPCode.length() == 0 ) return t_dMass;
 
 		// Substitution from hydroxyl group to modification
 		t_dMass -= OHMass - HMass*nDehydration;
 
-		double MAPMass = getMassMAP(MAPCode);
-		System.out.println(MAPCode+": "+MAPMass);
+		double MAPMass = getMassMAP(a_strMAPCode);
+		System.out.println(a_strMAPCode+": "+MAPMass);
 		t_dMass += MAPMass;
 		return t_dMass;
 	}

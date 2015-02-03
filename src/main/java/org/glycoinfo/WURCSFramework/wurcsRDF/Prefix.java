@@ -21,6 +21,7 @@ public class Prefix {
 	public static String m_strGlycan 		= "glycan";
 	public static String m_strGlyTouCan 	= "glytoucan";
 	public static String m_strWURCS 		= "wurcs";
+	public static String m_strDcterm 		= "dcterms";
 	
 	private static String m_strRdfsURI			= "http://www.w3.org/2000/01/rdf-schema#";
 	private static String m_strXsdURI			= "http://www.w3.org/2001/XMLSchema#";
@@ -29,6 +30,8 @@ public class Prefix {
 	private static String m_strGlycanURI		= "http://purl.jp/bio/12/glyco/glycan#";
 	private static String m_strGlyTouCanURI		= "http://www.glytoucan.org/glyco/owl/glytoucan#";
 	private static String m_strWurcsURI			= "http://www.glycoinfo.org/glyco/owl/wurcs#";
+	
+	private static String m_strDctermURI = "http://purl.org/dc/terms/";
 	
 	//TODO:
 	/**
@@ -60,6 +63,9 @@ public class Prefix {
 			case "wurcs":
 				return m_strPrefix = (!a_bPrefix) ? m_strWurcsURI : a_strPrefix;
 //				return m_strWurcsURI;
+			case "dcterm":
+				return m_strPrefix = (!a_bPrefix) ? m_strDctermURI : a_strPrefix;
+
 		}
 		
 		return m_strPrefix;
@@ -80,6 +86,7 @@ public class Prefix {
 		sb.append("@prefix "); sb.append(m_strGlycan); sb.append(": <"); sb.append(m_strGlycanURI); sb.append("> . \n");
 		sb.append("@prefix "); sb.append(m_strGlyTouCan); sb.append(": <"); sb.append(m_strGlyTouCanURI); sb.append("> . \n");
 		sb.append("@prefix "); sb.append(m_strWURCS); sb.append(": <"); sb.append(m_strWurcsURI); sb.append("> . \n");
+		sb.append("@prefix "); sb.append(m_strDcterm); sb.append(": <"); sb.append(m_strDctermURI); sb.append("> . \n");
 		return sb.toString();
 	}
 	

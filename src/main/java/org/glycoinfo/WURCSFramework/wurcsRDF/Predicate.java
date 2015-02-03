@@ -64,6 +64,30 @@ public class Predicate {
 		return m_has_sequence;
 	}
 
+	//m_object_uriHas_root_RES
+	static String m_Has_root_RES = "has_root_RES";
+	public static String getHas_root_RES() {
+		return m_Has_root_RES;
+	}
+	
+	//wurcs:count_uniqueRES
+	static String m_uniqueRES_count = "uniqueRES_count";
+	public static String getUniqueRES_count() {
+		return m_uniqueRES_count;
+	}
+	
+	//wurcs:count_RES
+	static String m_RES_count= "RES_count";
+	public static String getRES_count() {
+		return m_RES_count;
+	}
+
+	//wurcs:count_LIN
+	static String m_LIN_count = "LIN_count";
+	public static String getLIN_count() {
+		return m_LIN_count;
+	}
+	
 	
 	// monosaccharide
 	// ms1 is_monosaccharide ms1

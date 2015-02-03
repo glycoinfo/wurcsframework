@@ -4,27 +4,18 @@ import java.util.LinkedList;
 
 public class MOD extends MODAbstract{
 
-	private LinkedList<LIP> m_aLIPs = new LinkedList<LIP>();
-	private LinkedList<FuzzyLIP> m_aFuzzyLIPs = new LinkedList<FuzzyLIP>();
+	private LinkedList<LIPs> m_aListOfLIPs = new LinkedList<LIPs>();
 
 	public MOD(String a_strMAP) {
 		super(a_strMAP);
 	}
 
-	public void addLIP(LIP a_oLIP) {
-		this.m_aLIPs.addLast(a_oLIP);
+	public void addLIPs(LIPs a_oLIPs) {
+		this.m_aListOfLIPs.addLast(a_oLIPs);
 	}
 
-	public void addFuzzyLIP(FuzzyLIP a_oLIP) {
-		this.m_aFuzzyLIPs.addLast(a_oLIP);
-	}
-
-	public LinkedList<LIP> getLIPs() {
-		return this.m_aLIPs;
-	}
-
-	public LinkedList<FuzzyLIP> getFuzzyLIPs() {
-		return this.m_aFuzzyLIPs;
+	public LinkedList<LIPs> getListOfLIPs() {
+		return this.m_aListOfLIPs;
 	}
 
 	//public String getMODCount() {

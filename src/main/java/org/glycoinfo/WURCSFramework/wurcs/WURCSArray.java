@@ -29,7 +29,7 @@ public class WURCSArray {
 		this.m_aLINs.addLast(a_objLIN);
 	}
 
-	public void addRESs(RES a_objRES) {
+	public void addRES(RES a_objRES) {
 		this.m_aRESs.addLast(a_objRES);
 	}
 

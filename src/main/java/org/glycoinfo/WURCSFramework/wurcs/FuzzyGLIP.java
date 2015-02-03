@@ -12,7 +12,7 @@ public class FuzzyGLIP {
 		this.m_strAlternative = a_strAlternative;
 	}
 
-	public LinkedList<GLIP> getFuzzyGLIPs() {
+	public LinkedList<GLIP> getGLIPs() {
 		return this.m_aGLIPs;
 	}
 

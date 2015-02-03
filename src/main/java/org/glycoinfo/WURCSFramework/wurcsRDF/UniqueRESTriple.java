@@ -2,7 +2,7 @@ package org.glycoinfo.WURCSFramework.wurcsRDF;
 
 import java.util.LinkedList;
 
-import org.glycoinfo.WURCSFramework.util.WURCSExporter;
+import org.glycoinfo.WURCSFramework.util.WURCSExporterOld;
 import org.glycoinfo.WURCSFramework.util.WURCSStringUtils;
 import org.glycoinfo.WURCSFramework.wurcs.RES;
 import org.glycoinfo.WURCSFramework.wurcs.UniqueRES;
@@ -29,7 +29,7 @@ public class UniqueRESTriple {
 	//TODO: 
 	public UniqueRESTriple(String  a_strAccessionNumber, LinkedList<UniqueRES> a_aURESs) {
 		
-		WURCSExporter export = new WURCSExporter();
+		WURCSExporterOld export = new WURCSExporterOld();
 		for (UniqueRES a_aURES : a_aURESs) {
 			String[] m_sub_obj = {"", ""};
 			m_sub_obj[0] = URI.getGlycoInfoGlycanURI() + a_strAccessionNumber + "/wurcs/2.0/uniqueRES/" + a_aURES.getUniqueRESID();

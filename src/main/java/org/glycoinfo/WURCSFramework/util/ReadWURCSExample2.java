@@ -39,7 +39,7 @@ public class ReadWURCSExample2 {
 		if(input == null || input.equals("")) throw new Exception();
 		
 		TreeMap<String, String> wurcsIndex = new TreeMap<String, String>();
-		WURCSImporter ws = new WURCSImporter();
+		WURCSImporterOld ws = new WURCSImporterOld();
 		
 		File file = new File(input);
 		
@@ -47,14 +47,14 @@ public class ReadWURCSExample2 {
 			wurcsIndex = openString(input);
 
 			for(String key : wurcsIndex.keySet()) {
-				WURCSArray wurcs = ws.WURCSsepalator(wurcsIndex.get(key));
+				WURCSArray wurcs = ws.extractWURCSArray(wurcsIndex.get(key));
 				String AccessionNumber = key;
 				java.lang.System.out.println(key);
 				
 			}
 
 		}else if(input.indexOf("WURCS") != -1) {
-			WURCSArray wurcs = ws.WURCSsepalator(input.substring(input.indexOf("W")));
+			WURCSArray wurcs = ws.extractWURCSArray(input.substring(input.indexOf("W")));
 		}else {
 			throw new Exception("This file is not found");
 		}
