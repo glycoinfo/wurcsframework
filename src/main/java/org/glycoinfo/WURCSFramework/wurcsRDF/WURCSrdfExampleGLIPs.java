@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.TreeMap;
 
-//import org.glycoinfo.WURCSFramework.util.WURCSImporterOld;
 import org.glycoinfo.WURCSFramework.util.WURCSImporter;
 import org.glycoinfo.WURCSFramework.wurcs.WURCSArray;
 //import org.glycoinfo.WURCSFramework.wurcsRDF.WURCSrdf;
@@ -28,11 +27,9 @@ public class WURCSrdfExampleGLIPs {
 				"a4-b1_a6-j1_b4-c1_d2-e1_e4-f1_g2-h1_h4-i1_d1-c3|c6_g1-c3|c6";
 
 		//input = "src/org/glycoinfo/WURCSFramework/testresource/20150121result-GlycomeDB_GlycoCTmfWURCS.txt";
-//		String file_WURCS = "20150129result-GlyTouCan_GlycoCTmfWURCS.txt";
-
 		String file_WURCS = "20150129result-GlyTouCan_GlycoCTmfWURCS.txt";
-	
-//		file_WURCS = "20150130_SPARQ-test1LWURCS.txt";
+		
+		file_WURCS = "20150130_SPARQ-test1LWURCS.txt";
 		
 		input = "src/org/glycoinfo/WURCSFramework/testresource/" + file_WURCS;
 		
@@ -62,6 +59,44 @@ public class WURCSrdfExampleGLIPs {
 
 		// basetype sample
 //		input = "WURCS=2.0/4,4,3/[12122h-1b_1-5_2*OCC/3=O][11221m-1a_1-5][12112h-1b_1-5][a6d21122h-2a_2-6_5*NCC/3=O]/1-2-3-4/a3-b1_a4-c1_c3|c4|c6-d2~n";
+		
+		
+		int i_SPARQLtestID = -1;
+		switch (i_SPARQLtestID) {
+		case 1 :
+			input = "WURCS=2.0/2,3,2/[11122h-1b_1-5][21122h-1a_1-5]/1-2-2/a3-b1_a6-c1";
+			break;
+		case 2 :
+			input = "WURCS=2.0/2,2,1/[11122h-1b_1-5][21122h-1a_1-5]/1-2/a3-b1";
+			break;
+		case 3 :
+			input = "WURCS=2.0/2,2,1/[11122h-1b_1-5][21122h-1a_1-5]/1-2/a3-b1";
+			break;
+		case 4 :
+			input = "WURCS=2.0/2,2,1/[11122h-1b_1-5][21122h-1a_1-5]/1-2/b1-a3|a6";
+			break;
+		case 5 :
+			input = "WURCS=2.0/2,2,1/[11122h-1b_1-5][21122h-1a_1-5]/1-2/b1-a4|a6";
+			break;
+		case 6 :
+			input = "WURCS=2.0/2,2,1/[11122h-1b_1-5][21122h-1a_1-5]/1-2/b1-a3|a4|a6";
+			break;
+		case 7 :
+			input = "WURCS=2.0/2,3,1/[11122h-1b_1-5][21122h-1a_1-5]/1-2-1/a3|a4-b1|c1";
+			break;
+		case 8 :
+			input = "WURCS=2.0/2,3,1/[11122h-1b_1-5][21122h-1a_1-5]/1-2-1/a4|a6-b1|c1";
+			break;
+		case 9 :
+			input = "WURCS=2.0/2,3,1/[11122h-1b_1-5][21122h-1a_1-5]/1-2-1/a3|a6-b1|c1";
+			break;
+		case 10 :
+			input = "WURCS=2.0/2,3,1/[11122h-1b_1-5][21122h-1a_1-5]/1-2-1/a3|a4|a6-b1|c1";
+			break;
+		}
+
+		
+//		System.out.println("input: " + input);
 		
 		
 		if(input == null || input.equals("")) throw new Exception();

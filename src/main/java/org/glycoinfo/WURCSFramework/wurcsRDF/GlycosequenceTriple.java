@@ -57,6 +57,9 @@ public class GlycosequenceTriple {
 		// object of glycan:has_sequence
 		this.m_object_strWURCS = export.getWURCSString(a_objWURCS);
 		
+//		System.out.println("\nout: " + m_object_strWURCS);
+		
+		
 		for (UniqueRES uRES : a_objWURCS.getUniqueRESs()){
 			// object of wurcs:has_uniqueRES
 			//this.m_object_uniqueRESIndexs.add(t_strWURCS2 + "uniqueRES/" + String.valueOf(uRES.getUniqueRESID()));

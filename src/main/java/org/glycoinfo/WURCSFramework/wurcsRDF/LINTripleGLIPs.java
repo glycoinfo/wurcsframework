@@ -2,7 +2,6 @@ package org.glycoinfo.WURCSFramework.wurcsRDF;
 
 import java.util.LinkedList;
 
-import org.glycoinfo.WURCSFramework.util.WURCSExporterOld;
 import org.glycoinfo.WURCSFramework.util.WURCSExporter;
 import org.glycoinfo.WURCSFramework.util.WURCSStringUtils;
 import org.glycoinfo.WURCSFramework.wurcs.FuzzyGLIP;

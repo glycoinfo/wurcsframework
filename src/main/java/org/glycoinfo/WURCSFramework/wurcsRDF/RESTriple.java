@@ -4,10 +4,11 @@ import java.util.LinkedList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.glycoinfo.WURCSFramework.util.WURCSExporterOld;
+import org.glycoinfo.WURCSFramework.util.WURCSExporter;
 import org.glycoinfo.WURCSFramework.util.WURCSStringUtils;
 import org.glycoinfo.WURCSFramework.wurcs.FuzzyGLIP;
 import org.glycoinfo.WURCSFramework.wurcs.GLIP;
+import org.glycoinfo.WURCSFramework.wurcs.GLIPs;
 import org.glycoinfo.WURCSFramework.wurcs.LIN;
 import org.glycoinfo.WURCSFramework.wurcs.RES;
 import org.glycoinfo.WURCSFramework.wurcs.UniqueRES;
@@ -62,15 +63,18 @@ public class RESTriple {
 	 */
 	private LinkedList<String> getHasLINs(String a_strAccessionNumber, String a_strRESIndex ,WURCSArray a_objWURCS){
 		LinkedList<String> m_LINs = new LinkedList<String>();
-		WURCSExporterOld export = new WURCSExporterOld();
+		WURCSExporter export = new WURCSExporter();
 		for (LIN lin : a_objWURCS.getLINs()) {
-			for (GLIP glip : lin.getGLIPs()) {
-				if (glip.getRESIndex().equals(a_strRESIndex)) { m_LINs.add(URI.getGlycoInfoGlycanURI() + a_strAccessionNumber + "/wurcs/2.0/LIN/" + WURCSStringUtils.getURLString(export.getLINString(lin))); }
-			}
-			
-			for (FuzzyGLIP fglip : lin.getFuzzyGLIPs()) {
-				for (GLIP gflip : fglip.getGLIPs()) {
-					if (gflip.getRESIndex().equals(a_strRESIndex)) { m_LINs.add(URI.getGlycoInfoGlycanURI() + a_strAccessionNumber + "/wurcs/2.0/LIN/" + WURCSStringUtils.getURLString(export.getLINString(lin))); }
+			for (GLIPs glips : lin.getListOfGLIPs()) {
+				
+				for (GLIP glip : glips.getGLIPs()) {
+				
+					if (glip.getRESIndex().equals(a_strRESIndex)) { 
+						m_LINs.add(URI.getGlycoInfoGlycanURI() + a_strAccessionNumber + "/wurcs/2.0/LIN/" + WURCSStringUtils.getURLString(export.getLINString(lin))); 
+					}
+					if (glip.getRESIndex().equals(a_strRESIndex)) { 
+						m_LINs.add(URI.getGlycoInfoGlycanURI() + a_strAccessionNumber + "/wurcs/2.0/LIN/" + WURCSStringUtils.getURLString(export.getLINString(lin))); 
+					}
 				}
 			}
 		}

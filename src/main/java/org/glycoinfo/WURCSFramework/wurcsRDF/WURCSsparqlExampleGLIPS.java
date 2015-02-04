@@ -8,10 +8,10 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.TreeMap;
 
-//import org.glycoinfo.WURCSFramework.util.WURCSImporterOld;
 import org.glycoinfo.WURCSFramework.util.WURCSImporter;
-//import org.glycoinfo.WURCSFramework.util.rdf.WURCSrdfSPARQL;
 import org.glycoinfo.WURCSFramework.util.rdf.WURCSrdfSPARQLGLIPS;
+import org.glycoinfo.WURCSFramework.util.rdf.WURCSrdfSPARQLGLIPS_ESM;
+import org.glycoinfo.WURCSFramework.util.rdf.WURCSrdfSPARQLGLIPS_SSM;
 import org.glycoinfo.WURCSFramework.wurcs.WURCSArray;
 //import org.glycoinfo.WURCSFramework.wurcsRDF.WURCSrdf;
 
@@ -63,7 +63,16 @@ public class WURCSsparqlExampleGLIPS {
 		// glytoucan.org: G09117NC
 //		input = "WURCS=2.0/4,8,7/[12122h-1b_1-5_2*NCC/3=O][22112m-1a_1-5][11122h-1b_1-5][21122h-1a_1-5]/1-2-1-3-4-4-2-1/a3-b1_a4-c1_a6-g1_c4-d1_d3-e1_d6-f1_h1-e2|e4|e6";
 
-		int i_SPARQLtestID = 5;
+		// ESM, SSM, FSM, PM
+		String m_strSearchOption = "ESM";
+		WURCSrdfSPARQLGLIPS_ESM sql = new WURCSrdfSPARQLGLIPS_ESM();
+//		String m_strSearchOption = "SSM";
+//		WURCSrdfSPARQLGLIPS_SSM sql = new WURCSrdfSPARQLGLIPS_SSM();
+//		String m_strSearchOption = "FSM or PM";
+//		WURCSrdfSPARQLGLIPS sql = new WURCSrdfSPARQLGLIPS();
+
+		int i_SPARQLtestID = 4;
+		
 		switch (i_SPARQLtestID) {
 		case 1 :
 			input = "WURCS=2.0/2,3,2/[11122h-1b_1-5][21122h-1a_1-5]/1-2-2/a3-b1_a6-c1";
@@ -72,7 +81,7 @@ public class WURCSsparqlExampleGLIPS {
 			input = "WURCS=2.0/2,2,1/[11122h-1b_1-5][21122h-1a_1-5]/1-2/a3-b1";
 			break;
 		case 3 :
-			input = "WURCS=2.0/2,2,1/[11122h-1b_1-5][21122h-1a_1-5]/1-2/a3-b1";
+			input = "WURCS=2.0/2,2,1/[11122h-1b_1-5][21122h-1a_1-5]/1-2/a6-b1";
 			break;
 		case 4 :
 			input = "WURCS=2.0/2,2,1/[11122h-1b_1-5][21122h-1a_1-5]/1-2/b1-a3|a6";
@@ -97,15 +106,18 @@ public class WURCSsparqlExampleGLIPS {
 			break;
 		}
 		// TODO:
+		
+		
 		// set search option
 		LinkedList<String> t_aOption = new LinkedList<String>();
 //		t_aOption.add("exact");
 		t_aOption.add("uri");
 		t_aOption.add("wurcs");
 		t_aOption.add("LIMIT 100");
-		t_aOption.add("FROM <http://www.glycoinfo.org/graph/wurcs/0.3.1>");
+		t_aOption.add("FROM <http://www.glycoinfo.org/graph/wurcs/0.3.3>");
 //		t_aOption.add("accession_number");
-		t_aOption.add("ESM");
+		t_aOption.add(m_strSearchOption);
+		t_aOption.add("TEST_ID:" + String.valueOf(i_SPARQLtestID));
 		// Search Type
 		// ESM		Exact Substructure match
 		// SSM		Superstructure match
@@ -120,7 +132,6 @@ public class WURCSsparqlExampleGLIPS {
 		WURCSImporter ws = new WURCSImporter();
 		
 //		WURCSrdfSPARQL sql = new WURCSrdfSPARQL();
-		WURCSrdfSPARQLGLIPS sql = new WURCSrdfSPARQLGLIPS();
 		
 		Boolean t_bPrefix = true;
 				
@@ -209,49 +220,3 @@ public class WURCSsparqlExampleGLIPS {
 		return wret;
 	}
 }
-
-/*
-SELECT DISTINCT ?glycan3
-#count(DISTINCT ?glycan3) ?p
-FROM <http://www.glycoinfo.org/graph/wurcs/0.3>
-WHERE {
-  ?glycan glycan:has_glycosequence ?gseq .
-  BIND( iri(replace(str(?glycan), "http://rdf.glycoinfo.org/glycan/", "http://www.glytoucan.org/glyspace/service/glycans/")) as ?glycan2)
-  BIND( iri(concat(?glycan2, "/image?style=extended&format=png&notation=cfg"))as ?glycan3 )
-
-  ?gseq wurcs:has_uniqueRES   ?uRES1,  ?uRES2,  ?uRES3,  ?uRES4.
- ?uRES1 wurcs:is_monosaccharide <http://rdf.glycoinfo.org/glycan/wurcs/2.0/monosaccharide/12122h-1b_1-5_2*NCC%2F3%3DO> .
- ?uRES2 wurcs:is_monosaccharide <http://rdf.glycoinfo.org/glycan/wurcs/2.0/monosaccharide/11221m-1a_1-5> .
- ?uRES3 wurcs:is_monosaccharide <http://rdf.glycoinfo.org/glycan/wurcs/2.0/monosaccharide/12112h-1b_1-5> .
- ?uRES4 wurcs:is_monosaccharide <http://rdf.glycoinfo.org/glycan/wurcs/2.0/monosaccharide/a6d21122h-2a_2-6_5*NCC%2F3%3DO> .
-  ?gseq wurcs:has_LIN ?LINa3b1 , ?LINa4c1 , ?LINc3d2 . 
-  ?LINa3b1 wurcs:has_GLIP   ?GLIPa3 ,   ?GLIPb1 .  
-  ?LINa4c1 wurcs:has_GLIP   ?GLIPa4 ,   ?GLIPc1 .  
-  ?LINc3d2 wurcs:has_GLIP   ?GLIPc3 ,   ?GLIPd2 .  
- 
-# LIN1 
-  ?GLIPa3 wurcs:has_SC_position 3 .
-  ?GLIPa3 wurcs:has_RES ?RESa .
-  ?GLIPb1 wurcs:has_SC_position 1 .
-  ?GLIPb1 wurcs:has_RES ?RESb .
-# LIN2 
-  ?GLIPa4 wurcs:has_SC_position 4 .
-  ?GLIPa4 wurcs:has_RES ?RESa .
-  ?GLIPc1 wurcs:has_SC_position 1 .
-  ?GLIPc1 wurcs:has_RES ?RESc .
-# LIN3 
-  ?GLIPc3 wurcs:has_SC_position ?p 
-  FILTER (?p = 6 || ?p = 3)
-# fuzzyGLIP  
-  ?GLIPc3 wurcs:has_RES ?RESc .
-  ?GLIPd2 wurcs:has_SC_position 2 .
-  ?GLIPd2 wurcs:has_RES ?RESd .
-
-# RES
-  ?RESa wurcs:is_uniqueRES ?uRES1 .
-  ?RESb wurcs:is_uniqueRES ?uRES2 .
-  ?RESc wurcs:is_uniqueRES ?uRES3 .
-  ?RESd wurcs:is_uniqueRES ?uRES4 .
-
-} 
- */

@@ -66,7 +66,7 @@ public class WURCSrdfSPARQLGLIPS {
 			m_strHED += m_strError;
 			m_strHED += "#        contact: info.glyco@gmail.com\n";
 		}
-		m_strHED += "#        version 2015.02.01 (JAPAN) \n";
+		m_strHED += "#        version 2015.02.02 (JAPAN) \n";
 
 		m_strHED += "# Query Structure:\n";
 		m_strHED += "# " + a_strWURCS + "\n";
@@ -74,6 +74,7 @@ public class WURCSrdfSPARQLGLIPS {
 		for (String t_str : t_aOption) {
 			m_strHED += "#      option: " + t_str + "\n";
 		}
+		m_strHED += "# Warranty: Use at your own risk.";
 		m_strHED += "# ******************************************************\n\n";
 		
 		WURCSImporter ws = new WURCSImporter();
@@ -188,13 +189,13 @@ public class WURCSrdfSPARQLGLIPS {
 				m_aGLIPS.add("?GLIPS" + this.removeChar4SPARQL(export.getGLIPsString(a_oGLIPs)));
 			}
 			String m_strEnd = ",";
-			int m_ifGLIP = 1;
-			for (String strFGLIP : m_aGLIPS) {
-				if (m_aGLIPS.size() == m_ifGLIP){
+			int m_iGLIPS = 1;
+			for (String strGLIPS : m_aGLIPS) {
+				if (m_aGLIPS.size() == m_iGLIPS){
 					m_strEnd = ".";
 				}
-				sb.append("  " + strFGLIP + " "  + m_strEnd + " ");
-				m_ifGLIP++;
+				sb.append("  " + strGLIPS + " "  + m_strEnd + " ");
+				m_iGLIPS++;
 			}
 			sb.append(" \n");
 			
@@ -207,12 +208,14 @@ public class WURCSrdfSPARQLGLIPS {
 		sb.append(" \n");
 		
 //		sb.append("# LIN1\n");
+		int i_pRES = 1;
 		int m_iLINGLIPS = 0;
 		for (LIN a_oLIN : m_oWURCSArray.getLINs()){
 			
 			m_iLINGLIPS++;
 			// TODO: 
 			// <GLIPS>
+			
 			int m_iGLIPS = 0;
 			for (GLIPs a_oGLIPS : a_oLIN.getListOfGLIPs()) {
 				m_iGLIPS++;
@@ -223,11 +226,41 @@ public class WURCSrdfSPARQLGLIPS {
 				sb.append("  ?GLIPS" + this.removeChar4SPARQL(export.getGLIPsString(a_oGLIPS)) 
 						+ " wurcs:has_GLIP ?GLIP" + this.removeChar4SPARQL(export.getGLIPsString(a_oGLIPS)) + " . \n");
 				
+				// GLIP
+				sb.append("  ?GLIP");
 				for (GLIP a_oGLIP : a_oGLIPS.getGLIPs()){
-					sb.append("  ?GLIP" + this.removeChar4SPARQL(getGLIPSting(a_oGLIP)) + " wurcs:has_SC_position " + a_oGLIP.getBackbonePosition()  + " .\n");
-					sb.append("  ?GLIP" + this.removeChar4SPARQL(getGLIPSting(a_oGLIP)) + " wurcs:has_RES ?RES" + removeChar4SPARQL(a_oGLIP.getRESIndex()) + " .\n");
-					
+					sb.append(this.removeChar4SPARQL(getGLIPSting(a_oGLIP)));
 				}
+				
+				
+				String m_strEndString = " || ";
+				String strposition = "?p" + i_pRES;
+				sb.append(" wurcs:has_SC_position " + strposition + " \n");
+				sb.append(" FILTER ( ");
+				int i_glips = 1;
+				for (GLIP a_oGLIP : a_oGLIPS.getGLIPs()){
+					if (a_oGLIPS.getGLIPs().size() == i_glips ){ m_strEndString = " )\n"; }
+					sb.append(" " + strposition + " = " + a_oGLIP.getBackbonePosition()  + m_strEndString);
+					i_glips++;
+				}
+				i_pRES++;
+				
+				// GLIP
+				sb.append("  ?GLIP");
+				for (GLIP a_oGLIP : a_oGLIPS.getGLIPs()){
+					sb.append(this.removeChar4SPARQL(getGLIPSting(a_oGLIP)));
+				}
+				m_strEndString = " || ";
+				String strRes = "?res" + i_pRES;
+				sb.append(" wurcs:has_RES " + strRes + " \n");
+				sb.append(" FILTER ( ");
+				i_glips = 1;
+				for (GLIP a_oGLIP : a_oGLIPS.getGLIPs()){
+					if (a_oGLIPS.getGLIPs().size() == i_glips ){ m_strEndString = " )\n"; }
+					sb.append(" " + strRes + " = ?RES" + removeChar4SPARQL(a_oGLIP.getRESIndex()) + m_strEndString);
+					i_glips++;
+				}
+				i_pRES++;
 				
 				// isFuzzy ?
 				if (a_oGLIPS.getGLIPs().size() == 1) {
@@ -265,6 +298,6 @@ public class WURCSrdfSPARQLGLIPS {
 	
 	
 	private String removeChar4SPARQL(String a_str){
-		return a_str.replace("-", "").replace("|", "").replace("~", "Repeat").replace("%", "Pro").replaceAll("([a-zA-Z]\\?+)", "Question");
+		return a_str.replace("-", "").replace(" ", "").replace("|", "").replace("~", "Repeat").replace("%", "Pro").replaceAll("([a-zA-Z]\\?+)", "Question");
 	}
 }

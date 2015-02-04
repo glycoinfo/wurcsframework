@@ -54,7 +54,7 @@ public class GLIPSTriple {
 		for (GLIP glip : a_fglip.getGLIPs()) {
 			this.m_object_uriGIP.add(URI.getGlycoInfoGlycanURI() + a_strAccessionNumber + "/wurcs/2.0/GLIP/" + WURCSStringUtils.getURLString(export.getGLIPString(glip)));
 		}
-		if (a_fglip.getAlternativeType().length() > 0) {
+		if (a_fglip.getAlternativeType() !=null && a_fglip.getAlternativeType().length() > 0) {
 			this.m_object_strAlternative = a_fglip.getAlternativeType();
 			this.m_object_strAlternativeURI = URI.getGlycoInfoGlycanURI() + a_strAccessionNumber + "/wurcs/2.0/ALT/" + WURCSStringUtils.getURLString(a_fglip.getAlternativeType());
 		}

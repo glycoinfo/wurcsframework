@@ -6,8 +6,6 @@ import java.util.LinkedList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-
-//import org.glycoinfo.WURCSFramework.util.WURCSExporterOld;
 import org.glycoinfo.WURCSFramework.util.WURCSExporter;
 import org.glycoinfo.WURCSFramework.util.WURCSNumberUtils;
 import org.glycoinfo.WURCSFramework.util.WURCSStringUtils;
@@ -110,17 +108,18 @@ public class WURCSrdfGLIPs {
 				t_sbMonosaccharide.append("<http://rdf.glycoinfo.org/glycan/wurcs/2.0/MOD/" + WURCSStringUtils.getURLString(export.getMODString(mod)) + "> \n");
 				t_sbMonosaccharide.append("\ta	wurcs:MOD ;\n");
 
-//				if (mod.getListOfLIPs().size() > 0) endString = ";";
+//				if (mod.getLIPs().size() > 0) endString = ";";
 				endString = (mod.getListOfLIPs().size() > 0) ? ";": ".";
 				if (mod.getMAPCode().length() > 0) {
 					t_sbMonosaccharide.append("\t	wurcs:has_MAP \"" + WURCSStringUtils.getURLString(mod.getMAPCode()) + "\"^^xsd:string " + endString + "\n");
 				}
 				int j = 1;
-				for (LIPs lip: mod.getListOfLIPs()) {
+				for (LIPs lips: mod.getListOfLIPs()) {
 					endString = (mod.getListOfLIPs().size() == j) ? "." : ";";
-					t_sbMonosaccharide.append("\twurcs:has_LIP	<http://rdf.glycoinfo.org/glycan/wurcs/2.0/LIP/" + WURCSStringUtils.getURLString(export.getLIPString(lip)) + "> " + endString + "\n");
+					t_sbMonosaccharide.append("\twurcs:has_LIP	<http://rdf.glycoinfo.org/glycan/wurcs/2.0/LIP/" + WURCSStringUtils.getURLString(export.getLIPsString(lips)) + "> " + endString + "\n");
 					j++;
 				}
+				
 
 				t_sbMonosaccharide.append("\n");
 				
@@ -137,7 +136,7 @@ public class WURCSrdfGLIPs {
 	{
 			StringBuilder t_sbGlycan= new StringBuilder();
 			
-			WURCSExporterOld export = new WURCSExporterOld();
+			WURCSExporter export = new WURCSExporter();
 			
 			// # 
 			t_sbGlycan.append("##\n");

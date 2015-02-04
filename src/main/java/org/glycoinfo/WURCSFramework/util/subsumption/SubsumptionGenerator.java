@@ -9,7 +9,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.TreeMap;
 
-import org.glycoinfo.WURCSFramework.util.WURCSExporter2;
+import org.glycoinfo.WURCSFramework.util.WURCSExporter;
 import org.glycoinfo.WURCSFramework.util.WURCSImporter;
 import org.glycoinfo.WURCSFramework.wurcs.WURCSArray;
 import org.glycoinfo.WURCSFramework.wurcs.WURCSFormatException;
@@ -28,7 +28,7 @@ public class SubsumptionGenerator {
 	
 	
 	
-	WURCSExporter2 export = new WURCSExporter2();
+	WURCSExporter export = new WURCSExporter();
 	String WURCSString = export.getWURCSString(wsArray);
 	if (! input.equals(WURCSString) ) {
 		System.out.println("Change WURCS string in importer and exporter");
