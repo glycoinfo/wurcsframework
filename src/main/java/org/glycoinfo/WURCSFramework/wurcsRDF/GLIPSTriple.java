@@ -73,25 +73,25 @@ public class GLIPSTriple {
 		// wurcs:has_GLIP	<http://rdf.glycoinfo.org/glycan/GxxxxxMS/wurcs/2.0/GLIP/a2> ;
 
 		if (this.m_object_strAlternative != null && this.m_object_strAlternative != "") {
-			t_sb.append("\t" + Predicate.getPredicateString("wurcs", "has_alternativeType", a_bPrefix) + " \"" + this.m_object_strAlternative + "\"^^xsd:string " + endString + "\n");
-			t_sb.append("\t" + Predicate.getPredicateString("wurcs", "has_alternative", a_bPrefix) + " <" + this.m_object_strAlternativeURI + "> " + endString + "\n");
+			t_sb.append("\t" + Predicate_TBD.getPredicateString("wurcs", "has_alternativeType", a_bPrefix) + " \"" + this.m_object_strAlternative + "\"^^xsd:string " + endString + "\n");
+			t_sb.append("\t" + Predicate_TBD.getPredicateString("wurcs", "has_alternative", a_bPrefix) + " <" + this.m_object_strAlternativeURI + "> " + endString + "\n");
 		}
 
 		int i = 1;
 		for (String str : this.m_object_uriGIP) {
 			endString = ";";
 			//endString = (this.m_object_uriGIP.size() != i) ? ";" : ".";
-			t_sb.append("\t" + Predicate.getPredicateString("wurcs", "has_GLIP", a_bPrefix) + " <" + str + "> " + endString + "\n");
+			t_sb.append("\t" + Predicate_TBD.getPredicateString("wurcs", "has_GLIP", a_bPrefix) + " <" + str + "> " + endString + "\n");
 			i++;
 		}
 		
 		// wurcs:isFuzzy "true"^^xsd:boolean .
 		endString = ".";
 		if (i == 2) {
-			t_sb.append("\t" + Predicate.getPredicateString("wurcs", "isFuzzy", a_bPrefix) + " \"false\"^^xsd:boolean " + endString + "\n");
+			t_sb.append("\t" + Predicate_TBD.getPredicateString("wurcs", "is_fuzzy", a_bPrefix) + " \"false\"^^xsd:boolean " + endString + "\n");
 		}
 		else {
-			t_sb.append("\t" + Predicate.getPredicateString("wurcs", "isFuzzy", a_bPrefix) + " \"true\"^^xsd:boolean " + endString + "\n");
+			t_sb.append("\t" + Predicate_TBD.getPredicateString("wurcs", "is_fuzzy", a_bPrefix) + " \"true\"^^xsd:boolean " + endString + "\n");
 		}
 		
 		

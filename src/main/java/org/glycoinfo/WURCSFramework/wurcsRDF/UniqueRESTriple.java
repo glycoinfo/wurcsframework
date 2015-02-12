@@ -45,10 +45,10 @@ public class UniqueRESTriple {
 		// subject
 		sb.append("<" + a_subject_uriUniqueRES + ">\n");
 		// a glycan:glycosequence ;
-		sb.append("\ta " + Predicate.getPredicateString("wurcs", "uniqueRES", a_bPrefix) + " ;\n");
+		sb.append("\ta " + Predicate_TBD.getPredicateString("wurcs", "uniqueRES", a_bPrefix) + " ;\n");
 		
 		// wurcs:has_monosaccharide	<http://rdf.glycoinfo.org/glycan/wurcs/2.0/monosaccharide/22122h-1a_1-5> ;
-		sb.append("\t" + Predicate.getPredicateString("wurcs", "is_monosaccharide", a_bPrefix) + " <" + a_object_urimonosaccharide + "> .\n");
+		sb.append("\t" + Predicate_TBD.getPredicateString("wurcs", "is_monosaccharide", a_bPrefix) + " <" + a_object_urimonosaccharide + "> .\n");
 		
 		return sb.toString();
 	}

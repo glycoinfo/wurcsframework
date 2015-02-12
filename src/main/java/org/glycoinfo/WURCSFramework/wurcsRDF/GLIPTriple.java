@@ -59,14 +59,14 @@ public class GLIPTriple extends LIPTriple {
 		t_sb.append("<" + this.m_subject_uriGLIP + ">\n");
 		t_sb.append("\ta wurcs:GLIP ;\n");
 		// wurcs:has_RES	<http://rdf.glycoinfo.org/glycan/GxxxxxMS/wurcs/2.0/RES/c> ; 
-		t_sb.append("\t" + Predicate.getPredicateString("wurcs", "has_RES", a_bPrefix) + " <" + this.m_object_strRESIndex + "> " + endString + "\n");
+		t_sb.append("\t" + Predicate_TBD.getPredicateString("wurcs", "has_RES", a_bPrefix) + " <" + this.m_object_strRESIndex + "> " + endString + "\n");
 		if (this.m_object_strDirection != ' ')
-			t_sb.append("\t" + Predicate.getPredicateString("wurcs", "has_direction", a_bPrefix) + " \"" + this.m_object_strDirection + "\"^^xsd:string " + endString + "\n");
+			t_sb.append("\t" + Predicate_TBD.getPredicateString("wurcs", "has_direction", a_bPrefix) + " \"" + this.m_object_strDirection + "\"^^xsd:string " + endString + "\n");
 		
 		if (this.m_object_strMAPPosition != 0)
-			t_sb.append("\t" + Predicate.getPredicateString("wurcs", "has_MAP_position", a_bPrefix) + " \"" + this.m_object_strMAPPosition + "\"^^xsd:integer " + endString + "\n");
+			t_sb.append("\t" + Predicate_TBD.getPredicateString("wurcs", "has_MAP_position", a_bPrefix) + " \"" + this.m_object_strMAPPosition + "\"^^xsd:integer " + endString + "\n");
 		endString = ".";
-		t_sb.append("\t" + Predicate.getPredicateString("wurcs", "has_SC_position", a_bPrefix) + " \"" + this.m_object_strSCPosition + "\"^^xsd:integer " + endString + "\n");
+		t_sb.append("\t" + Predicate_TBD.getPredicateString("wurcs", "has_SC_position", a_bPrefix) + " \"" + this.m_object_strSCPosition + "\"^^xsd:integer " + endString + "\n");
 		t_sb.append("\n");
 		
 		return t_sb.toString();

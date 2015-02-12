@@ -16,7 +16,7 @@ import org.glycoinfo.WURCSFramework.wurcs.LINOld;
 public class LINComparatorOld implements Comparator<LINOld> {
 
 	private GLIPComparator      m_oGLIPComp      = new GLIPComparator();
-	private FuzzyGLIPComparator m_oFuzzyGLIPComp = new FuzzyGLIPComparator();
+	private FuzzyGLIPComparatorOld m_oFuzzyGLIPComp = new FuzzyGLIPComparatorOld();
 
 	@Override
 	public int compare(LINOld o1, LINOld o2) {

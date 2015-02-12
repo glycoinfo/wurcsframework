@@ -15,7 +15,7 @@ public class SaccharideTriple {
 
 	public SaccharideTriple(String  a_strAccessionNumber) {
 		this.m_subject_uriSaccharide = URI.getGlycoInfoGlycanURI() + a_strAccessionNumber;
-		this.m_Predicate_strHas_Glycosequence = Predicate.getHas_glycosequence();
+		this.m_Predicate_strHas_Glycosequence = Predicate_TBD.getHas_glycosequence();
 		this.m_object_uriGlycosequence = URI.getGlycoInfoGlycanURI() + a_strAccessionNumber + "/wurcs";
 	}
 
@@ -26,8 +26,8 @@ public class SaccharideTriple {
 		
 			sb.append("# Saccharide\n");
 			sb.append("<" + this.m_subject_uriSaccharide + ">\n");
-			sb.append("\ta " + Predicate.getPredicateString("glycan", "saccharide", a_bPrefix) + " ;\n");
-			sb.append("\t" + Predicate.getPredicateString("glycan", this.m_Predicate_strHas_Glycosequence, a_bPrefix) + " <" + this.m_object_uriGlycosequence + "> .\n");
+			sb.append("\ta " + Predicate_TBD.getPredicateString("glycan", "saccharide", a_bPrefix) + " ;\n");
+			sb.append("\t" + Predicate_TBD.getPredicateString("glycan", this.m_Predicate_strHas_Glycosequence, a_bPrefix) + " <" + this.m_object_uriGlycosequence + "> .\n");
 
 		return sb.toString();
 	}

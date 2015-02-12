@@ -14,15 +14,13 @@ import org.glycoinfo.WURCSFramework.wurcs.WURCSArray;
 import org.glycoinfo.WURCSFramework.wurcs.WURCSFormatException;
 
 public class SearchSparqlBean implements SearchSparql {
-	String strGlycoSeqVariable;
 	
 	public String getExactWhere(String sequence) throws WURCSFormatException {
-		return getWhere(sequence);
+		return getWhere(sequence, null);
 	}
 
-	public String getWhere(String a_strWURCS)
+	public String getWhere(String a_strWURCS, String strGlycoSeqVariable)
 			throws WURCSFormatException {
-		
 		String m_strHED = "";
 		int m_iPosition = 1;
 		String strSPAQRL = "";
@@ -181,15 +179,6 @@ public class SearchSparqlBean implements SearchSparql {
 		strSPAQRL = sb.toString();
 
 		return strSPAQRL;
-	}
-
-	@Override
-	public void setGlycoSequenceVariable(String strGlycoSeqVariable) {
-		this.strGlycoSeqVariable = strGlycoSeqVariable;
-	}
-
-	public String getGlycoSequenceVariable() {
-		return strGlycoSeqVariable;
 	}
 
 	private String getGLIPSting(GLIP a_oGLIP) {

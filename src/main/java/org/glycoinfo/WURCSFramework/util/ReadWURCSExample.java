@@ -25,7 +25,7 @@ public class ReadWURCSExample {
 		if(input == null || input.equals("")) throw new Exception();
 		
 		TreeMap<Integer, String> wurcsIndex = new TreeMap<Integer, String>();
-		WURCSImporterOld ws = new WURCSImporterOld();
+		WURCSImporter ws = new WURCSImporter();
 		File file = new File(input);
 		
 		if(file.isFile()) {

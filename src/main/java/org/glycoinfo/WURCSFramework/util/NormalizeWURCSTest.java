@@ -14,7 +14,7 @@ public class NormalizeWURCSTest {
 
 	public static void main(String[] args) {
 
-		String t_strWURCSFile = "20150129result-GlyTouCan_GlycoCTmfWURCS.txt";
+		String t_strWURCSFile = "20150210result-GlyTouCan_GlycoCTmfWURCS.txt";
 		String input = "src/org/glycoinfo/WURCSFramework/testresource/" + t_strWURCSFile;
 
 		TreeMap<String, String> t_mapWURCSIndex = new TreeMap<String, String>();

@@ -4,6 +4,7 @@ import java.util.LinkedList;
 
 import org.glycoinfo.WURCSFramework.util.WURCSExporter;
 import org.glycoinfo.WURCSFramework.util.WURCSStringUtils;
+import org.glycoinfo.WURCSFramework.util.rdf.WURCSBaseType;
 import org.glycoinfo.WURCSFramework.wurcs.LIN;
 import org.glycoinfo.WURCSFramework.wurcs.UniqueRES;
 import org.glycoinfo.WURCSFramework.wurcs.WURCSArray;
@@ -41,6 +42,7 @@ public class GlycosequenceTriple {
 	private String m_object_a = "glycan:glycosequence";
 	private LinkedList<String> m_object_uniqueRESIndexs = new LinkedList<String>();
 	private LinkedList<String> m_object_monosaccharides = new LinkedList<String>();
+	private LinkedList<String> m_object_basetypes = new LinkedList<String>();
 	private LinkedList<String> m_object_LINs = new LinkedList<String>();
 	private String m_object_uriHas_root_RES;
 	private String m_object_strWURCS;
@@ -60,17 +62,20 @@ public class GlycosequenceTriple {
 //		System.out.println("\nout: " + m_object_strWURCS);
 		
 		
-		for (UniqueRES uRES : a_objWURCS.getUniqueRESs()){
+		for (UniqueRES t_oURES : a_objWURCS.getUniqueRESs()){
 			// object of wurcs:has_uniqueRES
 			//this.m_object_uniqueRESIndexs.add(t_strWURCS2 + "uniqueRES/" + String.valueOf(uRES.getUniqueRESID()));
-			this.m_object_uniqueRESIndexs.add(t_strWURCS2 + "uniqueRES/" + uRES.getUniqueRESID());
+			this.m_object_uniqueRESIndexs.add(t_strWURCS2 + "uniqueRES/" + t_oURES.getUniqueRESID());
 			
 			// object of wurcs:has_monosaccharide
-			this.m_object_monosaccharides.add(m_strObjectURI + "2.0/monosaccharide/" + WURCSStringUtils.getURLString(export.getUniqueRESString(uRES)));
+			this.m_object_monosaccharides.add(m_strObjectURI + "2.0/monosaccharide/" + WURCSStringUtils.getURLString(export.getUniqueRESString(t_oURES)));
+			
+			
+			this.m_object_basetypes.add(m_strObjectURI + "2.0/basetype/" + WURCSStringUtils.getURLString(WURCSBaseType.getBaseType(t_oURES)));
 			
 //			System.out.println("uRES.getUniqueRESID(): " + uRES.getUniqueRESID());
 			
-			if (uRES.getUniqueRESID() == 1){
+			if (t_oURES.getUniqueRESID() == 1){
 				// object of wurcs:has_root_RES <http://rdf.glycoinfo.org/glycan/GxxxxxMS/wurcs/2.0/RES/a> ;
 				this.m_object_uriHas_root_RES = t_strWURCS2 + "RES/a";
 			}
@@ -92,43 +97,50 @@ public class GlycosequenceTriple {
 		// subject
 		sb.append("<" + this.m_subject_uriGlycosequence + ">\n");
 		// a glycan:glycosequence ;
-		sb.append("\ta " + Predicate.getPredicateString("glycan", "glycosequence", a_bPrefix) + " ;\n");
+		sb.append("\ta " + Predicate_TBD.getPredicateString("glycan", "glycosequence", a_bPrefix) + " ;\n");
 		
 		// wurcs:uniqueRES_count
-		sb.append("\t" + Predicate.getPredicateString("wurcs", Predicate.getUniqueRES_count(), a_bPrefix) + " \"" + a_objWURCS.getUniqueRESCount() + "\"^^xsd:integer ;\n");
+		sb.append("\t" + Predicate_TBD.getPredicateString("wurcs", Predicate_TBD.getUniqueRES_count(), a_bPrefix) + " \"" + a_objWURCS.getUniqueRESCount() + "\"^^xsd:integer ;\n");
 		// wurcs:RES_count
-		sb.append("\t" + Predicate.getPredicateString("wurcs", Predicate.getRES_count(), a_bPrefix) + " \"" + a_objWURCS.getRESCount() + "\"^^xsd:integer ;\n");
+		sb.append("\t" + Predicate_TBD.getPredicateString("wurcs", Predicate_TBD.getRES_count(), a_bPrefix) + " \"" + a_objWURCS.getRESCount() + "\"^^xsd:integer ;\n");
 		
 		// wurcs:LIN_count
-		sb.append("\t" + Predicate.getPredicateString("wurcs", Predicate.getLIN_count(), a_bPrefix) + " \"" + a_objWURCS.getLINCount() + "\"^^xsd:integer ;\n");
+		sb.append("\t" + Predicate_TBD.getPredicateString("wurcs", Predicate_TBD.getLIN_count(), a_bPrefix) + " \"" + a_objWURCS.getLINCount() + "\"^^xsd:integer ;\n");
 
 		// has_root_RES
 		// this.m_object_uriHas_root_RES
-		sb.append("\t" + Predicate.getPredicateString("wurcs", Predicate.getHas_root_RES(), a_bPrefix) + " <" + this.m_object_uriHas_root_RES + "> ;\n");
+		sb.append("\t" + Predicate_TBD.getPredicateString("wurcs", Predicate_TBD.getHas_root_RES(), a_bPrefix) + " <" + this.m_object_uriHas_root_RES + "> ;\n");
 		
 		
 		
-		for (String ures : m_object_uniqueRESIndexs) {
+		for (String ures : this.m_object_uniqueRESIndexs) {
 			// wurcs:has_uniqueRES <http://rdf.glycoinfo.org/glycan/GxxxxxMS/wurcs/2.0/uniqueRES/1> ;
-			sb.append("\t" + Predicate.getPredicateString("wurcs", "has_uniqueRES", a_bPrefix) + " <" + ures + "> ;\n");
+			sb.append("\t" + Predicate_TBD.getPredicateString("wurcs", "has_uniqueRES", a_bPrefix) + " <" + ures + "> ;\n");
 		}
 		
-		for (String mss : m_object_monosaccharides) {
+		for (String mss : this.m_object_monosaccharides) {
 			// wurcs:has_monosaccharide	<http://rdf.glycoinfo.org/glycan/wurcs/2.0/monosaccharide/22122h-1a_1-5> ;
-			sb.append("\t" + Predicate.getPredicateString("wurcs", "has_monosaccharide", a_bPrefix) + " <" + mss + "> ;\n");
+			sb.append("\t" + Predicate_TBD.getPredicateString("wurcs", "has_monosaccharide", a_bPrefix) + " <" + mss + "> ;\n");
 		}
+		
+		
+		for (String bts : this.m_object_basetypes) {
+			sb.append("\t" + Predicate_TBD.getPredicateString("wurcs", "has_basetype", a_bPrefix) + " <" + bts + "> ;\n");
+		}
+		
+		
 				
-		for (String lin : m_object_LINs) {
+		for (String lin : this.m_object_LINs) {
 			// wurcs:has_LIN <http://rdf.glycoinfo.org/glycan/GxxxxxMS/wurcs/2.0/LIN/b1-a2%7Ca4> ;
-			sb.append("\t" + Predicate.getPredicateString("wurcs", "has_LIN", a_bPrefix) + " <" + lin + "> ;\n");
+			sb.append("\t" + Predicate_TBD.getPredicateString("wurcs", "has_LIN", a_bPrefix) + " <" + lin + "> ;\n");
 		}		
 		
 		// glycan:has_sequence
-		sb.append("\t" + Predicate.getPredicateString("glycan", Predicate.getHas_sequence(), a_bPrefix) + " \"" + this.m_object_strWURCS + "\"^^xsd:string ;\n");
+		sb.append("\t" + Predicate_TBD.getPredicateString("glycan", Predicate_TBD.getHas_sequence(), a_bPrefix) + " \"" + this.m_object_strWURCS + "\"^^xsd:string ;\n");
 		// glycan:in_carbohydrate_format 
-		sb.append("\t" + Predicate.getPredicateString("glycan", Predicate.getIn_carbohydrate_format(), a_bPrefix) + " " + Predicate.getPredicateString("glycan", Predicate.getCarbohydrate_format_wurcs(), a_bPrefix) + " ;\n");
+		sb.append("\t" + Predicate_TBD.getPredicateString("glycan", Predicate_TBD.getIn_carbohydrate_format(), a_bPrefix) + " " + Predicate_TBD.getPredicateString("glycan", Predicate_TBD.getCarbohydrate_format_wurcs(), a_bPrefix) + " ;\n");
 		// owl:sameAs
-		sb.append("\t" + Predicate.getPredicateString("owl", "sameAs", a_bPrefix) + " <" + this.m_object_sameAs + "> .\n");
+		sb.append("\t" + Predicate_TBD.getPredicateString("owl", "sameAs", a_bPrefix) + " <" + this.m_object_sameAs + "> .\n");
 		
 		return sb.toString();
 	}

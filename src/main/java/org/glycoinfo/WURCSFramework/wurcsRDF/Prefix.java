@@ -78,6 +78,7 @@ public class Prefix {
 	 */
 	public static String getPrefixs(){
 		StringBuilder sb = new StringBuilder();
+		sb.append("# WURCS-RDF ver 2015.02.10\n");
 		// @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .\n
 		sb.append("@prefix "); sb.append(m_strRdfs); sb.append(": <"); sb.append(m_strRdfsURI); sb.append("> . \n");
 		sb.append("@prefix "); sb.append(m_strXsd); sb.append(": <"); sb.append(m_strXsdURI); sb.append("> . \n");

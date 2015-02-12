@@ -27,9 +27,9 @@ public class WURCSrdfExampleGLIPs {
 				"a4-b1_a6-j1_b4-c1_d2-e1_e4-f1_g2-h1_h4-i1_d1-c3|c6_g1-c3|c6";
 
 		//input = "src/org/glycoinfo/WURCSFramework/testresource/20150121result-GlycomeDB_GlycoCTmfWURCS.txt";
-		String file_WURCS = "20150129result-GlyTouCan_GlycoCTmfWURCS.txt";
+		String file_WURCS = "20150210result-GlyTouCan_GlycoCTmfWURCS.txt";
 		
-		file_WURCS = "20150130_SPARQ-test1LWURCS.txt";
+//		file_WURCS = "20150130_SPARQ-test1LWURCS.txt";
 		
 		input = "src/org/glycoinfo/WURCSFramework/testresource/" + file_WURCS;
 		
@@ -58,8 +58,8 @@ public class WURCSrdfExampleGLIPs {
 //		input = "62	WURCS=2.0/2,4,3/[h5122h-2b_2-5][22122h-1a_1-5]/1-2-1-1/a2-b1_b6-c2_c1-d2|d4";
 
 		// basetype sample
-//		input = "WURCS=2.0/4,4,3/[12122h-1b_1-5_2*OCC/3=O][11221m-1a_1-5][12112h-1b_1-5][a6d21122h-2a_2-6_5*NCC/3=O]/1-2-3-4/a3-b1_a4-c1_c3|c4|c6-d2~n";
-		
+		input = "WURCS=2.0/4,4,3/[12122h-1b_1-5_2*OCC/3=O][<11221m>][12112h-1b_1-5][a6d21122h-2a_2-6_5*NCC/3=O]/1-2-3-4/a3-b1_a4-c1_c3|c4|c6-d2~n";
+//		input = "WURCS=2.0/2,4,3/[x122h-1x_1-4][x<nx>h-?x_?-?]/1-1-2-2/a5-b1_b3-c1_b5-d1";
 		
 		int i_SPARQLtestID = -1;
 		switch (i_SPARQLtestID) {

@@ -16,7 +16,7 @@ import org.glycoinfo.WURCSFramework.wurcs.MODOld;
 public class MODComparatorOld implements Comparator<MODOld> {
 
 	private LIPComparator      m_oLIPComp      = new LIPComparator();
-	private FuzzyLIPComparator m_oFuzzyLIPComp = new FuzzyLIPComparator();
+	private FuzzyLIPComparatorOld m_oFuzzyLIPComp = new FuzzyLIPComparatorOld();
 
 	@Override
 	public int compare(MODOld o1, MODOld o2) {

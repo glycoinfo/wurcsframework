@@ -12,12 +12,15 @@ public class WURCSStringUtils {
 	 */
 	public static String getURLString(String a_strUrl){
 		
+		String a_strUrl3 = "";
 		try {
-			a_strUrl = URLEncoder.encode(a_strUrl,"utf-8");
+			String a_strUrl1 = URLEncoder.encode(a_strUrl,"utf-8");
+			String a_strUrl2 = a_strUrl1.replaceAll("<", "%3C");
+			a_strUrl3 = a_strUrl2.replaceAll(">", "%3E");
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-		return a_strUrl;
+		return a_strUrl3;
 	}
 
 

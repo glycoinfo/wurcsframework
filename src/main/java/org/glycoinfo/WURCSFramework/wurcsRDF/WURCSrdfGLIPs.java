@@ -66,11 +66,30 @@ public class WURCSrdfGLIPs {
 			t_sbMonosaccharide.append("\ta	wurcs:monosaccharide ; \n");
 			
 			
-			//getBaseType
+			
+
+			// RING information for pyranose, furanose
+			for (MOD mod : uRes.getMODs()) {
+				
+				for (LIPs lips : mod.getListOfLIPs() ) {
+					for (LIP lip : lips.getLIPs()) {
+						if (uRes.getAnomericPosition() == lip.getBackbonePosition()){
+							t_sbMonosaccharide.append("\twurcs:has_ring	<http://rdf.glycoinfo.org/glycan/wurcs/2.0/MOD/" + WURCSStringUtils.getURLString(export.getMODString(mod)) + "> ;\n");
+						}
+					}
+				}
+			}
+			
+			
+			
+			//BaseType
 			t_sbMonosaccharide.append("\twurcs:has_BaseType	<http://rdf.glycoinfo.org/glycan/wurcs/2.0/BaseType/" 
 					+ WURCSStringUtils.getURLString(WURCSBaseType.getBaseType( uRes )) + "> ;\n");
 			
 			
+			
+//			System.out.println("BaseType:" + WURCSBaseType.getBaseType( uRes ));
+//			System.out.println("getURLString.BaseType:" + WURCSStringUtils.getURLString(WURCSBaseType.getBaseType( uRes )));
 			// getBiologicalMonosacccharide
 //			t_sbMonosaccharide.append("\twurcs:has_BiologicalMonosacccharide	<http://rdf.glycoinfo.org/glycan/wurcs/2.0/BiologicalMonosacccharide/" 
 //					+ WURCSStringUtils.getURLString(this.getBiologicalMonosacccharide( uRes )) + "> ;\n");
@@ -92,6 +111,19 @@ public class WURCSrdfGLIPs {
 			t_sbMonosaccharide.append("\n");
 			i++;
 		}
+		
+		// basetype
+		t_sbMonosaccharide.append("# BaseType\n");
+		for (UniqueRES uRes : a_aUniqueRESs) {
+			//getBaseType
+			t_sbMonosaccharide.append("<http://rdf.glycoinfo.org/glycan/wurcs/2.0/BaseType/" + WURCSStringUtils.getURLString(WURCSBaseType.getBaseType( uRes )) + ">\n");
+			t_sbMonosaccharide.append("\twurcs:BaseType\t\"" + WURCSBaseType.getBaseType( uRes ) + "\"^^xsd:string .\n");
+		}
+		t_sbMonosaccharide.append("\n");
+		
+		
+		
+		
 		
 		t_sbMonosaccharide.append("# MOD\n");
 		// MOD

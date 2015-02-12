@@ -11,7 +11,7 @@ import java.util.TreeMap;
 import org.glycoinfo.WURCSFramework.util.WURCSImporter;
 import org.glycoinfo.WURCSFramework.util.rdf.WURCSrdfSPARQLGLIPS;
 import org.glycoinfo.WURCSFramework.util.rdf.WURCSrdfSPARQLGLIPS_ESM;
-import org.glycoinfo.WURCSFramework.util.rdf.WURCSrdfSPARQLGLIPS_SSM;
+import org.glycoinfo.WURCSFramework.util.rdf.WURCSrdfSPARQLGLIPS_SSM_TBD;
 import org.glycoinfo.WURCSFramework.wurcs.WURCSArray;
 //import org.glycoinfo.WURCSFramework.wurcsRDF.WURCSrdf;
 
@@ -56,22 +56,22 @@ public class WURCSsparqlExampleGLIPS {
 		//input = "WURCS=2.0/4,4,3/[12122h-1b_1-5_2*NCC/3=O][11221m-1a_1-5][12112h-1b_1-5][a6d21122h-2a_2-6_5*NCC/3=O]/1-2-3-4/a3|a4-b1_a2|a3|a4-c1_c3-d2~n";
 		
 		// G19577NS
-//		input = "WURCS=2.0/5,7,7/[x2122h-1x_1-5_2*NCC/3=O][11221m-1a_1-5][12112h-1b_1-5][12122h-1b_1-5_2*NCC/3=O][a6d21122h-2a_2-6_5*NCC/3=O]/1-2-3-4-2-3-5/a3-b1_a4-c1_c3-d1_d3-e1_d4-f1_f3-g2_d1-f3~n";
+		input = "WURCS=2.0/5,7,7/[x2122h-1x_1-5_2*NCC/3=O][11221m-1a_1-5][12112h-1b_1-5][12122h-1b_1-5_2*NCC/3=O][a6d21122h-2a_2-6_5*NCC/3=O]/1-2-3-4-2-3-5/a3-b1_a4-c1_c3-d1_d3-e1_d4-f1_f3-g2_d1-f3~n";
 		
 		
 		// FuzzyGLIP test sample
 		// glytoucan.org: G09117NC
 //		input = "WURCS=2.0/4,8,7/[12122h-1b_1-5_2*NCC/3=O][22112m-1a_1-5][11122h-1b_1-5][21122h-1a_1-5]/1-2-1-3-4-4-2-1/a3-b1_a4-c1_a6-g1_c4-d1_d3-e1_d6-f1_h1-e2|e4|e6";
 
-		// ESM, SSM, FSM, PM
-		String m_strSearchOption = "ESM";
-		WURCSrdfSPARQLGLIPS_ESM sql = new WURCSrdfSPARQLGLIPS_ESM();
-//		String m_strSearchOption = "SSM";
-//		WURCSrdfSPARQLGLIPS_SSM sql = new WURCSrdfSPARQLGLIPS_SSM();
+//		// ESM, SSM, FSM, PM
+//		String m_strSearchOption = "ESM";
+//		WURCSrdfSPARQLGLIPS_ESM sql = new WURCSrdfSPARQLGLIPS_ESM();
+		String m_strSearchOption = "SSM";
+		WURCSrdfSPARQLGLIPS_SSM_TBD sql = new WURCSrdfSPARQLGLIPS_SSM_TBD();
 //		String m_strSearchOption = "FSM or PM";
 //		WURCSrdfSPARQLGLIPS sql = new WURCSrdfSPARQLGLIPS();
 
-		int i_SPARQLtestID = 4;
+		int i_SPARQLtestID =10;
 		
 		switch (i_SPARQLtestID) {
 		case 1 :
@@ -114,7 +114,7 @@ public class WURCSsparqlExampleGLIPS {
 		t_aOption.add("uri");
 		t_aOption.add("wurcs");
 		t_aOption.add("LIMIT 100");
-		t_aOption.add("FROM <http://www.glycoinfo.org/graph/wurcs/0.3.3>");
+		t_aOption.add("FROM <http://www.glycoinfo.org/graph/wurcs/0.4.1>");
 //		t_aOption.add("accession_number");
 		t_aOption.add(m_strSearchOption);
 		t_aOption.add("TEST_ID:" + String.valueOf(i_SPARQLtestID));

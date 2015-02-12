@@ -98,16 +98,16 @@ public class RESTriple {
 				if (i == 1) {
 					// Subject
 					t_sbRES.append("<" + s + "> \n");
-					t_sbRES.append("\ta " + Predicate.getPredicateString("wurcs", "RES", a_bPrefix) + " ;\n");
+					t_sbRES.append("\ta " + Predicate_TBD.getPredicateString("wurcs", "RES", a_bPrefix) + " ;\n");
 					
 				}
 				else if (i == 2) {
 					//wurcs:is_uniqueRES
-					t_sbRES.append("\t" + Predicate.getPredicateString("wurcs", "is_uniqueRES", a_bPrefix) + " <" + s + "> " + endString + "\n");
+					t_sbRES.append("\t" + Predicate_TBD.getPredicateString("wurcs", "is_uniqueRES", a_bPrefix) + " <" + s + "> " + endString + "\n");
 				}
 				else {
 				// wurcs:has_LIN
-					t_sbRES.append("\t" + Predicate.getPredicateString("wurcs", "has_LIN", a_bPrefix) + " <" + s + "> " + endString + "\n");
+					t_sbRES.append("\t" + Predicate_TBD.getPredicateString("wurcs", "has_LIN", a_bPrefix) + " <" + s + "> " + endString + "\n");
 				}
 				i++;
 			}
@@ -115,4 +115,6 @@ public class RESTriple {
 		}
 		return t_sbRES.toString();
 	}
+	
+	
 }

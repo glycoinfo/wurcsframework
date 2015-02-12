@@ -17,7 +17,8 @@ public class TestWURCSIO {
 		WURCSImporter t_objImporter = new WURCSImporter();
 		WURCSArray t_objWURCS;
 		try {
-			t_objWURCS = t_objImporter.extractWURCSArray(input.substring(input.indexOf("W")));
+			// Import WURCS without error messages
+			t_objWURCS = t_objImporter.extractWURCSArray(input.substring(input.indexOf("WURCS=")));
 			WURCSExporter export = new WURCSExporter();
 			String WURCSString = export.getWURCSString(t_objWURCS);
 			System.out.println(input);
