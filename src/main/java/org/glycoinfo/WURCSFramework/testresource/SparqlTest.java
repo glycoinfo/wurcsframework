@@ -10,6 +10,7 @@ import java.util.TreeMap;
 
 import org.glycoinfo.WURCSFramework.util.WURCSImporter;
 import org.glycoinfo.WURCSFramework.util.rdf.SearchSparql;
+import org.glycoinfo.WURCSFramework.util.rdf.SearchSparqlBean;
 import org.glycoinfo.WURCSFramework.util.rdf.WURCSrdfSPARQLGLIPS;
 import org.glycoinfo.WURCSFramework.util.rdf.WURCSrdfSPARQLGLIPS_ESM;
 import org.glycoinfo.WURCSFramework.util.rdf.WURCSrdfSPARQLGLIPS_SSM;
@@ -123,9 +124,8 @@ public class SparqlTest {
 		}
 		// TODO:
 
-		SearchSparql sparql = new SearchSparql();
-		String output = sparql.getWhere(input, "gseq");
-
+		SearchSparql sparql = new SearchSparqlBean();
+		String output = sparql.getExactWhere(input);
 		System.out.println(output);
 	}
 
