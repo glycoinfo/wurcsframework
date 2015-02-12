@@ -1,19 +1,8 @@
 package org.glycoinfo.WURCSFramework.testresource;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.LinkedList;
-import java.util.TreeMap;
-
-import org.glycoinfo.WURCSFramework.util.WURCSImporter;
 import org.glycoinfo.WURCSFramework.util.rdf.SearchSparql;
-import org.glycoinfo.WURCSFramework.util.rdf.WURCSrdfSPARQLGLIPS;
+import org.glycoinfo.WURCSFramework.util.rdf.SearchSparqlBean;
 import org.glycoinfo.WURCSFramework.util.rdf.WURCSrdfSPARQLGLIPS_ESM;
-import org.glycoinfo.WURCSFramework.util.rdf.WURCSrdfSPARQLGLIPS_SSM;
-import org.glycoinfo.WURCSFramework.wurcs.WURCSArray;
 
 //import org.glycoinfo.WURCSFramework.wurcsRDF.WURCSrdf;
 
@@ -123,9 +112,9 @@ public class SparqlTest {
 		}
 		// TODO:
 
-		SearchSparql sparql = new SearchSparql();
-		String output = sparql.getWhere(input, "gseq");
-
+		SearchSparql sparql = new SearchSparqlBean();
+		sparql.setGlycoSequenceVariable("gseq");
+		String output = sparql.getExactWhere(input);
 		System.out.println(output);
 	}
 
