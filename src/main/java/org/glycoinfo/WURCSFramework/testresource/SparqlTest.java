@@ -124,7 +124,8 @@ public class SparqlTest {
 		}
 		// TODO:
 
-		SearchSparql sparql = new SearchSparqlBean();
+		SearchSparqlBean sparql = new SearchSparqlBean();
+		sparql.setGlycoSequenceVariable("gseq");
 		String output = sparql.getExactWhere(input);
 		System.out.println(output);
 	}
