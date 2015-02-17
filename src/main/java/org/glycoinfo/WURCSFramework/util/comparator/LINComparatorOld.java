@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
 
-import org.glycoinfo.WURCSFramework.wurcs.FuzzyGLIP;
+import org.glycoinfo.WURCSFramework.wurcs.FuzzyGLIPOld;
 import org.glycoinfo.WURCSFramework.wurcs.GLIP;
 import org.glycoinfo.WURCSFramework.wurcs.LINOld;
 
@@ -81,13 +81,13 @@ public class LINComparatorOld implements Comparator<LINOld> {
 		}
 
 		//For each FuzzyGLIP
-		LinkedList<FuzzyGLIP> t_aFGLIPs1 = o1.getFuzzyGLIPs();
-		LinkedList<FuzzyGLIP> t_aFGLIPs2 = o2.getFuzzyGLIPs();
+		LinkedList<FuzzyGLIPOld> t_aFGLIPs1 = o1.getFuzzyGLIPs();
+		LinkedList<FuzzyGLIPOld> t_aFGLIPs2 = o2.getFuzzyGLIPs();
 		Collections.sort(t_aFGLIPs1, this.m_oFuzzyGLIPComp);
 		Collections.sort(t_aFGLIPs2, this.m_oFuzzyGLIPComp);
 		for ( int i=0; i<t_nFGLIP1; i++ ) {
-			FuzzyGLIP t_oFGLIP1 = t_aFGLIPs1.get(i);
-			FuzzyGLIP t_oFGLIP2 = t_aFGLIPs2.get(i);
+			FuzzyGLIPOld t_oFGLIP1 = t_aFGLIPs1.get(i);
+			FuzzyGLIPOld t_oFGLIP2 = t_aFGLIPs2.get(i);
 			if ( this.m_oFuzzyGLIPComp.compare(t_oFGLIP1, t_oFGLIP2) != 0 )
 				return this.m_oFuzzyGLIPComp.compare(t_oFGLIP1, t_oFGLIP2);
 		}		return 0;
@@ -107,7 +107,7 @@ public class LINComparatorOld implements Comparator<LINOld> {
 			if ( t_oGLIP.getBackboneProbabilityLower() != 1 || t_oGLIP.getModificationProbabilityLower() != 1 )
 				t_nProb++;
 		}
-		for ( FuzzyGLIP t_oFGLIP : a_oLIN.getFuzzyGLIPs() ) {
+		for ( FuzzyGLIPOld t_oFGLIP : a_oLIN.getFuzzyGLIPs() ) {
 			for ( GLIP t_oGLIP : t_oFGLIP.getGLIPs() ) {
 				if ( t_oGLIP.getBackboneProbabilityLower() != 1 || t_oGLIP.getModificationProbabilityLower() != 1 )
 					t_nProb++;
@@ -122,7 +122,7 @@ public class LINComparatorOld implements Comparator<LINOld> {
 			if ( t_oGLIP.getBackbonePosition() == -1 )
 				t_nUnkown++;
 		}
-		for ( FuzzyGLIP t_oFGLIP : a_oLIN.getFuzzyGLIPs() ) {
+		for ( FuzzyGLIPOld t_oFGLIP : a_oLIN.getFuzzyGLIPs() ) {
 			for ( GLIP t_oGLIP : t_oFGLIP.getGLIPs() ) {
 				if ( t_oGLIP.getBackbonePosition() == -1 )
 					t_nUnkown++;
@@ -133,7 +133,7 @@ public class LINComparatorOld implements Comparator<LINOld> {
 
 	private int countFuzzy(LINOld a_oLIN) {
 		int t_nFuzzy = 0;
-		for ( FuzzyGLIP t_oFGLIP : a_oLIN.getFuzzyGLIPs() ) {
+		for ( FuzzyGLIPOld t_oFGLIP : a_oLIN.getFuzzyGLIPs() ) {
 			t_nFuzzy += t_oFGLIP.getGLIPs().size();
 		}
 		return t_nFuzzy;

@@ -6,7 +6,7 @@ public class LINOld extends MODAbstract {
 
 	//private LinkedList<GLIPInterface> m_aGLIPs = new LinkedList<GLIPInterface>();
 	private LinkedList<GLIP> m_aGLIPs = new LinkedList<GLIP>();
-	private LinkedList<FuzzyGLIP> m_aFuzzyGLIPs = new LinkedList<FuzzyGLIP>();
+	private LinkedList<FuzzyGLIPOld> m_aFuzzyGLIPs = new LinkedList<FuzzyGLIPOld>();
 
 	private boolean m_bIsRepeatingUnit = false;
 	private int m_strMinRepeatCount = 0;
@@ -24,7 +24,7 @@ public class LINOld extends MODAbstract {
 		this.m_aGLIPs.addLast(a_oGLIP);
 	}
 
-	public void addFuzzyGLIP(FuzzyGLIP a_oFuzzyGLIP) {
+	public void addFuzzyGLIP(FuzzyGLIPOld a_oFuzzyGLIP) {
 		this.m_aFuzzyGLIPs.addLast(a_oFuzzyGLIP);
 	}
 
@@ -64,7 +64,7 @@ public class LINOld extends MODAbstract {
 		return this.m_aGLIPs;
 	}
 
-	public LinkedList<FuzzyGLIP> getFuzzyGLIPs() {
+	public LinkedList<FuzzyGLIPOld> getFuzzyGLIPs() {
 		return this.m_aFuzzyGLIPs;
 	}
 

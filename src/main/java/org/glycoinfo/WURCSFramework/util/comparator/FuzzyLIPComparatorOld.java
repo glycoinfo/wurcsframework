@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
 
-import org.glycoinfo.WURCSFramework.wurcs.FuzzyLIP;
+import org.glycoinfo.WURCSFramework.wurcs.FuzzyLIPOld;
 import org.glycoinfo.WURCSFramework.wurcs.LIP;
 
 /**
@@ -12,12 +12,12 @@ import org.glycoinfo.WURCSFramework.wurcs.LIP;
  * @author MasaakiMatsubara
  *
  */
-public class FuzzyLIPComparatorOld implements Comparator<FuzzyLIP> {
+public class FuzzyLIPComparatorOld implements Comparator<FuzzyLIPOld> {
 
 	private LIPComparator m_oLIPComp = new LIPComparator();
 
 	@Override
-	public int compare(FuzzyLIP o1, FuzzyLIP o2) {
+	public int compare(FuzzyLIPOld o1, FuzzyLIPOld o2) {
 		// For number of LIP (prioritize smaller number of LIP)
 		int t_nLIP1 = o1.getLIPs().size();
 		int t_nLIP2 = o2.getLIPs().size();

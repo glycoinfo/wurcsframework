@@ -10,7 +10,7 @@ import org.glycoinfo.WURCSFramework.util.WURCSExporter;
 import org.glycoinfo.WURCSFramework.util.WURCSExporter;
 import org.glycoinfo.WURCSFramework.util.WURCSNumberUtils;
 import org.glycoinfo.WURCSFramework.util.WURCSStringUtils;
-import org.glycoinfo.WURCSFramework.wurcs.FuzzyGLIP;
+import org.glycoinfo.WURCSFramework.wurcs.FuzzyGLIPOld;
 import org.glycoinfo.WURCSFramework.wurcs.GLIP;
 import org.glycoinfo.WURCSFramework.wurcs.GLIPs;
 import org.glycoinfo.WURCSFramework.wurcs.LIN;
@@ -82,7 +82,7 @@ public class WURCSBaseType {
 				for (MOD mod : uRes.getMODs()) {
 					// remove modification of a hydrogen on OH groups. 
 					// remove ring modification
-					if (mod.getMAPCode().startsWith("*") && !mod.getMAPCode().startsWith("*O") )
+					if (mod.getMAPCode().startsWith("*") && !mod.getMAPCode().startsWith("*O") && !mod.getMAPCode().startsWith("*=O") )
 						t_sbMod.append("_" + export.getMODString(mod));
 				}
 			}

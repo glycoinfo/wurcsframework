@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
 
-import org.glycoinfo.WURCSFramework.wurcs.FuzzyLIP;
+import org.glycoinfo.WURCSFramework.wurcs.FuzzyLIPOld;
 import org.glycoinfo.WURCSFramework.wurcs.LIP;
 import org.glycoinfo.WURCSFramework.wurcs.MODOld;
 
@@ -65,13 +65,13 @@ public class MODComparatorOld implements Comparator<MODOld> {
 		}
 
 		//For each FuzzyLIP
-		LinkedList<FuzzyLIP> t_aFLIPs1 = o1.getFuzzyLIPs();
-		LinkedList<FuzzyLIP> t_aFLIPs2 = o2.getFuzzyLIPs();
+		LinkedList<FuzzyLIPOld> t_aFLIPs1 = o1.getFuzzyLIPs();
+		LinkedList<FuzzyLIPOld> t_aFLIPs2 = o2.getFuzzyLIPs();
 		Collections.sort(t_aFLIPs1, this.m_oFuzzyLIPComp);
 		Collections.sort(t_aFLIPs2, this.m_oFuzzyLIPComp);
 		for ( int i=0; i<t_nFLIP1; i++ ) {
-			FuzzyLIP t_oFLIP1 = t_aFLIPs1.get(i);
-			FuzzyLIP t_oFLIP2 = t_aFLIPs2.get(i);
+			FuzzyLIPOld t_oFLIP1 = t_aFLIPs1.get(i);
+			FuzzyLIPOld t_oFLIP2 = t_aFLIPs2.get(i);
 			if ( this.m_oFuzzyLIPComp.compare(t_oFLIP1, t_oFLIP2) != 0 )
 				return this.m_oFuzzyLIPComp.compare(t_oFLIP1, t_oFLIP2);
 		}
@@ -85,7 +85,7 @@ public class MODComparatorOld implements Comparator<MODOld> {
 			if ( t_oLIP.getBackboneProbabilityLower() != 1 || t_oLIP.getModificationProbabilityLower() != 1 )
 				t_nProb++;
 		}
-		for ( FuzzyLIP t_oFLIP : a_oMOD.getFuzzyLIPs() ) {
+		for ( FuzzyLIPOld t_oFLIP : a_oMOD.getFuzzyLIPs() ) {
 			for ( LIP t_oLIP : t_oFLIP.getLIPs() ) {
 				if ( t_oLIP.getBackboneProbabilityLower() != 1 || t_oLIP.getModificationProbabilityLower() != 1 )
 					t_nProb++;
@@ -100,7 +100,7 @@ public class MODComparatorOld implements Comparator<MODOld> {
 			if ( t_oLIP.getBackbonePosition() == -1 )
 				t_nUnkown++;
 		}
-		for ( FuzzyLIP t_oFLIP : a_oMOD.getFuzzyLIPs() ) {
+		for ( FuzzyLIPOld t_oFLIP : a_oMOD.getFuzzyLIPs() ) {
 			for ( LIP t_oLIP : t_oFLIP.getLIPs() ) {
 				if ( t_oLIP.getBackbonePosition() == -1 )
 					t_nUnkown++;
@@ -111,7 +111,7 @@ public class MODComparatorOld implements Comparator<MODOld> {
 
 	private int countFuzzy(MODOld a_oMOD) {
 		int t_nFuzzy = 0;
-		for ( FuzzyLIP t_oFLIP : a_oMOD.getFuzzyLIPs() ) {
+		for ( FuzzyLIPOld t_oFLIP : a_oMOD.getFuzzyLIPs() ) {
 			t_nFuzzy += t_oFLIP.getLIPs().size();
 		}
 		return t_nFuzzy;

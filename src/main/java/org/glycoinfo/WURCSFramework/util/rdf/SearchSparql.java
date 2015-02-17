@@ -5,6 +5,4 @@ import org.glycoinfo.WURCSFramework.wurcs.WURCSFormatException;
 public interface SearchSparql {
 
 	String getExactWhere(String sequence) throws WURCSFormatException;
-
-	void setGlycoSequenceVariable(String strGlycoSeqVariable);
 }

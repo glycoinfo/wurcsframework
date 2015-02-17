@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
-import org.glycoinfo.WURCSFramework.wurcs.FuzzyGLIP;
+import org.glycoinfo.WURCSFramework.wurcs.FuzzyGLIPOld;
 import org.glycoinfo.WURCSFramework.wurcs.GLIP;
 import org.glycoinfo.WURCSFramework.wurcs.LIN;
 import org.glycoinfo.WURCSFramework.wurcs.LIP;

@@ -10,7 +10,7 @@ import org.glycoinfo.WURCSFramework.util.WURCSExporter;
 import org.glycoinfo.WURCSFramework.util.WURCSNumberUtils;
 import org.glycoinfo.WURCSFramework.util.WURCSStringUtils;
 import org.glycoinfo.WURCSFramework.util.rdf.WURCSBaseType;
-import org.glycoinfo.WURCSFramework.wurcs.FuzzyGLIP;
+import org.glycoinfo.WURCSFramework.wurcs.FuzzyGLIPOld;
 import org.glycoinfo.WURCSFramework.wurcs.GLIP;
 import org.glycoinfo.WURCSFramework.wurcs.GLIPs;
 import org.glycoinfo.WURCSFramework.wurcs.LIN;

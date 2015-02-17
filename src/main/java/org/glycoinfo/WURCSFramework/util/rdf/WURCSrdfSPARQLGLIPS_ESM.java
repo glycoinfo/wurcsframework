@@ -1,117 +1,52 @@
 package org.glycoinfo.WURCSFramework.util.rdf;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.LinkedList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 
 import org.glycoinfo.WURCSFramework.util.WURCSExporter;
 import org.glycoinfo.WURCSFramework.util.WURCSImporter;
 import org.glycoinfo.WURCSFramework.util.WURCSStringUtils;
-import org.glycoinfo.WURCSFramework.wurcs.FuzzyGLIP;
 import org.glycoinfo.WURCSFramework.wurcs.GLIP;
 import org.glycoinfo.WURCSFramework.wurcs.GLIPs;
 import org.glycoinfo.WURCSFramework.wurcs.LIN;
-import org.glycoinfo.WURCSFramework.wurcs.LIP;
-import org.glycoinfo.WURCSFramework.wurcs.MOD;
 import org.glycoinfo.WURCSFramework.wurcs.RES;
 import org.glycoinfo.WURCSFramework.wurcs.UniqueRES;
 import org.glycoinfo.WURCSFramework.wurcs.WURCSArray;
 import org.glycoinfo.WURCSFramework.wurcs.WURCSFormatException;
-//import org.glycoinfo.WURCSFramework.wurcsRDF.WURCSrdf;
 
 //TODO: 
 public class WURCSrdfSPARQLGLIPS_ESM {
 	
-/*	
-	// set search option
-	LinkedList<String> t_aOption = new LinkedList<String>();
-//	t_aOption.add("exact");
-	t_aOption.add("uri");
-	t_aOption.add("wurcs");
-	t_aOption.add("LIMIT 100");
-	t_aOption.add("FROM <http://www.glycoinfo.org/graph/wurcs/0.3>");
-//	t_aOption.add("accession_number");
-*/
-	
-	
 	public String getSPARQL(String  a_strWURCS, LinkedList<String> t_aOption){
-		String m_strHED = "";
 		int m_iPosition = 1;
 		String strSPAQRL = "";
+		boolean m_bwhereonly = false;
 		StringBuilder  sb = new StringBuilder();
 
-		// get date
-		Date date = new Date();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-		String m_strDate = sdf.format(date);
-		
-		m_strHED += "# ******************************************************\n";
-		m_strHED += "#    WURCSFramework: WURCS2SPARQL   " + m_strDate + "\n";
-		boolean m_bsupport = true;
-		String m_strError = "";
-		if (a_strWURCS.contains("%")) {
-			m_strError += "#        not support this WURCS String with Probability (%) \n";
-			m_bsupport = false;
-		}
-		if (a_strWURCS.contains("~")) {
-			m_strError += "#        not support this WURCS String with repeat unit (~)\n";
-			m_bsupport = false;
-		}
-		if (m_bsupport == false) {
-			m_strHED += "#        CAUTION:\n";
-			m_strHED += m_strError;
-			m_strHED += "#        contact: info.glyco@gmail.com\n";
-		}
-		m_strHED += "#        version 2015.02.10 (JAPAN) \n";
-
-		m_strHED += "# Query Structure:\n";
-		m_strHED += "# " + a_strWURCS + "\n";
-		
-		for (String t_str : t_aOption) {
-			m_strHED += "#      option: " + t_str + "\n";
-		}
-		m_strHED += "# Warranty: Use at your own risk.";
-		m_strHED += "# ******************************************************\n\n";
-		
 		WURCSImporter ws = new WURCSImporter();
 		
 		try {
 			WURCSArray m_oWURCSArray = ws.extractWURCSArray(a_strWURCS);
 		WURCSExporter export = new WURCSExporter();
+		
+		if (t_aOption.contains("whereonly")) {
+			m_bwhereonly = true;
+		}
 				
-		sb.append("PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n");
-		sb.append("PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n");
-		sb.append("PREFIX owl: <http://www.w3.org/2002/07/owl#>\n");
-		sb.append("PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n");
-		sb.append("PREFIX glycan: <http://purl.jp/bio/12/glyco/glycan#>\n");
-		sb.append("PREFIX glytoucan:  <http://www.glytoucan.org/glyco/owl/glytoucan#>\n");
-		sb.append("PREFIX wurcs: <http://www.glycoinfo.org/glyco/owl/wurcs#>\n");
+		if (!m_bwhereonly) {
+
+			sb.append(WURCSSPARQLUtils_TBD.getPrefix());
+			sb.append(WURCSSPARQLUtils_TBD.getSelect(t_aOption));
+			sb.append(WURCSSPARQLUtils_TBD.getGraph(t_aOption));
+			sb.append("WHERE {\n");
+		}		
+
 		
-		sb.append("# SELECT\n");
-		sb.append("SELECT DISTINCT ?glycans\n");
-		
-		if (t_aOption.contains("wurcs")) {
-			sb.append("  str ( ?wurcs ) AS ?WURCS\n");
-		}
-		
-		// select graph
-		for (String m_str : t_aOption){
-			if (m_str.startsWith("FROM")) { 
-				sb.append(m_str + "\n");
-			}
-		}
-		
-		sb.append("WHERE {\n");
 		
 		sb.append("# SEQ\n");
 		sb.append("  ?glycan glycan:has_glycosequence ?gseq \n");
 		
 		sb.append("# FILTER\n");
-		sb.append("  FILTER regex (str(?gseq), \"^http://rdf.glycoinfo.org/glycan/\") .\n");
+		sb.append("#  FILTER regex (str(?gseq), \"^http://rdf.glycoinfo.org/glycan/\") .\n");
 		
 		sb.append("# BIND\n");
 		sb.append("  BIND( iri(replace(str(?glycan), \"http://rdf.glycoinfo.org/glycan/\", \"http://www.glytoucan.org/glyspace/service/glycans/\")) as ?glycan2)\n");	// 
@@ -209,7 +144,7 @@ public class WURCSrdfSPARQLGLIPS_ESM {
 			
 			// repeat unit
 			if (a_oLIN.isRepeatingUnit()) {
-				sb.append("  ?LIN" + WURCSSPARQLUtils_TBD.removeChar4SPARQL(export.getLINString(a_oLIN)) + "  wurcs:is_repeat \"true\"^^xsd:boolean .\n");
+				sb.append("  ?LIN" + WURCSSPARQLUtils_TBD.removeChar4SPARQL(export.getLINString(a_oLIN)) + "  wurcs:is_repeat true .\n");
 			}
 		}
 		sb.append(" \n");
@@ -229,20 +164,37 @@ public class WURCSrdfSPARQLGLIPS_ESM {
 				
 				
 				sb.append("  ?GLIPS" + WURCSSPARQLUtils_TBD.removeChar4SPARQL(export.getGLIPsString(a_oGLIPS)) 
-						+ " wurcs:has_GLIP ?GLIP" + WURCSSPARQLUtils_TBD.removeChar4SPARQL(export.getGLIPsString(a_oGLIPS)) + " . \n");
+						+ " wurcs:has_GLIP "); //?GLIP" + WURCSSPARQLUtils_TBD.removeChar4SPARQL(export.getGLIPsString(a_oGLIPS)) + " . \n");
+				
+				String endString = " , ";
+				int i_GLIPS = 1;
+				for (GLIP a_oGLIP : a_oGLIPS.getGLIPs()){
+					if (i_GLIPS == a_oGLIPS.getGLIPs().size()) {
+						endString = " ";
+					}
+					sb.append(" ?GLIP" + WURCSSPARQLUtils_TBD.removeChar4SPARQL(WURCSSPARQLUtils_TBD.getGLIPSting(a_oGLIP)) + endString);
+					i_GLIPS++;
+				}
+				sb.append(" .\n");
+				
+				
 				
 				for (GLIP a_oGLIP : a_oGLIPS.getGLIPs()){
-					sb.append("  ?GLIP" + WURCSSPARQLUtils_TBD.removeChar4SPARQL(getGLIPSting(a_oGLIP)) + " wurcs:has_SC_position " + a_oGLIP.getBackbonePosition()  + " .\n");
-					sb.append("  ?GLIP" + WURCSSPARQLUtils_TBD.removeChar4SPARQL(getGLIPSting(a_oGLIP)) + " wurcs:has_RES ?RES" + WURCSSPARQLUtils_TBD.removeChar4SPARQL(a_oGLIP.getRESIndex()) + " .\n");
+					
+					if (a_oGLIP.getBackbonePosition() != -1) {
+						sb.append("  ?GLIP" + WURCSSPARQLUtils_TBD.removeChar4SPARQL(WURCSSPARQLUtils_TBD.getGLIPSting(a_oGLIP)) + " wurcs:has_SC_position " + a_oGLIP.getBackbonePosition()  + " .\n");
+					}
+					
+					sb.append("  ?GLIP" + WURCSSPARQLUtils_TBD.removeChar4SPARQL(WURCSSPARQLUtils_TBD.getGLIPSting(a_oGLIP)) + " wurcs:has_RES ?RES" + WURCSSPARQLUtils_TBD.removeChar4SPARQL(a_oGLIP.getRESIndex()) + " .\n");
 					
 				}
 				
 				// isFuzzy ?
 				if (a_oGLIPS.getGLIPs().size() == 1) {
-					sb.append("  ?GLIPS" + WURCSSPARQLUtils_TBD.removeChar4SPARQL(export.getGLIPsString(a_oGLIPS)) + " wurcs:is_fuzzy \"false\"^^xsd:boolean .\n");
+					sb.append("  ?GLIPS" + WURCSSPARQLUtils_TBD.removeChar4SPARQL(export.getGLIPsString(a_oGLIPS)) + " wurcs:is_fuzzy false .\n");
 				}
 				else {
-					sb.append("  ?GLIPS" + WURCSSPARQLUtils_TBD.removeChar4SPARQL(export.getGLIPsString(a_oGLIPS)) + " wurcs:is_fuzzy \"true\"^^xsd:boolean .\n");
+					sb.append("  ?GLIPS" + WURCSSPARQLUtils_TBD.removeChar4SPARQL(export.getGLIPsString(a_oGLIPS)) + " wurcs:is_fuzzy true .\n");
 				}
 				
 			} // end for <GLIPS>
@@ -263,16 +215,6 @@ public class WURCSrdfSPARQLGLIPS_ESM {
 			if (m_str.startsWith("LIMIT")) { m_strLimit = m_str; }
 		}
 		
-		return m_strHED + strSPAQRL + "\n  ORDER BY ?glycans \n  " + m_strLimit + "\n";
+		return WURCSSPARQLUtils_TBD.getHeadr(a_strWURCS, t_aOption) + strSPAQRL + (m_bwhereonly? "" : "\n  ORDER BY ?glycans \n  " + m_strLimit ) + "\n";
 	}
-	
-	private String getGLIPSting(GLIP a_oGLIP){
-		return a_oGLIP.getRESIndex() + a_oGLIP.getBackbonePosition() + a_oGLIP.getBackboneDirection() ;
-	}
-	
-	
-	
-//	private String removeChar4SPARQL(String a_str){
-//		return a_str.replace("-", "").replace(" ", "").replace("|", "").replace("~", "Repeat").replace("%", "Pro").replaceAll("([a-zA-Z]\\?+)", "Question");
-//	}
 }

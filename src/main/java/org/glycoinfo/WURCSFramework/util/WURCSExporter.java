@@ -58,10 +58,37 @@ public class WURCSExporter {
 
 		// RES
 		String t_strRESs = "";
+		LinkedList<Integer> t_aRepIDsOld = new LinkedList<Integer>();
 		for ( RES t_oRES : a_objWURCS.getRESs() ) {
+			// Compare repeat IDs for old
+			int t_nRepStart = 0;
+			for ( int t_iRepID : t_oRES.getRepeatIDs() ) {
+				if ( t_aRepIDsOld.contains(t_iRepID) ) continue;
+				t_nRepStart++;
+			}
+			int t_nRepEnd = 0;
+			for ( int t_iRepID : t_aRepIDsOld ) {
+				if ( t_oRES.getRepeatIDs().contains(t_iRepID) ) continue;
+				t_nRepEnd++;
+			}
+
+			// For end of repeat section
+			for ( int i=0; i<t_nRepEnd; i++ )
+				t_strRESs += ">";
+
 			if (! t_strRESs.equals("") ) t_strRESs += "-";
+
+			// For start of repeat section
+			for ( int i=0; i<t_nRepStart; i++ )
+				t_strRESs += "<";
+
 			t_strRESs += t_oRES.getUniqueRESID();
+			t_aRepIDsOld = t_oRES.getRepeatIDs();
 		}
+		if ( !t_aRepIDsOld.isEmpty() )
+			for ( int i=0; i<t_aRepIDsOld.size(); i++ )
+				t_strRESs += ">";
+
 		t_strWURCS += t_strRESs;
 		t_strWURCS += "/";
 

@@ -31,6 +31,9 @@ public class WURCSrdfExampleGLIPs {
 		
 //		file_WURCS = "20150130_SPARQ-test1LWURCS.txt";
 		
+//		file_WURCS = "20150213-GlyTouCan_Motif.txt";
+		
+		
 		input = "src/org/glycoinfo/WURCSFramework/testresource/" + file_WURCS;
 		
 		
@@ -58,8 +61,15 @@ public class WURCSrdfExampleGLIPs {
 //		input = "62	WURCS=2.0/2,4,3/[h5122h-2b_2-5][22122h-1a_1-5]/1-2-1-1/a2-b1_b6-c2_c1-d2|d4";
 
 		// basetype sample
-		input = "WURCS=2.0/4,4,3/[12122h-1b_1-5_2*OCC/3=O][<11221m>][12112h-1b_1-5][a6d21122h-2a_2-6_5*NCC/3=O]/1-2-3-4/a3-b1_a4-c1_c3|c4|c6-d2~n";
+//		input = "WURCS=2.0/4,4,3/[12122h-1b_1-5_2*OCC/3=O][<11221m>][12112h-1b_1-5][a6d21122h-2a_2-6_5*NCC/3=O]/1-2-3-4/a3-b1_a4-c1_c3|c4|c6-d2~n";
 //		input = "WURCS=2.0/2,4,3/[x122h-1x_1-4][x<nx>h-?x_?-?]/1-1-2-2/a5-b1_b3-c1_b5-d1";
+		
+		
+		//G39523KI	
+//		input = "WURCS=2.0/5,8,7/[22112h-1a_1-5_2*NCC/3=O][12112h-1b_1-5][a6d21122h-2a_2-6_5*NCC/3=O][12122h-1b_1-5_2*NCC/3=O][11221m-1a_1-5]/1-2-3-4-2-4-2-5/a3-b1_a6-d1_b3-c2_d4-e1_e3-f1_f3-g1_g2-h1";
+		
+		//G00066RE	
+//		input = "WURCS=2.0/13,14,13/[aUd21122h][211221h-1a_1-5][211221h-1a_1-5_4*OPO/3O/3=O][22122a-1a_1-5][22122h-1a_1-5_2*N][12122h-1b_1-5][12112m-1b_1-5_2*NCC/3=O_4*N][11122a-1b_1-5_2*NCC/3=O_3*NCC/3=O][22112h-1a_1-5_2*NCC/3=O][12122A-1b_1-5_2*NCC/3=O_3*NCC/3=O_6*=O_6*N][11122A-1b_1-5_2*NCC/3=O_3*NCC/3=O_6*=O_6*N][112eEH-1b_1-5_2*OCC/3=O_3*OCC/3=O_6*N][22112a-1a_1-5_2*N]/1-2-3-4-5-6-5-7-8-9-10-11-12-13/a5-b1_b3-c1_b4-f1_c2-d1_c7-e1_f4-g1_f6-n1_g6-h1_h3-i1_i4-j1_j4-k1_k4-l1_l4-m1";		
 		
 		int i_SPARQLtestID = -1;
 		switch (i_SPARQLtestID) {

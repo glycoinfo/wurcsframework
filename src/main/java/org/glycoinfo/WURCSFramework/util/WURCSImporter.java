@@ -1,5 +1,7 @@
 package org.glycoinfo.WURCSFramework.util;
+import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -41,7 +43,7 @@ public class WURCSImporter {
 		String t_strLINs =         "";
 
 		//String strExp = "WURCS=(.+)\\/(\\d+),(\\d+),(\\d+)\\/(.+)\\]/([0-9-]+)/(.+)";
-		String strExp = "WURCS=(.+)/(\\d+),(\\d+),(\\d+)/\\[(.+)\\]/([\\d\\-]+)/(.*)";
+		String strExp = "WURCS=(.+)/(\\d+),(\\d+),(\\d+)/\\[(.+)\\]/([\\d\\-<>]+)/(.*)";
 
 		Matcher t_oMatcher = Pattern.compile(strExp).matcher(a_strWURCS);
 		//WURCS=2.0/7,10,9/[x2122h-1x_1-5_2*NCC/3=O][12122h-1b_1-5_2*NCC/3=O][11122h-1b_1-5][21122h-1a_1-5][12112h-1b_1-5_2*NCC/3=O][12112h-1b_1-5][11221m-1a_1-5]/1-2-3-4-2-5-4-2-6-7/a4-b1_a6-j1_b4-c1_d2-e1_e4-f1_g2-h1_h4-i1_d1-c3\c6_g1-c3\c6
@@ -65,7 +67,7 @@ public class WURCSImporter {
 		//if ( !wurcsMatch.find() )
 		//return null;
 		if ( ! t_oMatcher.find() )
-			throw new WURCSFormatException("Not match as WURCS: "+a_strWURCS);
+			throw new WURCSFormatException("Not match as WURCS : "+a_strWURCS);
 
 		t_strVersion     =                  t_oMatcher.group(t_iVersion);
 		t_numUniqueRES   = Integer.parseInt(t_oMatcher.group(t_iNumuRES));
@@ -81,33 +83,80 @@ public class WURCSImporter {
 		// x2122h-1x_1-5_2*NCC/3=O][12122h-1b_1-5_2*NCC/3=O][11122h-1b_1-5][21122h-1a_1-5][12112h-1b_1-5_2*NCC/3=O][12112h-1b_1-5][11221m-1a_1-5
 		// Split by "]["
 		String[] t_aURESs = t_strUniqueRESs.split("\\]\\[");
-		int i = 0; // count of uniqueRES
+		HashSet<String> t_aURESsCheck = new HashSet<String>();
+		int count = 0; // count of uniqueRES
 		for(String t_strURES : t_aURESs) {
 			if (t_strURES.length() == 0) continue;
-			i++;
-			t_objWURCSContainer.addUniqueRES(this.extractUniqueRES(t_strURES, i));
+			count++;
+			if ( t_aURESsCheck.contains(t_strURES) )
+				throw new WURCSFormatException("Duplicated UniqueRES is found : "+t_strURES);
+			t_aURESsCheck.add(t_strURES);
+			UniqueRES t_oURES = this.extractUniqueRES(t_strURES, count);
+			t_objWURCSContainer.addUniqueRES(t_oURES);
 		}
 
-		if ( t_numUniqueRES != i )
-			throw new WURCSFormatException("Number of UniqueRES is not correct: "+t_numUniqueRES+" vs "+i);
+		if ( t_numUniqueRES != count )
+			throw new WURCSFormatException("Number of UniqueRES is not correct : "+t_numUniqueRES+" vs "+count);
 
 		// Extract RES sequence
 		// 1-2-3-4-2-5-4-2-6-7
+		TreeSet<Integer> t_aUsedURESID = new TreeSet<Integer>();
+		count = 1; // count RES
+		int t_iRep = 0;
+		LinkedList<Integer> t_aRepIDs = new LinkedList<Integer>();
+		for ( int i=0; i< t_strRESSequence.length(); i++ ) {
+			char t_cSeq = t_strRESSequence.charAt(i);
+			if ( t_cSeq == '-' ) count++;
+			if ( t_cSeq == '<' ) {
+				t_iRep++;
+				t_aRepIDs.addLast(t_iRep);
+			}
+			if ( t_cSeq == '>' ) {
+				t_aRepIDs.removeLast();
+			}
+			if ( !Character.isDigit(t_cSeq) ) continue;
+
+			// Read string of IndexID
+			String t_strRES = "";
+			char t_cSeqNext = t_cSeq;
+			while ( Character.isDigit(t_cSeqNext) ) {
+				t_strRES += t_cSeqNext;
+				i++;
+				if ( i > t_strRESSequence.length()-1 ) break;
+				t_cSeqNext = t_strRESSequence.charAt(i);
+			}
+			i--;
+			int t_iRESID = Integer.parseInt(t_strRES);
+			t_aUsedURESID.add(t_iRESID);
+			// UniqueRES ID
+			if ( t_iRESID > t_numUniqueRES )
+				throw new WURCSFormatException("Exceeded UniqueRES ID is found in RES sequence : "+t_iRESID+" in "+t_strRESSequence);
+
+			RES t_objRES = new RES( t_iRESID, WURCSDataConverter.convertRESIDToIndex(count) );
+			if ( !t_aRepIDs.isEmpty() )
+				t_objRES.setRepeatIDs(t_aRepIDs);
+
+			t_objWURCSContainer.addRES(t_objRES);
+		}
+		if ( t_aUsedURESID.size() < t_numUniqueRES )
+			throw new WURCSFormatException("Some UniqueRES is not used in RES sequence : "+t_aUsedURESID.toString());
+
+/*
 		// Split by "-"
 		String[] t_aRESSequence = t_strRESSequence.split("\\-");
-		i = 0; // count RES
+		count = 1; // count RES
 		for(String t_strRES : t_aRESSequence) {
 			if (t_strRES.length() == 0) continue;
 			if (! t_strRES.matches("\\d+") )
 				throw new WURCSFormatException("UniqueRES ID in RES sequence must be numeric: "+t_strRESSequence);
 
-			i++;
-			RES t_objRES = new RES( Integer.parseInt(t_strRES), WURCSDataConverter.convertRESIDToIndex(i) );
+			count++;
+			RES t_objRES = new RES( Integer.parseInt(t_strRES), WURCSDataConverter.convertRESIDToIndex(count) );
 			t_objWURCSContainer.addRES(t_objRES);
 		}
-
-		if ( t_numRES != i )
-			throw new WURCSFormatException("Number of RES is not correct: "+t_numRES+" vs "+i);
+*/
+		if ( t_numRES != count )
+			throw new WURCSFormatException("Number of RES is not correct : "+t_numRES+" vs "+count);
 
 		if ( t_strLINs == null || t_strLINs.equals("") )
 			return t_objWURCSContainer;
@@ -117,15 +166,15 @@ public class WURCSImporter {
 		// Split by "_"
 		String[] t_aLINs = t_strLINs.split("_");
 
-		i = 0; // count LIN
+		count = 0; // count LIN
 		for(String t_strLIN : t_aLINs) {
-			i++;
+			count++;
 			t_objWURCSContainer.addLIN( this.extractLIN(t_strLIN) );
 //			t_objWURCSContainer = this.extractLINs(t_strLIN, t_objWURCSContainer);
 		}
 
-		if ( t_numLIN != i )
-			throw new WURCSFormatException("Number of LIN is not correct: "+t_numLIN+" vs "+i);
+		if ( t_numLIN != count )
+			throw new WURCSFormatException("Number of LIN is not correct : "+t_numLIN+" vs "+count);
 
 		return t_objWURCSContainer;
 	}
@@ -158,7 +207,7 @@ public class WURCSImporter {
 			Matcher matchAnomerInfo = Pattern.compile(strExp).matcher(t_aSplitSC[1]);
 
 			if (! matchAnomerInfo.find() )
-				throw new WURCSFormatException("Error in extract anomeric information: "+a_strURES);
+				throw new WURCSFormatException("Error in extract anomeric information : "+a_strURES);
 
 			t_iAnomericPosition = (matchAnomerInfo.group(1).equals("?") ? -1 : Integer.parseInt(matchAnomerInfo.group(1))) ;
 			t_cAnomericSymbol = matchAnomerInfo.group(2).toCharArray()[0];
