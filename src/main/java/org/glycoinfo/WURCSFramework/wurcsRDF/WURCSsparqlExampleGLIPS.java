@@ -3,16 +3,12 @@ package org.glycoinfo.WURCSFramework.wurcsRDF;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.TreeMap;
 
-import org.glycoinfo.WURCSFramework.util.WURCSImporter;
 import org.glycoinfo.WURCSFramework.util.rdf.WURCSrdfSPARQLGLIPS;
 import org.glycoinfo.WURCSFramework.util.rdf.WURCSrdfSPARQLGLIPS_ESM;
-import org.glycoinfo.WURCSFramework.util.rdf.WURCSrdfSPARQLGLIPS_SSM_TBD;
-import org.glycoinfo.WURCSFramework.wurcs.WURCSArray;
 //import org.glycoinfo.WURCSFramework.wurcsRDF.WURCSrdf;
 
 public class WURCSsparqlExampleGLIPS {
@@ -86,7 +82,7 @@ public class WURCSsparqlExampleGLIPS {
 //		m_strSearchOption = "FSM";
 
 		WURCSrdfSPARQLGLIPS_ESM sql_e = new WURCSrdfSPARQLGLIPS_ESM();
-		WURCSrdfSPARQLGLIPS_SSM_TBD sql_s = new WURCSrdfSPARQLGLIPS_SSM_TBD();
+//		WURCSrdfSPARQLGLIPS_SSM_TBD sql_s = new WURCSrdfSPARQLGLIPS_SSM_TBD();
 		WURCSrdfSPARQLGLIPS sql_f = new WURCSrdfSPARQLGLIPS();
 
 		int i_SPARQLtestID = -4;
@@ -186,9 +182,9 @@ public class WURCSsparqlExampleGLIPS {
 						else if (m_strSearchOption.equals("FSM")) {
 							sb.append(sql_f.getSPARQL(input.substring(input.indexOf("W")), t_aOption));
 						}
-						else if (m_strSearchOption.equals("SSM")) {
-							sb.append(sql_s.getSPARQL(input.substring(input.indexOf("W")), t_aOption));
-						}
+//						else if (m_strSearchOption.equals("SSM")) {
+//							sb.append(sql_s.getSPARQL(input.substring(input.indexOf("W")), t_aOption));
+//						}
 
 					}				
 //				File savefile = new File("../../../testdata/WURCS-RDF-SPARQL.sql");
@@ -218,10 +214,10 @@ public class WURCSsparqlExampleGLIPS {
 				sb.append(sql_e.getSPARQL(input.substring(input.indexOf("W")), t_aOption));
 				System.out.println(sql_e.getSPARQL(input.substring(input.indexOf("W")), t_aOption));
 			}
-			else if (m_strSearchOption.equals("SSM")) {
-				sb.append(sql_s.getSPARQL(input.substring(input.indexOf("W")), t_aOption));
-				System.out.println(sql_s.getSPARQL(input.substring(input.indexOf("W")), t_aOption));
-			}			
+//			else if (m_strSearchOption.equals("SSM")) {
+//				sb.append(sql_s.getSPARQL(input.substring(input.indexOf("W")), t_aOption));
+//				System.out.println(sql_s.getSPARQL(input.substring(input.indexOf("W")), t_aOption));
+//			}			
 			else if (m_strSearchOption.equals("FSM")) {
 				sb.append(sql_f.getSPARQL(input.substring(input.indexOf("W")), t_aOption));
 				System.out.println(sql_f.getSPARQL(input.substring(input.indexOf("W")), t_aOption));

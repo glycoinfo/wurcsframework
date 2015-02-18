@@ -14,7 +14,7 @@ import org.glycoinfo.WURCSFramework.wurcs.WURCSArray;
 import org.glycoinfo.WURCSFramework.wurcs.WURCSFormatException;
 
 //TODO: 
-public class WURCSrdfSPARQLGLIPS_SSM_TBD {
+public class WURCSrdfSPARQLGLIPS_SSM_TBD extends SearchVariables {
 	
 	public String getSPARQL(String  a_strWURCS, LinkedList<String> t_aOption){
 		int m_iPosition = 1;
@@ -43,10 +43,10 @@ public class WURCSrdfSPARQLGLIPS_SSM_TBD {
 		
 		
 		sb.append("# SEQ\n");
-		sb.append("  ?glycan glycan:has_glycosequence ?gseq \n");
+		sb.append("  ?glycan glycan:has_glycosequence ?" + getGlycoSequenceUri() + " \n");
 		
 		sb.append("# FILTER\n");
-		sb.append("#  FILTER regex (str(?gseq), \"^http://rdf.glycoinfo.org/glycan/\") .\n");
+		sb.append("#  FILTER regex (str(?" + getGlycoSequenceUri() + "), \"^http://rdf.glycoinfo.org/glycan/\") .\n");
 		
 		sb.append("# BIND\n");
 		sb.append("  BIND( iri(replace(str(?glycan), \"http://rdf.glycoinfo.org/glycan/\", \"http://www.glytoucan.org/glyspace/service/glycans/\")) as ?glycan2)\n");	// 
@@ -55,15 +55,15 @@ public class WURCSrdfSPARQLGLIPS_SSM_TBD {
 //		sb.append("  BIND( iri(replace(str(?glycan), \"http://rdf.glycoinfo.org/glycan/\", \"http://www.glycome-db.org/getSugarImage.action?type=cfg&id=\")) as ?glycan2)\n");
 
 		// has_uniqueRES Section
-		//   ?gseq wurcs:has_uniqueRES ?uRES1, ?uRES2, ?uRES3, ?uRES4 .
+		//   ?" + getGlycoSequenceUri() + " wurcs:has_uniqueRES ?uRES1, ?uRES2, ?uRES3, ?uRES4 .
 		
 		if (t_aOption.contains("wurcs")) {
 			sb.append("# WURCS\n");
-			sb.append("  ?gseq glycan:has_sequence ?wurcs .\n");
+			sb.append("  ?" + getGlycoSequenceUri() + " glycan:has_sequence ?wurcs .\n");
 		}
 		
 		sb.append("# uniqueRES\n");
-		sb.append("  ?gseq wurcs:has_uniqueRES ");
+		sb.append("  ?" + getGlycoSequenceUri() + " wurcs:has_uniqueRES ");
 		
 		int m_iRES = 1;
 		for (UniqueRES uRES : m_oWURCSArray.getUniqueRESs()) {
@@ -99,10 +99,10 @@ public class WURCSrdfSPARQLGLIPS_SSM_TBD {
 		
 		
 		// has_LIN Section
-		//   ?gseq wurcs:has_LIN ?LIN1, ?LIN2, ?LIN3 
+		//   ?" + getGlycoSequenceUri() + " wurcs:has_LIN ?LIN1, ?LIN2, ?LIN3 
 		sb.append("# LIN\n");
 		int m_iLIN = 1;
-		sb.append("  ?gseq wurcs:has_LIN ");
+		sb.append("  ?" + getGlycoSequenceUri() + " wurcs:has_LIN ");
 		for (LIN a_oLIN : m_oWURCSArray.getLINs()){
 			String m_strEnd = ",";
 			if (m_oWURCSArray.getLINs().size() == m_iLIN){
@@ -200,7 +200,9 @@ public class WURCSrdfSPARQLGLIPS_SSM_TBD {
 			} // end for <GLIPS>
 		}
 		
+		if (!m_bwhereonly) {
 		sb.append("}");
+		}
 		
 		strSPAQRL = sb.toString();
 		
