@@ -38,21 +38,17 @@ public class WURCSrdfSPARQLGLIPS_SSM_TBD extends SearchVariables {
 			sb.append(WURCSSPARQLUtils_TBD.getSelect(t_aOption));
 			sb.append(WURCSSPARQLUtils_TBD.getGraph(t_aOption));
 			sb.append("WHERE {\n");
+			sb.append("# SEQ\n");
+			sb.append("  ?glycan glycan:has_glycosequence ?" + getGlycoSequenceUri() + " \n");
+			sb.append("# FILTER\n");
+			sb.append("#  FILTER regex (str(?" + getGlycoSequenceUri() + "), \"^http://rdf.glycoinfo.org/glycan/\") .\n");
+			
+			sb.append("# BIND\n");
+			sb.append("  BIND( iri(replace(str(?glycan), \"http://rdf.glycoinfo.org/glycan/\", \"http://www.glytoucan.org/glyspace/service/glycans/\")) as ?glycan2)\n");	// 
+//			sb.append("  BIND( iri(replace(str(?glycan), \"http://rdf.glycoinfo.org/glycan/\", \"http://www.glytoucan.org/glyspace/service/glycans/\")) as ?glycan2)\n");
+			sb.append("  BIND( iri(concat(?glycan2, \"/image?style=extended&format=png&notation=cfg\"))as ?glycans )\n");
+//			sb.append("  BIND( iri(replace(str(?glycan), \"http://rdf.glycoinfo.org/glycan/\", \"http://www.glycome-db.org/getSugarImage.action?type=cfg&id=\")) as ?glycan2)\n");
 		}		
-
-		
-		
-		sb.append("# SEQ\n");
-		sb.append("  ?glycan glycan:has_glycosequence ?" + getGlycoSequenceUri() + " \n");
-		
-		sb.append("# FILTER\n");
-		sb.append("#  FILTER regex (str(?" + getGlycoSequenceUri() + "), \"^http://rdf.glycoinfo.org/glycan/\") .\n");
-		
-		sb.append("# BIND\n");
-		sb.append("  BIND( iri(replace(str(?glycan), \"http://rdf.glycoinfo.org/glycan/\", \"http://www.glytoucan.org/glyspace/service/glycans/\")) as ?glycan2)\n");	// 
-//		sb.append("  BIND( iri(replace(str(?glycan), \"http://rdf.glycoinfo.org/glycan/\", \"http://www.glytoucan.org/glyspace/service/glycans/\")) as ?glycan2)\n");
-		sb.append("  BIND( iri(concat(?glycan2, \"/image?style=extended&format=png&notation=cfg\"))as ?glycans )\n");
-//		sb.append("  BIND( iri(replace(str(?glycan), \"http://rdf.glycoinfo.org/glycan/\", \"http://www.glycome-db.org/getSugarImage.action?type=cfg&id=\")) as ?glycan2)\n");
 
 		// has_uniqueRES Section
 		//   ?" + getGlycoSequenceUri() + " wurcs:has_uniqueRES ?uRES1, ?uRES2, ?uRES3, ?uRES4 .
@@ -62,6 +58,7 @@ public class WURCSrdfSPARQLGLIPS_SSM_TBD extends SearchVariables {
 			sb.append("  ?" + getGlycoSequenceUri() + " glycan:has_sequence ?wurcs .\n");
 		}
 		
+		sb.append("{ SELECT * WHERE {");
 		sb.append("# uniqueRES\n");
 		sb.append("  ?" + getGlycoSequenceUri() + " wurcs:has_uniqueRES ");
 		
@@ -85,10 +82,10 @@ public class WURCSrdfSPARQLGLIPS_SSM_TBD extends SearchVariables {
 		}
 
 		// RES FILER
-		sb.append(WURCSSPARQLUtils_TBD.getRESFilter_TBD(m_oWURCSArray.getRESs()));
+//		sb.append(WURCSSPARQLUtils_TBD.getRESFilter_TBD(m_oWURCSArray.getRESs()));
 		
 		// LIN FILTER getLINFilter_TBD
-		sb.append(WURCSSPARQLUtils_TBD.getLINFilter_TBD(m_oWURCSArray.getLINs()));
+//		sb.append(WURCSSPARQLUtils_TBD.getLINFilter_TBD(m_oWURCSArray.getLINs()));
 
 		
 		//  ?RESa wurcs:is_uniqueRES ?uRES1 .
@@ -96,6 +93,9 @@ public class WURCSrdfSPARQLGLIPS_SSM_TBD extends SearchVariables {
 		for (RES m_aRES : m_oWURCSArray.getRESs()) {
 			sb.append("  ?RES" + m_aRES.getRESIndex() + " wurcs:is_uniqueRES ?uRES" + m_aRES.getUniqueRESID() + " .\n");
 		}
+
+		sb.append("}}");
+
 		
 		
 		// has_LIN Section
