@@ -203,7 +203,7 @@ public class WURCSImporter {
 		char   t_cAnomericSymbol   = ' ';
 		// if Anomeric information is exist
 		if ( t_aSplitSC.length > 1 ) {
-			String strExp = "(\\?|[0-9]+)([abx])";
+			String strExp = "(\\?|[0-9]+)([abxo])";
 			Matcher matchAnomerInfo = Pattern.compile(strExp).matcher(t_aSplitSC[1]);
 
 			if (! matchAnomerInfo.find() )

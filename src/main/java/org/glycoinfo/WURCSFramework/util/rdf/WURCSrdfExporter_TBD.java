@@ -15,7 +15,7 @@ import org.glycoinfo.WURCSFramework.wurcs.RES;
 import org.glycoinfo.WURCSFramework.wurcs.UniqueRES;
 import org.glycoinfo.WURCSFramework.wurcs.WURCSArray;
 //import org.glycoinfo.WURCSFramework.wurcsRDF.WURCSrdf;
-import org.glycoinfo.WURCSFramework.wurcsRDF.WURCSrdfGLIPs;
+import org.glycoinfo.WURCSFramework.wurcsRDF.WURCSExporterRDF;
 
 //TODO: 
 public class WURCSrdfExporter_TBD {
@@ -50,7 +50,7 @@ public class WURCSrdfExporter_TBD {
 	
 	
 	//TODO: use WURCSExporter
-	public String[] getRDFxml(String AccessionNumber, WURCSrdfGLIPs a_oWURCS) {
+	public String[] getRDFxml(String AccessionNumber, WURCSExporterRDF a_oWURCS) {
 		String t_strRdfXml = a_oWURCS.getWURCS_RDF();
 		String t_strMonosaccharideRdfXml = a_oWURCS.getWURCS_monosaccharide_RDF();		
 		

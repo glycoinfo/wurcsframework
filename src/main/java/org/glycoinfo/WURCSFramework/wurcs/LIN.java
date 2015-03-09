@@ -46,4 +46,12 @@ public class LIN extends MODAbstract {
 		return this.m_aGLIPs;
 	}
 
+	public boolean containRES(RES a_oRES) {
+		for ( GLIPs t_oGLIPs : this.getListOfGLIPs() ) {
+			for ( GLIP t_oGLIP : t_oGLIPs.getGLIPs() ) {
+				if ( a_oRES.getRESIndex().equals( t_oGLIP.getRESIndex() ) ) return true;
+			}
+		}
+		return false;
+	}
 }

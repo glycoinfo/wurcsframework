@@ -122,6 +122,10 @@ public class WURCSExporter {
 			if ( t_strAnomPos.equals("-1") ) t_strAnomPos = "?";
 			t_strURES += "-" + t_strAnomPos + a_oURES.getAnomericSymbol();
 		}
+		// For open chain of unknown RES
+		if ( a_oURES.getAnomericPosition() == 0 && a_oURES.getAnomericSymbol() == 'o' ) {
+			t_strURES += "-0o";
+		}
 
 		// MODs in UniqueRES
 		LinkedList<MOD> t_aMODs = a_oURES.getMODs();

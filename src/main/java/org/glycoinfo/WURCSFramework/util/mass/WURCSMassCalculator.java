@@ -22,7 +22,7 @@ public class WURCSMassCalculator {
 	 * @param a_objWURCS WURCSArray
 	 * @return Value of mass
 	 */
-	public static double calcMassWURCS(WURCSArray a_objWURCS) {
+	public static double calcMassWURCS(WURCSArray a_objWURCS) throws WURCSMassException {
 
 		WURCSExporter t_oExporter = new WURCSExporter();
 		// For unique RES mass
@@ -31,12 +31,17 @@ public class WURCSMassCalculator {
 		for ( UniqueRES ures : uRESList ) {
 			double t_dMass = 0;
 			String skCode = ures.getSkeletonCode();
+
+			// For unknown
+			if ( skCode.contains("<0>") )
+				throw new WURCSMassException("Cannot calculate mass for unknown carbon length. : "+t_oExporter.getUniqueRESString(ures));
+
 			double skMass = getMassSkeletonCode(skCode);
-			System.out.println(skCode+": "+skMass);
+//			System.out.println(skCode+": "+skMass);
 			t_dMass += skMass;
 			for ( MOD mod : ures.getMODs() ) {
 				double t_dMassMOD = calcMassLinkage(mod.getMAPCode(), mod.getListOfLIPs().size() );
-				System.out.println(t_oExporter.getMODString(mod)+": "+t_dMassMOD);
+//				System.out.println(t_oExporter.getMODString(mod)+": "+t_dMassMOD);
 				t_dMass += t_dMassMOD;
 			}
 			t_hashUniqREStoMass.put(ures, t_dMass);
@@ -50,8 +55,12 @@ public class WURCSMassCalculator {
 		}
 
 		for ( LIN lin : a_objWURCS.getLINs() ) {
+			// For repeat
+			if ( lin.isRepeatingUnit() )
+				throw new WURCSMassException("Cannot calculate mass for glycan contains repeating unit. : "+t_oExporter.getLINString(lin));
+
 			double t_dMassLIN = calcMassLinkage(lin.getMAPCode(), lin.getListOfGLIPs().size() );
-			System.out.println(t_oExporter.getLINString(lin)+": "+t_dMassLIN);
+//			System.out.println(t_oExporter.getLINString(lin)+": "+t_dMassLIN);
 			t_dMass += t_dMassLIN;
 		}
 
@@ -74,7 +83,7 @@ public class WURCSMassCalculator {
 		int nDehydration = 0;
 		if ( nLink > 1 ) {
 			nDehydration = nLink - 1;
-			System.out.println("Glycosidic linkage: " );
+//			System.out.println("Glycosidic linkage: " );
 			t_dMass -= hydrateMass * nDehydration;
 		}
 
@@ -85,7 +94,7 @@ public class WURCSMassCalculator {
 		t_dMass -= OHMass - HMass*nDehydration;
 
 		double MAPMass = getMassMAP(a_strMAPCode);
-		System.out.println(a_strMAPCode+": "+MAPMass);
+//		System.out.println(a_strMAPCode+": "+MAPMass);
 		t_dMass += MAPMass;
 		return t_dMass;
 	}

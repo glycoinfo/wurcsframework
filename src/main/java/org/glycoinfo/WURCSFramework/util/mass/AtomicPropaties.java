@@ -1,7 +1,17 @@
 package org.glycoinfo.WURCSFramework.util.mass;
 
+/**
+ * Enum for atomic propaties
+ * @author MasaakiMatsubara
+ *
+ */
 public enum AtomicPropaties {
 
+	/**
+	 * Atomic weight of principal isotope is retrieved from the following site.
+	 * http://ours.be/sci/aw.php
+	 * 
+	 */
 	H ( "H" ,  1, 1.00782503207 , 1 ),
 	D ( "D" ,  1, 2.014101778   , 1 ),
 	He( "He",  2, 4.00260325415 , 0 ),
