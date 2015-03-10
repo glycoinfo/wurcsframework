@@ -52,7 +52,9 @@ public class NormalizeWURCSTest {
 					WURCSMassCalculator.calcMassWURCS(t_oWURCS);
 				} catch (WURCSMassException e) {
 					// TODO 自動生成された catch ブロック
-					e.printStackTrace();
+
+					System.out.println(key+": "+e.getErrorMessage());
+//					e.printStackTrace();
 				}
 
 				// Export WURCS string

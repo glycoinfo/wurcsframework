@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 
 import org.glycoinfo.WURCSFramework.util.WURCSExporter;
+import org.glycoinfo.WURCSFramework.wurcs.GLIP;
+import org.glycoinfo.WURCSFramework.wurcs.GLIPs;
 import org.glycoinfo.WURCSFramework.wurcs.LIN;
 import org.glycoinfo.WURCSFramework.wurcs.MOD;
 import org.glycoinfo.WURCSFramework.wurcs.RES;
@@ -34,7 +36,7 @@ public class WURCSMassCalculator {
 
 			// For unknown
 			if ( skCode.contains("<0>") )
-				throw new WURCSMassException("Cannot calculate mass for unknown carbon length. : "+t_oExporter.getUniqueRESString(ures));
+				throw new WURCSMassException("Cannot calculate unknown carbon length. : "+t_oExporter.getUniqueRESString(ures));
 
 			double skMass = getMassSkeletonCode(skCode);
 //			System.out.println(skCode+": "+skMass);
@@ -57,8 +59,14 @@ public class WURCSMassCalculator {
 		for ( LIN lin : a_objWURCS.getLINs() ) {
 			// For repeat
 			if ( lin.isRepeatingUnit() )
-				throw new WURCSMassException("Cannot calculate mass for glycan contains repeating unit. : "+t_oExporter.getLINString(lin));
+				throw new WURCSMassException("Cannot calculate repeating unit. : "+t_oExporter.getLINString(lin));
 
+			// Check probability
+			for ( GLIPs glips : lin.getListOfGLIPs() ) {
+				GLIP glip0 = glips.getGLIPs().getFirst();
+				if ( glip0.getBackboneProbabilityLower() != 1.0 || glip0.getModificationProbabilityLower() != 1.0 )
+					throw new WURCSMassException("Cannot calculate linkage with probability. : "+t_oExporter.getLINString(lin));
+			}
 			double t_dMassLIN = calcMassLinkage(lin.getMAPCode(), lin.getListOfGLIPs().size() );
 //			System.out.println(t_oExporter.getLINString(lin)+": "+t_dMassLIN);
 			t_dMass += t_dMassLIN;
@@ -122,6 +130,11 @@ public class WURCSMassCalculator {
 	 */
 	public static double getMassMAP(String a_strMAP) {
 		double t_dMass = 0;
+		if ( a_strMAP.equals("*S") ){
+			t_dMass += AtomicPropaties.S.getMass();
+			t_dMass += AtomicPropaties.H.getMass();
+			return t_dMass;
+		}
 
 		int nTotalValence = 0;
 		int nConnection = -1;
