@@ -1,10 +1,6 @@
 package org.glycoinfo.WURCSFramework.wurcsRDF.uri;
 
 import org.glycoinfo.WURCSFramework.util.WURCSStringUtils;
-import org.glycoinfo.WURCSFramework.wurcs.GLIP;
-import org.glycoinfo.WURCSFramework.wurcs.GLIPs;
-import org.glycoinfo.WURCSFramework.wurcs.LIN;
-import org.glycoinfo.WURCSFramework.wurcs.RES;
 import org.glycoinfo.WURCSFramework.wurcs.UniqueRES;
 
 public class WURCSExporterURIWithAccessionNumber extends WURCSExporterURI {
@@ -49,45 +45,6 @@ public class WURCSExporterURIWithAccessionNumber extends WURCSExporterURI {
 		return this.concatenateURIWithAccessionNumber( "uniqueRES", ""+a_iURESID );
 	}
 
-	/**
-	 * Get RES URI from RES
-	 * @return http://rdf.glycoinfo.org/glycan/[AccessionNumber]/wurcs/2.0/RES/[RESindex]
-	 */
-	public String getRESURI(RES a_oRES){
-		return this.getRESURI(a_oRES.getRESIndex());
-	}
-
-	/**
-	 * Get RES URI from RES index
-	 * @return http://rdf.glycoinfo.org/glycan/[AccessionNumber]/wurcs/2.0/RES/[RESindex]
-	 */
-	public String getRESURI(String a_strRESIndex){
-		return this.concatenateURIWithAccessionNumber( "RES", a_strRESIndex );
-	}
-
-	/**
-	 * Get LIN URI
-	 * @return http://rdf.glycoinfo.org/glycan/[AccessionNumber]/wurcs/2.0/LIN/[LIN]
-	 */
-	public String getLINURI(LIN a_oLIN){
-		return this.concatenateURIWithAccessionNumber( "LIN", this.m_oExport.getLINString(a_oLIN) );
-	}
-
-	/**
-	 * Get GLIPS URI
-	 * @return http://rdf.glycoinfo.org/glycan/[AccessionNumber]/wurcs/2.0/GLIPS/[GLIPS]
-	 */
-	public String getGLIPSURI(GLIPs a_oGLIPs){
-		return this.concatenateURIWithAccessionNumber( "GLIPS", this.m_oExport.getGLIPsString(a_oGLIPs) );
-	}
-
-	/**
-	 * Get GLIP URI
-	 * @return http://rdf.glycoinfo.org/glycan/[AccessionNumber]/wurcs/2.0/GLIP/[GLIP]
-	 */
-	public String getGLIPURI(GLIP a_oGLIP){
-		return this.concatenateURIWithAccessionNumber( "GLIP", this.m_oExport.getGLIPString(a_oGLIP) );
-	}
 
 	protected String concatenateURIWithAccessionNumber(String a_oClass, String a_strObject) {
 		return this.brackets( this.m_strBaseURIwithAccessionNumber+"/"+a_oClass+"/"+WURCSStringUtils.getURLString( a_strObject ) );

@@ -2,6 +2,7 @@ package org.glycoinfo.WURCSFramework.util;
 
 import java.util.LinkedList;
 
+import org.glycoinfo.WURCSFramework.wurcs.LIPs;
 import org.glycoinfo.WURCSFramework.wurcs.MOD;
 import org.glycoinfo.WURCSFramework.wurcs.UniqueRES;
 
@@ -27,7 +28,7 @@ public class WURCSMonosaccharideIntegrator {
 
 		// For anomeric
 		if ( t_iAnomPos != 0 )
-			t_strSkeletonCode = WURCSMonosaccharideIntegrator.replaceAnomericCarbonDescriptor(t_strSkeletonCode, t_iAnomPos);
+			t_strSkeletonCode = WURCSMonosaccharideIntegrator.replaceAnomericCarbonDescriptorToUndef(t_strSkeletonCode, t_iAnomPos);
 
 		UniqueRES t_oAnobaseURES = new UniqueRES(t_iURESID, t_strSkeletonCode, t_iAnomPos, t_cAnomSymbol);
 		// Add trimed modifications
@@ -38,27 +39,39 @@ public class WURCSMonosaccharideIntegrator {
 	}
 
 	/**
-	 * Convert anobase to supersum
-	 * @param a_oAnobase Supersum of anobase
-	 * @return UniqueRES of anobase supersum
+	 * Convert to supersum
+	 * @param a_oMS Subsumes of monosaccharide
+	 * @return Supersumed UniqueRES
 	 */
-	public static UniqueRES convertSupersumAnobase(UniqueRES a_oAnobase) {
-		int    t_iURESID         = a_oAnobase.getUniqueRESID();
-		String t_strSkeletonCode = a_oAnobase.getSkeletonCode();
-		int    t_iAnomPos        = a_oAnobase.getAnomericPosition();
-		char   t_cAnomSymbol     = a_oAnobase.getAnomericSymbol();
+	public static UniqueRES supersumes(UniqueRES a_oMS) {
+		int    t_iURESID         = a_oMS.getUniqueRESID();
+		String t_strSkeletonCode = a_oMS.getSkeletonCode();
+		int    t_iAnomPos        = a_oMS.getAnomericPosition();
+		char   t_cAnomSymbol     = a_oMS.getAnomericSymbol();
 
 		if ( t_iAnomPos == 0 ) {
-			t_strSkeletonCode = WURCSMonosaccharideIntegrator.replaceAnomericCarbonDescriptor(t_strSkeletonCode, t_iAnomPos);
+			t_strSkeletonCode = WURCSMonosaccharideIntegrator.replaceAnomericCarbonDescriptorToUndef(t_strSkeletonCode, t_iAnomPos);
 		} else if ( t_cAnomSymbol == 'x' ) {
+			t_strSkeletonCode = WURCSMonosaccharideIntegrator.replaceAnomericCarbonDescriptorToUndef(t_strSkeletonCode, t_iAnomPos);
 			t_iAnomPos = 0;
+		} else {
+			t_strSkeletonCode = WURCSMonosaccharideIntegrator.replaceAnomericCarbonDescriptorToUnknown(t_strSkeletonCode, t_iAnomPos);
 		}
 
-		UniqueRES t_oAnobaseURES = new UniqueRES(t_iURESID, t_strSkeletonCode, t_iAnomPos, 'x');
-		for ( MOD t_oMOD : a_oAnobase.getMODs() )
-			t_oAnobaseURES.addMOD(t_oMOD);
+		UniqueRES t_oSupersumedMS = new UniqueRES(t_iURESID, t_strSkeletonCode, t_iAnomPos, 'x');
+		for ( MOD t_oMOD : a_oMS.getMODs() ) {
+			boolean isAnomRing = false;
+			for (LIPs t_oLIPs : t_oMOD.getListOfLIPs() ) {
+				if ( t_oLIPs.getLIPs().size() != 1 ) continue;
+				if ( t_oLIPs.getLIPs().getFirst().getBackbonePosition() != a_oMS.getAnomericPosition() ) continue;
+				isAnomRing = true;
+				break;
+			}
+			if ( t_oMOD.getListOfLIPs().size() == 2 && isAnomRing && t_cAnomSymbol == 'x' ) continue;
+			t_oSupersumedMS.addMOD(t_oMOD);
+		}
 
-		return t_oAnobaseURES;
+		return t_oSupersumedMS;
 	}
 
 	/**
@@ -72,7 +85,7 @@ public class WURCSMonosaccharideIntegrator {
 		int    t_iAnomPos        = a_oURES.getAnomericPosition();
 
 		if ( t_iAnomPos != -1 )
-			t_strSkeletonCode = WURCSMonosaccharideIntegrator.replaceAnomericCarbonDescriptor(t_strSkeletonCode, t_iAnomPos);
+			t_strSkeletonCode = WURCSMonosaccharideIntegrator.replaceAnomericCarbonDescriptorToUndef(t_strSkeletonCode, t_iAnomPos);
 
 		UniqueRES t_oBasetypeURES = new UniqueRES(t_iURESID, t_strSkeletonCode, 0, 'x');
 		// Add trimed modifications
@@ -92,7 +105,7 @@ public class WURCSMonosaccharideIntegrator {
 		String t_strSkeletonCode = a_oURES.getSkeletonCode();
 		int    t_iAnomPos        = a_oURES.getAnomericPosition();
 
-		t_strSkeletonCode = WURCSMonosaccharideIntegrator.replaceAnomericCarbonDescriptor(t_strSkeletonCode, t_iAnomPos);
+		t_strSkeletonCode = WURCSMonosaccharideIntegrator.replaceAnomericCarbonDescriptorToUndef(t_strSkeletonCode, t_iAnomPos);
 		int pos = ( t_iAnomPos > 0 )? t_iAnomPos-1 :
 				  ( t_strSkeletonCode.contains("u") )? t_strSkeletonCode.indexOf("u") :
 				  ( t_strSkeletonCode.contains("U") )? t_strSkeletonCode.indexOf("U") : 0;
@@ -129,7 +142,7 @@ public class WURCSMonosaccharideIntegrator {
 	 * @param a_oURES UniqueRES contained target SkeletonCode
 	 * @return String of replaced SkeletonCode
 	 */
-	private static String replaceAnomericCarbonDescriptor(String a_strSkeletonCode, int a_iAnomPos){
+	private static String replaceAnomericCarbonDescriptorToUndef(String a_strSkeletonCode, int a_iAnomPos){
 
 		// Return if anomeric info is already replaced
 		if ( a_strSkeletonCode.contains("u") || a_strSkeletonCode.contains("U") )
@@ -157,6 +170,29 @@ public class WURCSMonosaccharideIntegrator {
 			return t_sbBasetype.toString();
 		}
 
+		// Return if reduced (no anomeric position e.g. alditol)
+		return a_strSkeletonCode;
+	}
+
+	private static String replaceAnomericCarbonDescriptorToUnknown(String a_strSkeletonCode, int a_iAnomPos){
+
+		// Return if anomeric info is already replaced
+		if ( a_strSkeletonCode.contains("u") || a_strSkeletonCode.contains("U") )
+			return a_strSkeletonCode;
+
+		StringBuilder  t_sbBasetype = new StringBuilder( a_strSkeletonCode );
+
+		// For unknown sugar
+		if ( a_iAnomPos == -1 )
+			a_iAnomPos = 0;
+
+		// For ring
+		if ( a_iAnomPos != 0 ) {
+			t_sbBasetype.replace(a_iAnomPos-1, a_iAnomPos, ( a_iAnomPos == 1 )? "x" : "X");
+			return t_sbBasetype.toString();
+		}
+
+		// For open chain
 		// Return if reduced (no anomeric position e.g. alditol)
 		return a_strSkeletonCode;
 	}

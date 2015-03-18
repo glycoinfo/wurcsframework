@@ -2,9 +2,13 @@ package org.glycoinfo.WURCSFramework.wurcsRDF.uri;
 
 import org.glycoinfo.WURCSFramework.util.WURCSExporter;
 import org.glycoinfo.WURCSFramework.util.WURCSStringUtils;
+import org.glycoinfo.WURCSFramework.wurcs.GLIP;
+import org.glycoinfo.WURCSFramework.wurcs.GLIPs;
+import org.glycoinfo.WURCSFramework.wurcs.LIN;
 import org.glycoinfo.WURCSFramework.wurcs.LIP;
 import org.glycoinfo.WURCSFramework.wurcs.LIPs;
 import org.glycoinfo.WURCSFramework.wurcs.MOD;
+import org.glycoinfo.WURCSFramework.wurcs.RES;
 import org.glycoinfo.WURCSFramework.wurcs.UniqueRES;
 import org.glycoinfo.WURCSFramework.wurcs.WURCSArray;
 
@@ -37,6 +41,14 @@ public class WURCSExporterURI {
 	 */
 	public String getMonosaccharideURI(UniqueRES a_oMonosaccharide) {
 		return this.concatenateURI( "monosaccharide", this.m_oExport.getUniqueRESString(a_oMonosaccharide) );
+	}
+
+	/**
+	 * Get monosaccharide URI
+	 * @return http://rdf.glycoinfo.org/glycan/wurcs/2.0/monosaccharide/[UniqueRES]
+	 */
+	public String getMonosaccharideURI(RES a_Res) {
+		return this.concatenateURI( "monosaccharide", this.getRESURI( a_Res.getRESIndex()));
 	}
 
 	/**
@@ -85,6 +97,46 @@ public class WURCSExporterURI {
 	 */
 	public String getLIPURI(LIP a_oLIP) {
 		return this.concatenateURI( "LIP", this.m_oExport.getLIPString(a_oLIP) );
+	}
+
+	/**
+	 * Get RES URI from RES
+	 * @return http://rdf.glycoinfo.org/glycan/[AccessionNumber]/wurcs/2.0/RES/[RESindex]
+	 */
+	public String getRESURI(RES a_oRES){
+		return this.getRESURI(a_oRES.getRESIndex());
+	}
+
+	/**
+	 * Get RES URI from RES index
+	 * @return http://rdf.glycoinfo.org/glycan/[AccessionNumber]/wurcs/2.0/RES/[RESindex]
+	 */
+	public String getRESURI(String a_strRESIndex){
+		return this.concatenateURI( "RES", a_strRESIndex );
+	}
+
+	/**
+	 * Get LIN URI
+	 * @return http://rdf.glycoinfo.org/glycan/[AccessionNumber]/wurcs/2.0/LIN/[LIN]
+	 */
+	public String getLINURI(LIN a_oLIN){
+		return this.concatenateURI( "LIN", this.m_oExport.getLINString(a_oLIN) );
+	}
+
+	/**
+	 * Get GLIPS URI
+	 * @return http://rdf.glycoinfo.org/glycan/[AccessionNumber]/wurcs/2.0/GLIPS/[GLIPS]
+	 */
+	public String getGLIPSURI(GLIPs a_oGLIPs){
+		return this.concatenateURI( "GLIPS", this.m_oExport.getGLIPsString(a_oGLIPs) );
+	}
+
+	/**
+	 * Get GLIP URI
+	 * @return http://rdf.glycoinfo.org/glycan/[AccessionNumber]/wurcs/2.0/GLIP/[GLIP]
+	 */
+	public String getGLIPURI(GLIP a_oGLIP){
+		return this.concatenateURI( "GLIP", this.m_oExport.getGLIPString(a_oGLIP) );
 	}
 
 	protected String concatenateURI(String a_oClass, String a_strObject) {

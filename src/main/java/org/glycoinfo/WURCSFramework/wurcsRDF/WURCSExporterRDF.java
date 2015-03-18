@@ -55,8 +55,10 @@ public class WURCSExporterRDF {
 
 		WURCSExporterURI t_oExport = new WURCSExporterURI();
 
+		TreeMap<String, UniqueRES> t_mapURItoMS         = new TreeMap<String, UniqueRES>();
 		TreeMap<String, UniqueRES> t_mapURItoBasetype   = new TreeMap<String, UniqueRES>();
 		TreeMap<String, UniqueRES> t_mapURItoAnobase    = new TreeMap<String, UniqueRES>();
+		TreeMap<String, TreeSet<String>> t_mapMSSubsums      = new TreeMap<String, TreeSet<String>>();
 		TreeMap<String, TreeSet<String>> t_mapAnobaseSubsums = new TreeMap<String, TreeSet<String>>();
 //		TreeMap<String, String> t_mapBasetypeURItoAnobaseURI = new TreeMap<String, String>();
 
@@ -66,7 +68,9 @@ public class WURCSExporterRDF {
 		t_sbMonosaccharide.append("# monosaccharide\n");
 		for (UniqueRES t_oURES : a_aUniqueRESs) {
 
-			t_sbMonosaccharide.append(t_oExport.getMonosaccharideURI(t_oURES)+"\n");
+			String t_strMSURI = t_oExport.getMonosaccharideURI(t_oURES);
+			t_mapURItoMS.put(t_strMSURI, t_oURES);
+			t_sbMonosaccharide.append(t_strMSURI+"\n");
 			t_sbMonosaccharide.append("\t"+PredicateList.A_MS.getAPredicate()); // a  wurcs:monosaccharide
 			t_sbMonosaccharide.append(" ;\n");
 
@@ -76,7 +80,7 @@ public class WURCSExporterRDF {
 				boolean isAnomRing = false;
 				for (LIPs lips : mod.getListOfLIPs() ) {
 					if ( lips.getLIPs().size() != 1 ) continue;
-					if ( lips.getLIPs().getFirst().getBackbonePosition() != 1 ) continue;
+					if ( lips.getLIPs().getFirst().getBackbonePosition() != t_oURES.getAnomericPosition()  ) continue;
 					isAnomRing = true;
 					break;
 				}
@@ -130,19 +134,39 @@ public class WURCSExporterRDF {
 			t_sbMonosaccharide.append("\t"+PredicateList.HAS_ANOBASE.getTriple(t_strAnobaseURI));
 			t_sbMonosaccharide.append(" .\n\n"); // End of monosaccharide
 
-//			t_mapBasetypeURItoAnobaseURI.put(t_strBasetypeURI, t_strAnobaseURI);
-			// Subsums itself
+			// For monosaccharide subsumption
+			if ( !t_mapMSSubsums.containsKey(t_strMSURI) )
+				t_mapMSSubsums.put(t_strMSURI, new TreeSet<String>());
+			t_mapMSSubsums.get(t_strMSURI).add(t_strMSURI);
+
+			UniqueRES t_oSupersum = t_oURES;
+			String t_strSupersumURI = t_strMSURI;
+			String t_strSupersumURIold = "";
+			while( true ) {
+				t_strSupersumURIold = t_strSupersumURI;
+				t_oSupersum = WURCSMonosaccharideIntegrator.supersumes(t_oSupersum);
+				t_strSupersumURI = t_oExport.getMonosaccharideURI(t_oSupersum);
+				if ( t_strSupersumURIold.equals(t_strSupersumURI) ) break;
+
+				t_mapURItoMS.put(t_strSupersumURI, t_oSupersum);
+
+				if ( !t_mapMSSubsums.containsKey(t_strSupersumURI) )
+					t_mapMSSubsums.put(t_strSupersumURI, new TreeSet<String>());
+				t_mapMSSubsums.get(t_strSupersumURI).add(t_strMSURI);
+			}
+
+			// For anobase subsumption
 			if ( !t_mapAnobaseSubsums.containsKey(t_strAnobaseURI) )
 				t_mapAnobaseSubsums.put(t_strAnobaseURI, new TreeSet<String>());
 			t_mapAnobaseSubsums.get(t_strAnobaseURI).add(t_strAnobaseURI);
 
 			// Make anobase subsums
-			UniqueRES t_oSupersum = t_oAnobase;
-			String t_strSupersumURI = t_strAnobaseURI;
-			String t_strSupersumURIold = "";
+			t_oSupersum = t_oAnobase;
+			t_strSupersumURI = t_strAnobaseURI;
+			t_strSupersumURIold = "";
 			while( true ) {
 				t_strSupersumURIold = t_strSupersumURI;
-				t_oSupersum = WURCSMonosaccharideIntegrator.convertSupersumAnobase(t_oSupersum);
+				t_oSupersum = WURCSMonosaccharideIntegrator.supersumes(t_oSupersum);
 				t_strSupersumURI = t_oExport.getAnobaseURI(t_oSupersum);
 				if ( t_strSupersumURIold.equals(t_strSupersumURI) ) break;
 
@@ -153,6 +177,20 @@ public class WURCSExporterRDF {
 				t_mapAnobaseSubsums.get(t_strSupersumURI).add(t_strAnobaseURI);
 			}
 		}
+
+		// monosaccharide subsume triple
+		t_sbMonosaccharide.append("# subsumes\n");
+		for ( String t_strMSURI : t_mapURItoMS.keySet() ) {
+			t_sbMonosaccharide.append( t_strMSURI+"\n" );
+			t_sbMonosaccharide.append("\t"+PredicateList.A_MS.getAPredicate()); // a  wurcs:monosaccharide
+
+			for ( String t_strSubsumURI : t_mapMSSubsums.get(t_strMSURI) ) {
+				t_sbMonosaccharide.append(" ;\n");
+				t_sbMonosaccharide.append("\t"+PredicateList.SUBSUMES.getTriple(t_strSubsumURI));
+			}
+			t_sbMonosaccharide.append(" .\n\n");
+		}
+		t_sbMonosaccharide.append("\n");
 
 
 		// basetype triple
@@ -340,23 +378,23 @@ public class WURCSExporterRDF {
 
 		for (UniqueRES t_oURES : a_oWURCS.getUniqueRESs()) {
 			// For unique RES ID
-			t_sbGlycan.append("\t"+PredicateList.HAS_URES.getTriple( t_oExportURI.getUniqueRESURI(t_oURES) ));
-			t_sbGlycan.append(" ;\n");
+//			t_sbGlycan.append("\t"+PredicateList.HAS_URES.getTriple( t_oExportURI.getUniqueRESURI(t_oURES) ));
+//			t_sbGlycan.append(" ;\n");
 
 			// For monosaccharide of unique RES
 			t_sbGlycan.append("\t"+PredicateList.HAS_MS.getTriple( t_oExportURI.getMonosaccharideURI(t_oURES) ));
 			t_sbGlycan.append(" ;\n");
 			// For basetype of unique RES
-			UniqueRES t_oBasetype = WURCSMonosaccharideIntegrator.convertBasetype(t_oURES);
-			t_sbGlycan.append("\t"+PredicateList.HAS_BASETYPE.getTriple( t_oExportURI.getBasetypeURI(t_oBasetype) ));
-			t_sbGlycan.append(" ;\n");
+//			UniqueRES t_oBasetype = WURCSMonosaccharideIntegrator.convertBasetype(t_oURES);
+//			t_sbGlycan.append("\t"+PredicateList.HAS_BASETYPE.getTriple( t_oExportURI.getBasetypeURI(t_oBasetype) ));
+//			t_sbGlycan.append(" ;\n");
 		}
 
-		for ( LIN t_oLIN :a_oWURCS.getLINs() ) {
-			// For LIN
-			t_sbGlycan.append("\t"+PredicateList.HAS_LIN.getTriple( t_oExportURI.getLINURI(t_oLIN) ));
-			t_sbGlycan.append(" ;\n");
-		}
+//		for ( LIN t_oLIN :a_oWURCS.getLINs() ) {
+//			// For LIN
+//			t_sbGlycan.append("\t"+PredicateList.HAS_LIN.getTriple( t_oExportURI.getLINURI(t_oLIN) ));
+//			t_sbGlycan.append(" ;\n");
+//		}
 
 		// For WURCS sequence
 		t_sbGlycan.append("\t"+PredicateList.HAS_SEQ.getTripleLiteral( t_strWURCSString ));
@@ -372,16 +410,16 @@ public class WURCSExporterRDF {
 
 
 		// UniqueRES triple
-		t_sbGlycan.append("# UniqueRES\n");
-		for ( UniqueRES t_oURES : a_oWURCS.getUniqueRESs() ) {
-			t_sbGlycan.append(t_oExportURI.getUniqueRESURI(t_oURES)+"\n");
-			t_sbGlycan.append("\t"+PredicateList.A_URES.getAPredicate()); // a wurcs:uniqueRES
-			t_sbGlycan.append(" ;\n");
-
-			// For monosaccharide of unique RES
-			t_sbGlycan.append("\t"+PredicateList.IS_MS.getTriple( t_oExportURI.getMonosaccharideURI(t_oURES) ));
-			t_sbGlycan.append(" .\n\n");
-		}
+//		t_sbGlycan.append("# UniqueRES\n");
+//		for ( UniqueRES t_oURES : a_oWURCS.getUniqueRESs() ) {
+//			t_sbGlycan.append(t_oExportURI.getUniqueRESURI(t_oURES)+"\n");
+//			t_sbGlycan.append("\t"+PredicateList.A_URES.getAPredicate()); // a wurcs:uniqueRES
+//			t_sbGlycan.append(" ;\n");
+//
+//			// For monosaccharide of unique RES
+//			t_sbGlycan.append("\t"+PredicateList.IS_MS.getTriple( t_oExportURI.getMonosaccharideURI(t_oURES) ));
+//			t_sbGlycan.append(" .\n\n");
+//		}
 
 
 		// RES triple
@@ -393,7 +431,13 @@ public class WURCSExporterRDF {
 			t_sbGlycan.append(" ;\n");
 
 			// For uniqueRES of this RES
-			t_sbGlycan.append("\t"+PredicateList.IS_URES.getTriple( t_oExportURI.getUniqueRESURI( t_oRES.getUniqueRESID() ) ));
+//			t_sbGlycan.append("\t"+PredicateList.IS_URES.getTriple( t_oExportURI.getUniqueRESURI( t_oRES.getUniqueRESID() ) ));
+			t_sbGlycan.append("\t"+PredicateList.HAS_MS.getTriple( t_oExportURI.getMonosaccharideURI( a_oWURCS.getUniqueRESs().get(t_oRES.getUniqueRESID()-1)) ));
+//			t_sbGlycan.append(" ;\n");
+			
+			// For monosaccharide
+//			t_sbGlycan.append("\t"+PredicateList.IS_MS.getTriple( t_oExportURI.getMonosaccharideURI(t_oRES) ));
+//			t_sbGlycan.append(" .\n\n");
 
 			// For LIN contained this RES
 			for ( LIN t_oLIN : a_oWURCS.getLINs() ) {
@@ -455,52 +499,86 @@ public class WURCSExporterRDF {
 			for ( GLIP t_oGLIP : t_oGLIPs.getGLIPs() ) {
 				t_aGLIP.add(t_oGLIP);
 				t_sbGlycan.append(" ;\n");
-				t_sbGlycan.append("\t"+PredicateList.HAS_GLIP.getTriple( t_oExportURI.getGLIPURI(t_oGLIP) ));
+//				t_sbGlycan.append("\t"+PredicateList.HAS_GLIP.getTriple( t_oExportURI.getGLIPURI(t_oGLIP) ));
+				
+				// For RES index
+				t_sbGlycan.append("\t"+PredicateList.HAS_RES.getTriple( t_oExportURI.getRESURI( t_oGLIP.getRESIndex() ) ));
+
+				// For probabilities
+				if ( t_oGLIP.getBackboneProbabilityLower() != 1.0 ) {
+					t_sbGlycan.append(" ;\n");
+					t_sbGlycan.append("\t"+PredicateList.HAS_B_PROB_LOW.getTripleLiteral(t_oGLIP.getBackboneProbabilityLower()));
+					t_sbGlycan.append(" ;\n");
+					t_sbGlycan.append("\t"+PredicateList.HAS_B_PROB_UP.getTripleLiteral(t_oGLIP.getBackboneProbabilityUpper()));
+				}
+				if ( t_oGLIP.getModificationProbabilityLower() != 1.0 ) {
+					t_sbGlycan.append(" ;\n");
+					t_sbGlycan.append("\t"+PredicateList.HAS_M_PROB_LOW.getTripleLiteral(t_oGLIP.getModificationProbabilityLower()));
+					t_sbGlycan.append(" ;\n");
+					t_sbGlycan.append("\t"+PredicateList.HAS_M_PROB_UP.getTripleLiteral(t_oGLIP.getModificationProbabilityUpper()));
+				}
+				t_sbGlycan.append(" ;\n");
+
+				// For SC position
+				t_sbGlycan.append("\t"+PredicateList.HAS_SC_POS.getTripleLiteral( t_oGLIP.getBackbonePosition() ));
+				// For direction
+				if ( t_oGLIP.getBackboneDirection() != ' ' ) {
+					t_sbGlycan.append(" ;\n");
+					t_sbGlycan.append("\t"+PredicateList.HAS_DIRECTION.getTripleLiteral( t_oGLIP.getBackboneDirection() ));
+				}
+				// For MAP position (TODO: MAP position -> star index)
+				if ( t_oGLIP.getModificationPosition() != 0 ) {
+					t_sbGlycan.append(" ;\n");
+					t_sbGlycan.append("\t"+PredicateList.HAS_STAR_INDEX.getTripleLiteral( t_oGLIP.getModificationPosition() ));
+				}
+//				t_sbGlycan.append(" .\n\n");
+
+				
 			}
 			t_sbGlycan.append(" .\n\n");
 		}
 
 
 		// GLIP triple
-		if ( !t_aGLIP.isEmpty() )
-			t_sbGlycan.append("# GLIP\n");
-		for ( GLIP t_oGLIP : t_aGLIP ) {
-			t_sbGlycan.append(t_oExportURI.getGLIPURI(t_oGLIP)+"\n");
-			t_sbGlycan.append("\t"+PredicateList.A_GLIP.getAPredicate()); // a wurcs:GLIP
-			t_sbGlycan.append(" ;\n");
-
-			// For RES index
-			t_sbGlycan.append("\t"+PredicateList.HAS_RES.getTriple( t_oExportURI.getRESURI( t_oGLIP.getRESIndex() ) ));
-
-			// For probabilities
-			if ( t_oGLIP.getBackboneProbabilityLower() != 1.0 ) {
-				t_sbGlycan.append(" ;\n");
-				t_sbGlycan.append("\t"+PredicateList.HAS_B_PROB_LOW.getTripleLiteral(t_oGLIP.getBackboneProbabilityLower()));
-				t_sbGlycan.append(" ;\n");
-				t_sbGlycan.append("\t"+PredicateList.HAS_B_PROB_UP.getTripleLiteral(t_oGLIP.getBackboneProbabilityUpper()));
-			}
-			if ( t_oGLIP.getModificationProbabilityLower() != 1.0 ) {
-				t_sbGlycan.append(" ;\n");
-				t_sbGlycan.append("\t"+PredicateList.HAS_M_PROB_LOW.getTripleLiteral(t_oGLIP.getModificationProbabilityLower()));
-				t_sbGlycan.append(" ;\n");
-				t_sbGlycan.append("\t"+PredicateList.HAS_M_PROB_UP.getTripleLiteral(t_oGLIP.getModificationProbabilityUpper()));
-			}
-			t_sbGlycan.append(" ;\n");
-
-			// For SC position
-			t_sbGlycan.append("\t"+PredicateList.HAS_SC_POS.getTripleLiteral( t_oGLIP.getBackbonePosition() ));
-			// For direction
-			if ( t_oGLIP.getBackboneDirection() != ' ' ) {
-				t_sbGlycan.append(" ;\n");
-				t_sbGlycan.append("\t"+PredicateList.HAS_DIRECTION.getTripleLiteral( t_oGLIP.getBackboneDirection() ));
-			}
-			// For MAP position (TODO: MAP position -> star index)
-			if ( t_oGLIP.getModificationPosition() != 0 ) {
-				t_sbGlycan.append(" ;\n");
-				t_sbGlycan.append("\t"+PredicateList.HAS_STAR_INDEX.getTripleLiteral( t_oGLIP.getModificationPosition() ));
-			}
-			t_sbGlycan.append(" .\n\n");
-		}
+//		if ( !t_aGLIP.isEmpty() )
+//			t_sbGlycan.append("# GLIP\n");
+//		for ( GLIP t_oGLIP : t_aGLIP ) {
+//			t_sbGlycan.append(t_oExportURI.getGLIPURI(t_oGLIP)+"\n");
+//			t_sbGlycan.append("\t"+PredicateList.A_GLIP.getAPredicate()); // a wurcs:GLIP
+//			t_sbGlycan.append(" ;\n");
+//
+//			// For RES index
+//			t_sbGlycan.append("\t"+PredicateList.HAS_RES.getTriple( t_oExportURI.getRESURI( t_oGLIP.getRESIndex() ) ));
+//
+//			// For probabilities
+//			if ( t_oGLIP.getBackboneProbabilityLower() != 1.0 ) {
+//				t_sbGlycan.append(" ;\n");
+//				t_sbGlycan.append("\t"+PredicateList.HAS_B_PROB_LOW.getTripleLiteral(t_oGLIP.getBackboneProbabilityLower()));
+//				t_sbGlycan.append(" ;\n");
+//				t_sbGlycan.append("\t"+PredicateList.HAS_B_PROB_UP.getTripleLiteral(t_oGLIP.getBackboneProbabilityUpper()));
+//			}
+//			if ( t_oGLIP.getModificationProbabilityLower() != 1.0 ) {
+//				t_sbGlycan.append(" ;\n");
+//				t_sbGlycan.append("\t"+PredicateList.HAS_M_PROB_LOW.getTripleLiteral(t_oGLIP.getModificationProbabilityLower()));
+//				t_sbGlycan.append(" ;\n");
+//				t_sbGlycan.append("\t"+PredicateList.HAS_M_PROB_UP.getTripleLiteral(t_oGLIP.getModificationProbabilityUpper()));
+//			}
+//			t_sbGlycan.append(" ;\n");
+//
+//			// For SC position
+//			t_sbGlycan.append("\t"+PredicateList.HAS_SC_POS.getTripleLiteral( t_oGLIP.getBackbonePosition() ));
+//			// For direction
+//			if ( t_oGLIP.getBackboneDirection() != ' ' ) {
+//				t_sbGlycan.append(" ;\n");
+//				t_sbGlycan.append("\t"+PredicateList.HAS_DIRECTION.getTripleLiteral( t_oGLIP.getBackboneDirection() ));
+//			}
+//			// For MAP position (TODO: MAP position -> star index)
+//			if ( t_oGLIP.getModificationPosition() != 0 ) {
+//				t_sbGlycan.append(" ;\n");
+//				t_sbGlycan.append("\t"+PredicateList.HAS_STAR_INDEX.getTripleLiteral( t_oGLIP.getModificationPosition() ));
+//			}
+//			t_sbGlycan.append(" .\n\n");
+//		}
 
 		return t_sbGlycan.toString();
 	}

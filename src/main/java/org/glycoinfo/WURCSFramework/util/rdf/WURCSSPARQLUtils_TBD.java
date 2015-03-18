@@ -54,8 +54,8 @@ public class WURCSSPARQLUtils_TBD {
 			m_strHED += m_strError;
 			m_strHED += "#        contact: info.glyco@gmail.com\n";
 		}
-		m_strHED += "#        version 2015.03.05.16:36 (JAPAN)\n";
-		m_strHED += "#                with subquery & anobase \n";
+		m_strHED += "#        version 2015.03.12.17:17 (JAPAN)\n";
+		m_strHED += "#                BIND \n";
 		
 		m_strHED += "# Query Structure:\n";
 		m_strHED += "# " + a_strWURCS + "\n";
@@ -495,10 +495,10 @@ public class WURCSSPARQLUtils_TBD {
 	public static String getBind(){
 		StringBuilder  sb = new StringBuilder();
 //		sb.append("# BIND\n");
-		sb.append("  BIND( iri(replace(str(?glycan), \"http://rdf.glycoinfo.org/glycan/\", \"http://www.glytoucan.org/glyspace/service/glycans/\")) as ?glycan2)\n");	// 
-//		sb.append("  BIND( iri(replace(str(?glycan), \"http://rdf.glycoinfo.org/glycan/\", \"http://www.glytoucan.org/glyspace/service/glycans/\")) as ?glycan2)\n");
-		sb.append("  BIND( iri(concat(?glycan2, \"/image?style=extended&format=png&notation=cfg\"))as ?glycans )\n");
-//		sb.append("  BIND( iri(replace(str(?glycan), \"http://rdf.glycoinfo.org/glycan/\", \"http://www.glycome-db.org/getSugarImage.action?type=cfg&id=\")) as ?glycan2)\n");
+		sb.append("  BIND( iri(replace(str(?glycan), \"http://rdf.glycoinfo.org/glycan/\", \"<img src=\\\"http://www.glytoucan.org/glyspace/service/glycans/\")) as ?glycan2)\n");
+
+		sb.append("  BIND( iri(concat(?glycan2, \"/image?style=extended&format=png&notation=cfg\\\"/>\")) as ?glycans )\n");
+
 		return sb.toString();
 	}
 	

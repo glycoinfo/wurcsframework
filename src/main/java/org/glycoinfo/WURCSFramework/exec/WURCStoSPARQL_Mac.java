@@ -27,6 +27,9 @@ public class WURCStoSPARQL_Mac {
 //		// G00030MO
 		input = "WURCS=2.0/4,7,6/[u2122h_2*NCC/3=O][12122h-1b_1-5_2*NCC/3=O][11122h-1b_1-5][21122h-1a_1-5]/1-2-3-4-2-4-2/a4-b1_b4-c1_c3-d1_c6-f1_e1-d2|d4_g1-f2|f4";
 		
+		//G00012MO
+		input = "WURCS=2.0/4,4,3/[u2122h][12112h-1b_1-5][22112h-1a_1-5][12112h-1b_1-5_2*NCC/3=O]/1-2-3-4/a4-b1_b3-c1_c3-d1";
+		
 		String m_strSearchOption = WURCSSPARQLUtils_TBD.m_strSearchtypeESuperM;
 //		m_strSearchOption        = WURCSSPARQLUtils_TBD.m_strSearchtypeFSuperM; // SSM
 		m_strSearchOption        = WURCSSPARQLUtils_TBD.m_strSearchtypeFSubM;   // FSM
