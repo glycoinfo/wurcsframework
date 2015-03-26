@@ -31,12 +31,14 @@ public class WURCStoSPARQL_Mac {
 		input = "WURCS=2.0/4,4,3/[u2122h][12112h-1b_1-5][22112h-1a_1-5][12112h-1b_1-5_2*NCC/3=O]/1-2-3-4/a4-b1_b3-c1_c3-d1";
 		
 		String m_strSearchOption = WURCSSPARQLUtils_TBD.m_strSearchtypeESuperM;
-//		m_strSearchOption        = WURCSSPARQLUtils_TBD.m_strSearchtypeFSuperM; // SSM
-		m_strSearchOption        = WURCSSPARQLUtils_TBD.m_strSearchtypeFSubM;   // FSM
+//		m_strSearchOption        = WURCSSPARQLUtils_TBD.m_strSearchtypeFSuperM;    // SSM
+//		m_strSearchOption        = WURCSSPARQLUtils_TBD.m_strSearchtypeFSubM;      // FSM
+		m_strSearchOption        = WURCSSPARQLUtils_TBD.m_strSearchtypeFSubMsume;  // FSubMsume
 //		m_strSearchOption        = WURCSSPARQLUtils_TBD.m_strSearchtypeExactStructureSearch;  // Exact Structure Search
 
-		String m_strFromGraph = "FROM <http://rdf.glycoinfo.org/wurcs>";
+		String m_strFromGraph = "FROM <http://rdf.glycoinfo.org/wurcs/0.5.1>";
 		String m_strCount = "glycan";
+		String m_strDbtype = "blazegraph";
 		
 
 		WURCSSPARQL_TBD sql = new WURCSSPARQL_TBD();
@@ -90,6 +92,10 @@ public class WURCStoSPARQL_Mac {
 			if(a_str.indexOf(WURCSSPARQLUtils_TBD.m_strSearchtypeFSubM) != -1) {
 				m_strSearchOption = WURCSSPARQLUtils_TBD.m_strSearchtypeFSubM;
 			}
+			if(a_str.indexOf(WURCSSPARQLUtils_TBD.m_strSearchtypeFSubMsume) != -1) {
+				m_strSearchOption = WURCSSPARQLUtils_TBD.m_strSearchtypeFSubMsume;
+			}
+			
 			if(a_str.indexOf(WURCSSPARQLUtils_TBD.m_strSearchtypeExactStructureSearch) != -1) {
 				m_strSearchOption = WURCSSPARQLUtils_TBD.m_strSearchtypeExactStructureSearch;
 			}
@@ -100,7 +106,9 @@ public class WURCStoSPARQL_Mac {
 			if (a_str.indexOf("count") != -1) {
 				m_strCount = a_str;
 			}
-			//m_strCount
+			if (a_str.indexOf("virtuoso") != -1) {
+				m_strDbtype = a_str;
+			}
 
 		}
 
@@ -110,10 +118,11 @@ public class WURCStoSPARQL_Mac {
 //		t_aOption.add("exact");
 		t_aOption.add("uri");
 		t_aOption.add("wurcs");
-		t_aOption.add("#  LIMIT 100");
+//		t_aOption.add("#  LIMIT 100");
 		t_aOption.add(m_strFromGraph);
 		t_aOption.add(m_strCount);
 		t_aOption.add(m_strSearchOption);
+		t_aOption.add(m_strDbtype);
 //		t_aOption.add("TEST_ID:" + String.valueOf(i_SPARQLtestID));
 		// Search Type
 		// ESM		Exact Substructure match
@@ -151,6 +160,10 @@ public class WURCStoSPARQL_Mac {
 						else if (m_strSearchOption.equals(WURCSSPARQLUtils_TBD.m_strSearchtypeFSuperM)) {
 							sb.append(sql.getSPARQL(input.substring(input.indexOf("W")), t_aOption, WURCSSPARQLUtils_TBD.m_strSearchtypeFSuperM));
 						}
+						else if (m_strSearchOption.equals(WURCSSPARQLUtils_TBD.m_strSearchtypeFSubMsume)) {
+							sb.append(sql.getSPARQL(input.substring(input.indexOf("W")), t_aOption, WURCSSPARQLUtils_TBD.m_strSearchtypeFSubMsume));
+						}
+						
 						else if (m_strSearchOption.equals(WURCSSPARQLUtils_TBD.m_strSearchtypeExactStructureSearch)) {
 							sb.append(sql.getSPARQL(input.substring(input.indexOf("W")), t_aOption, WURCSSPARQLUtils_TBD.m_strSearchtypeExactStructureSearch));
 						}
@@ -190,6 +203,11 @@ public class WURCStoSPARQL_Mac {
 				sb.append(sql.getSPARQL(input.substring(input.indexOf("W")), t_aOption, WURCSSPARQLUtils_TBD.m_strSearchtypeFSubM));
 				System.out.println(sql.getSPARQL(input.substring(input.indexOf("W")), t_aOption, WURCSSPARQLUtils_TBD.m_strSearchtypeFSubM));
 			}
+			else if (m_strSearchOption.equals(WURCSSPARQLUtils_TBD.m_strSearchtypeFSubMsume)) {
+				sb.append(sql.getSPARQL(input.substring(input.indexOf("W")), t_aOption, WURCSSPARQLUtils_TBD.m_strSearchtypeFSubMsume));
+				System.out.println(sql.getSPARQL(input.substring(input.indexOf("W")), t_aOption, WURCSSPARQLUtils_TBD.m_strSearchtypeFSubMsume));
+			}
+
 			else if (m_strSearchOption.equals(WURCSSPARQLUtils_TBD.m_strSearchtypeExactStructureSearch)) {
 				sb.append(sql.getSPARQL(input.substring(input.indexOf("W")), t_aOption, WURCSSPARQLUtils_TBD.m_strSearchtypeExactStructureSearch));
 				System.out.println(sql.getSPARQL(input.substring(input.indexOf("W")), t_aOption, WURCSSPARQLUtils_TBD.m_strSearchtypeExactStructureSearch));

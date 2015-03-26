@@ -5,6 +5,7 @@ import java.util.LinkedList;
 
 import org.glycoinfo.WURCSFramework.graph.Backbone;
 import org.glycoinfo.WURCSFramework.graph.BackboneCarbon;
+import org.glycoinfo.WURCSFramework.graph.BackboneUnknown;
 import org.glycoinfo.WURCSFramework.graph.WURCSEdge;
 
 /**
@@ -15,6 +16,10 @@ public class BackboneComparator implements Comparator<Backbone> {
 
 	@Override
 	public int compare(Backbone b1, Backbone b2) {
+
+		// For unknown monosaccharide
+		if ( !(b1 instanceof BackboneUnknown) &&  (b2 instanceof BackboneUnknown) ) return -1;
+		if (  (b1 instanceof BackboneUnknown) && !(b2 instanceof BackboneUnknown) ) return 1;
 
 		// For root nodes
 		WURCSEdge t_oAnomEdge1 = b1.getAnomericEdge();
@@ -128,7 +133,14 @@ public class BackboneComparator implements Comparator<Backbone> {
 		// Prioritize smaller score
 		if ( score1 != score2 ) return score1 - score2;
 
+		// For same score symmetry backbone (not same SkeletonCode)
+		String strCode1 = b1.getSkeletonCode();
+		String strCode2 = b2.getSkeletonCode();
+		// Prioritize larger string
+		if ( !strCode1.equals(strCode2) ) return strCode2.compareTo(strCode1);
+
 		// For position of modification
+		// TODO: add factor of MAP score
 		score1 = 0;
 		score2 = 0;
 		for ( WURCSEdge edge : t_aSubstituentLinkages1 )
@@ -138,7 +150,7 @@ public class BackboneComparator implements Comparator<Backbone> {
 		// Prioritize smaller score
 		if ( score1 != score2 ) return score1 - score2;
 
-		// TODO: Compare position of glycosidic linkage
+		// For position of glycosidic linkage
 		score1 = 0;
 		score2 = 0;
 		for ( WURCSEdge edge : t_aGlycosidicLinkages1 )

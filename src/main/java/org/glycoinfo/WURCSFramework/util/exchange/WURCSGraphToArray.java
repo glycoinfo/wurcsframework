@@ -9,8 +9,6 @@ import org.glycoinfo.WURCSFramework.graph.InterfaceRepeat;
 import org.glycoinfo.WURCSFramework.graph.LinkagePosition;
 import org.glycoinfo.WURCSFramework.graph.Modification;
 import org.glycoinfo.WURCSFramework.graph.ModificationAlternative;
-import org.glycoinfo.WURCSFramework.graph.ModificationRepeat;
-import org.glycoinfo.WURCSFramework.graph.ModificationRepeatAlternative;
 import org.glycoinfo.WURCSFramework.graph.WURCSEdge;
 import org.glycoinfo.WURCSFramework.graph.WURCSGraph;
 import org.glycoinfo.WURCSFramework.util.WURCSDataConverter;
@@ -30,6 +28,11 @@ import org.glycoinfo.WURCSFramework.wurcs.RES;
 import org.glycoinfo.WURCSFramework.wurcs.UniqueRES;
 import org.glycoinfo.WURCSFramework.wurcs.WURCSArray;
 
+/**
+ * Class for conversion from WURCSGraph to WURCSArray
+ * @author MasaakiMatsubara
+ *
+ */
 public class WURCSGraphToArray implements WURCSVisitor {
 
 	private String m_strVersion = "2.0";
@@ -60,8 +63,8 @@ public class WURCSGraphToArray implements WURCSVisitor {
 				a_objBackbone.getAnomericSymbol()
 			);
 
-		//XXX
-		System.out.println( this.m_oExporter.getUniqueRESString( t_oURESCandidate ) );
+		//XXX remove print
+//		System.out.println( this.m_oExporter.getUniqueRESString( t_oURESCandidate ) );
 		// Searce edges for MOD
 		LinkedList<WURCSEdge> edges = a_objBackbone.getEdges();
 		Collections.sort( edges, this.m_oEdgeComp );
@@ -84,6 +87,7 @@ public class WURCSGraphToArray implements WURCSVisitor {
 			t_oURESCandidate.addMOD( this.makeMOD(t_oModif) );
 
 			if ( !t_oMODEdge.isReverse() ) continue;
+			// XXX remove print
 			System.err.println("has parent");
 		}
 
@@ -102,15 +106,19 @@ public class WURCSGraphToArray implements WURCSVisitor {
 
 	@Override
 	public void visit(Modification a_objModification) throws WURCSVisitorException {
+		// For alternative
+		if ( a_objModification instanceof ModificationAlternative ) {
+			this.visit((ModificationAlternative)a_objModification);
+			return;
+		}
+
 		if ( !a_objModification.isGlycosidic() ) return;
 		// Add modifiation at glycosidic linkage
 		if ( this.m_aGlycosidicModifications.contains(a_objModification) ) return;
 		this.m_aGlycosidicModifications.addLast(a_objModification);
 	}
 
-	@Override
-	public void visit(ModificationAlternative a_objModificationAlternative) throws WURCSVisitorException {
-		// TODO 自動生成されたメソッド・スタブ
+	private void visit(ModificationAlternative a_objModificationAlternative) throws WURCSVisitorException {
 		if ( !a_objModificationAlternative.isGlycosidic() )
 			throw new WURCSVisitorException("ModificationAlternative must be Glycosidic linkage.");
 		// Add modifiation at glycosidic linkage
@@ -119,11 +127,11 @@ public class WURCSGraphToArray implements WURCSVisitor {
 
 	}
 
-
 	@Override
 	public void visit(WURCSEdge a_objWURCSEdge) throws WURCSVisitorException {
 /*
 		// Search test
+		System.err.println(a_objWURCSEdge);
 		if ( !a_objWURCSEdge.isReverse() ) {
 			Backbone t_oB = a_objWURCSEdge.getBackbone();
 			System.err.println( this.m_aBackbones.indexOf( t_oB ) +":"+t_oB.getSkeletonCode()+":"+a_objWURCSEdge.getLinkages().getFirst().getBackbonePosition() );
@@ -164,7 +172,8 @@ public class WURCSGraphToArray implements WURCSVisitor {
 	}
 
 	public WURCSArray getWURCSArray() {
-		System.out.println( this.m_oExporter.getWURCSString(this.m_oWURCS) );
+		// XXX remove print
+//		System.out.println( this.m_oExporter.getWURCSString(this.m_oWURCS) );
 		return this.m_oWURCS;
 	}
 
@@ -239,12 +248,11 @@ public class WURCSGraphToArray implements WURCSVisitor {
 		if ( t_strMAP.equals("*O*") ) t_strMAP = "";
 		LIN t_oLIN = new LIN(t_strMAP);
 
-		if ( !a_oMod.getLeadInEdges().isEmpty() ) {
-
-		}
-		t_oLIN.addGLIPs( this.makeGLIPs(a_oMod.getLeadInEdges(), "}") );
-		t_oLIN.addGLIPs( this.makeGLIPs(a_oMod.getLeadOutEdges(), "{") );
-		LinkedList<WURCSEdge> edges = a_oMod.getLeadInEdges();
+		if ( !a_oMod.getLeadInEdges().isEmpty() )
+			t_oLIN.addGLIPs( this.makeGLIPs(a_oMod.getLeadInEdges(), "}") );
+		if ( !a_oMod.getLeadOutEdges().isEmpty() )
+			t_oLIN.addGLIPs( this.makeGLIPs(a_oMod.getLeadOutEdges(), "{") );
+		LinkedList<WURCSEdge> edges = a_oMod.getEdges();
 		Collections.sort( edges, this.m_oEdgeComp );
 		for ( WURCSEdge t_oEdge : edges ) {
 			if ( a_oMod.getLeadInEdges().contains(t_oEdge) ) continue;
@@ -252,13 +260,7 @@ public class WURCSGraphToArray implements WURCSVisitor {
 			t_oLIN.addGLIPs( this.makeGLIPs(t_oEdge) );
 		}
 
-		if ( a_oMod.getClass() != ModificationRepeatAlternative.class ) return t_oLIN;
-
-		ModificationRepeatAlternative t_oModRep = (ModificationRepeatAlternative)a_oMod;
-		// Set Repeating
-		t_oLIN.setRepeatingUnit(true);
-		t_oLIN.setMinRepeatCount( t_oModRep.getMinRepeatCount() );
-		t_oLIN.setMaxRepeatCount( t_oModRep.getMaxRepeatCount() );
+		this.setRepeat(a_oMod, t_oLIN);
 
 		return t_oLIN;
 	}
@@ -274,15 +276,19 @@ public class WURCSGraphToArray implements WURCSVisitor {
 		for ( WURCSEdge t_oEdge : edges ) {
 			t_oLIN.addGLIPs( this.makeGLIPs(t_oEdge) );
 		}
-		if ( a_oMod.getClass() != ModificationRepeat.class ) return t_oLIN;
 
-		ModificationRepeat t_oModRep = (ModificationRepeat)a_oMod;
-		// Set Repeating
-		t_oLIN.setRepeatingUnit(true);
-		t_oLIN.setMinRepeatCount( t_oModRep.getMinRepeatCount() );
-		t_oLIN.setMaxRepeatCount( t_oModRep.getMaxRepeatCount() );
+		this.setRepeat(a_oMod, t_oLIN);
 
 		return t_oLIN;
+	}
+
+	private void setRepeat( Modification a_oMod, LIN a_oLIN ) {
+		if ( ! (a_oMod instanceof InterfaceRepeat) ) return;
+		InterfaceRepeat t_oModRep = (InterfaceRepeat)a_oMod;
+		// Set Repeating
+		a_oLIN.setRepeatingUnit(true);
+		a_oLIN.setMinRepeatCount( t_oModRep.getMinRepeatCount() );
+		a_oLIN.setMaxRepeatCount( t_oModRep.getMaxRepeatCount() );
 	}
 
 	private GLIPs makeGLIPs(LinkedList<WURCSEdge> a_aEdges, String a_strAlternativeType) {

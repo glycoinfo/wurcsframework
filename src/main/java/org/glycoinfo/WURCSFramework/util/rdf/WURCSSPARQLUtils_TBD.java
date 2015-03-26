@@ -26,6 +26,8 @@ public class WURCSSPARQLUtils_TBD {
 	// FSM old
 	public static String m_strSearchtypeFSubM = "FSubM";
 	
+	public static String m_strSearchtypeFSubMsume = "FSubMsume";
+	
 	public static String m_strSearchtypeExactStructureSearch = "ExactStructureSearch";
 	
 	public static String getHeadr(String a_strWURCS, LinkedList<String> t_aOption){
@@ -54,8 +56,8 @@ public class WURCSSPARQLUtils_TBD {
 			m_strHED += m_strError;
 			m_strHED += "#        contact: info.glyco@gmail.com\n";
 		}
-		m_strHED += "#        version 2015.03.12.17:17 (JAPAN)\n";
-		m_strHED += "#                BIND \n";
+		m_strHED += "#        version 2015.03.26.01:24 (JAPAN)\n";
+		m_strHED += "#                modified Blazegraph \n";
 		
 		m_strHED += "# Query Structure:\n";
 		m_strHED += "# " + a_strWURCS + "\n";
@@ -71,24 +73,41 @@ public class WURCSSPARQLUtils_TBD {
 	
 	public static String getSelectRESs(WURCSArray a_oWURCSArray, LinkedList<String> a_aOption) {
 		StringBuilder  sb = new StringBuilder();
-
-		sb.append(WURCSSPARQLUtils_TBD.getSelectRESs(a_oWURCSArray.getRESs()));
-		
-		// for monosaccharide graph
-		for (String m_str : a_aOption){
-			if (m_str.startsWith("FROM")) { 
-				sb.append(m_str.replace("FROM","  FROM ").replace(">","/ms> ") + "\n");
-			}
-		}
-		// for glycan graph
-		for (String m_str : a_aOption){
-			if (m_str.startsWith("FROM")) { 
-				sb.append(m_str.replace("FROM","  FROM ") + "\n");
-			}
+		boolean m_bBlazegraph = false;
+		if (a_aOption.contains("blazegraph")) {
+			m_bBlazegraph = true;
 		}
 
+		if (!m_bBlazegraph) {
+			sb.append(WURCSSPARQLUtils_TBD.getSelectRESs(a_oWURCSArray.getRESs()));
 		
-		sb.append("  WHERE { \n");
+			// for monosaccharide graph
+			for (String m_str : a_aOption){
+				if (m_str.startsWith("FROM")) { 
+					sb.append(m_str.replace("FROM","  FROM ").replace(">","/ms> ") + "\n");
+				}
+			}
+			// for glycan graph
+			for (String m_str : a_aOption){
+				if (m_str.startsWith("FROM")) { 
+					sb.append(m_str.replace("FROM","  FROM ") + "\n");
+				}
+			}
+		}		
+		// check search option
+		String t_strSearchOption = "FSubM";
+		for (String m_str : a_aOption){
+			if (m_str.startsWith(m_strSearchtypeFSubMsume)) { 
+				t_strSearchOption = m_strSearchtypeFSubMsume;
+			}
+		}
+		
+
+		
+		//with subquery
+		if (!m_bBlazegraph) {
+			sb.append("  WHERE { \n");
+		}
 		
 		sb.append(WURCSSPARQLUtils_TBD.getHasUniqueRES(a_oWURCSArray.getUniqueRESs()));
 		
@@ -96,11 +115,23 @@ public class WURCSSPARQLUtils_TBD {
 		
 		sb.append(WURCSSPARQLUtils_TBD.getuREStoMS(a_oWURCSArray.getUniqueRESs()));
 		
-		sb.append(WURCSSPARQLUtils_TBD.getMStoSubano(a_oWURCSArray.getUniqueRESs()));
+		
+		
+		if (t_strSearchOption.equals("FSubM")) {
+			sb.append(WURCSSPARQLUtils_TBD.getMStoSubano(a_oWURCSArray.getUniqueRESs()));
+		}
+		else {
+			sb.append(WURCSSPARQLUtils_TBD.getMStoSubsumes(a_oWURCSArray.getUniqueRESs()));
+		}
+		
+		
 		
 //		sb.append(WURCSSPARQLUtils_TBD.getuniqueRES(a_oWURCSArray.getUniqueRESs()));
 
-		sb.append(" }\n");
+		//with subquery
+		if (!m_bBlazegraph) {
+			sb.append(" }\n");
+		}
 
 		return sb.toString();
 	}
@@ -148,7 +179,9 @@ public class WURCSSPARQLUtils_TBD {
 		StringBuilder  sb = new StringBuilder();
 		WURCSExporter export = new WURCSExporter();
 
-		if (a_strSearchOption.equals(WURCSSPARQLUtils_TBD.m_strSearchtypeESuperM) || a_strSearchOption.equals(WURCSSPARQLUtils_TBD.m_strSearchtypeFSuperM)) {
+		if (a_strSearchOption.equals(WURCSSPARQLUtils_TBD.m_strSearchtypeESuperM)
+				|| a_strSearchOption.equals(WURCSSPARQLUtils_TBD.m_strSearchtypeFSuperM)
+				) {
 			//		sb.append("# LIN1\n");
 			int m_iLINGLIPS = 0;
 			for (LIN a_oLIN : a_aLINs){
@@ -217,7 +250,7 @@ public class WURCSSPARQLUtils_TBD {
 				} // end for <GLIPS>
 			}
 		}
-		else if (a_strSearchOption.equals(WURCSSPARQLUtils_TBD.m_strSearchtypeFSubM)) {
+		else if (a_strSearchOption.equals(WURCSSPARQLUtils_TBD.m_strSearchtypeFSubM)|| a_strSearchOption.equals(WURCSSPARQLUtils_TBD.m_strSearchtypeFSubMsume)) {
 //			sb.append("# LIN1\n");
 //			int i_pRES = 1;
 			int m_iLINGLIPS = 0;
@@ -448,6 +481,21 @@ public class WURCSSPARQLUtils_TBD {
 		return sb.toString();
 	}
 	
+	
+	public static String getMStoSubsumes(LinkedList<UniqueRES> a_aURESs) {
+		StringBuilder  sb = new StringBuilder();
+
+		
+		WURCSExporter export = new WURCSExporter();
+		for (UniqueRES uRES : a_aURESs) {
+			
+			sb.append("  <http://rdf.glycoinfo.org/glycan/wurcs/2.0/monosaccharide/");
+			sb.append(WURCSStringUtils.getURLString(export.getUniqueRESString(uRES)) + "> wurcs:subsumes ?MS" + uRES.getUniqueRESID() + " .\n");
+		}
+		return sb.toString();
+	}
+	
+	
 	public static String getuniqueRES(LinkedList<UniqueRES> a_aURESs) {
 		StringBuilder  sb = new StringBuilder();
 //		sb.append("# uniqueRES\n");
@@ -504,10 +552,24 @@ public class WURCSSPARQLUtils_TBD {
 	
 	
 	
-	public static String getGseq(){
+	public static String getGseq(LinkedList<String> t_aOption){
 		StringBuilder  sb = new StringBuilder();
 //		sb.append("# SEQ\n");
-		sb.append("  ?glycan glycan:has_glycosequence ?gseq \n");
+		
+		boolean m_bBlazegraph = false;
+		if (t_aOption.contains("blazegraph")) {
+			m_bBlazegraph = true;
+		}
+
+		if (!m_bBlazegraph) {
+			sb.append("  ?glycan glycan:has_glycosequence ?gseq \n");
+		}
+		else {
+			sb.append("  ?glycan glycan:has_glycosequence ?gseq .\n");
+		}
+		
+		
+		
 		return sb.toString();
 	}
 	
@@ -518,12 +580,33 @@ public class WURCSSPARQLUtils_TBD {
 		return a_oGLIP.getRESIndex() + a_oGLIP.getBackbonePosition() + a_oGLIP.getBackboneDirection() ;
 	}
 	
-	public static String getGraph(LinkedList<String> t_aOption){
+	public static String getGraph(int t_RES_Count, LinkedList<String> t_aOption){
 		StringBuilder  sb = new StringBuilder();
+		boolean m_bBlazegraph = false;
+		if (t_aOption.contains("blazegraph")) {
+			m_bBlazegraph = true;
+		}
 		// select graph
 		for (String m_str : t_aOption){
-			if (m_str.startsWith("FROM")) { 
-				sb.append(m_str.replace("FROM","FROM ") + "\n");
+			if (m_str.startsWith("FROM")) {
+				
+				if (!m_bBlazegraph) {
+					sb.append(m_str.replace("FROM","FROM ") + "\n");
+				}
+				else {
+					
+					int t_iREScount[] = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,33,34,36,37,40,54,60,103};
+					
+					for (int t_iCount : t_iREScount) {
+						if (t_iCount >= t_RES_Count) {
+//							sb.append(m_str.replace("FROM","FROM ").replace(">","/" + t_iCount + ">") + "\n");
+//							sb.append(m_str.replace("FROM","FROM ").replace(">","/" + t_iCount + "/ms>") + "\n");
+						}
+					}
+					sb.append("# " + m_str.replace("FROM","FROM ").replace(">","/>") + "\n");
+					sb.append("# " + m_str.replace("FROM","FROM ").replace(">","/ms>") + "\n");
+
+				}
 			}
 		}
 		return sb.toString();
@@ -532,18 +615,43 @@ public class WURCSSPARQLUtils_TBD {
 	
 	public static String getSelect(LinkedList<String> t_aOption) {
 		StringBuilder  sb = new StringBuilder();
+		
+		boolean m_bBlazegraph = false;
+		if (t_aOption.contains("blazegraph")) {
+			m_bBlazegraph = true;
+		}
+		
 //		sb.append("# SELECT\n");
 		if (!t_aOption.contains("count")) {
-			sb.append("SELECT DISTINCT ?glycans\n");
+			
+			//with subquery
+			if (!m_bBlazegraph) {
+				sb.append("SELECT DISTINCT ?glycans\n");
+			}
+			else {
+				sb.append("SELECT DISTINCT ?glycan\n");
+			}
 			
 			if (!t_aOption.contains(WURCSSPARQLUtils_TBD.m_strSearchtypeExactStructureSearch)) {
 				if (t_aOption.contains("wurcs")) {
-					sb.append("  str ( ?wurcs ) AS ?WURCS\n");
+					
+					if (!m_bBlazegraph) {
+						sb.append("  str ( ?wurcs ) AS ?WURCS\n");
+					}
+					else {
+						sb.append("  ?wurcs\n");
+					}
 				}
 			}
 		}
 		else {
-			sb.append("SELECT count (DISTINCT ?glycans)\n");
+			//with subquery
+			if (!m_bBlazegraph) {
+				sb.append("SELECT count (DISTINCT ?glycans) AS ?count\n");
+			}
+			else{
+				sb.append("SELECT count (DISTINCT ?glycan) AS ?count\n");
+			}
 		}
 		return sb.toString();
 	}

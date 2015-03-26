@@ -378,23 +378,23 @@ public class WURCSExporterRDF {
 
 		for (UniqueRES t_oURES : a_oWURCS.getUniqueRESs()) {
 			// For unique RES ID
-//			t_sbGlycan.append("\t"+PredicateList.HAS_URES.getTriple( t_oExportURI.getUniqueRESURI(t_oURES) ));
-//			t_sbGlycan.append(" ;\n");
+			t_sbGlycan.append("\t"+PredicateList.HAS_URES.getTriple( t_oExportURI.getUniqueRESURI(t_oURES) ));
+			t_sbGlycan.append(" ;\n");
 
 			// For monosaccharide of unique RES
 			t_sbGlycan.append("\t"+PredicateList.HAS_MS.getTriple( t_oExportURI.getMonosaccharideURI(t_oURES) ));
 			t_sbGlycan.append(" ;\n");
 			// For basetype of unique RES
-//			UniqueRES t_oBasetype = WURCSMonosaccharideIntegrator.convertBasetype(t_oURES);
-//			t_sbGlycan.append("\t"+PredicateList.HAS_BASETYPE.getTriple( t_oExportURI.getBasetypeURI(t_oBasetype) ));
-//			t_sbGlycan.append(" ;\n");
+			UniqueRES t_oBasetype = WURCSMonosaccharideIntegrator.convertBasetype(t_oURES);
+			t_sbGlycan.append("\t"+PredicateList.HAS_BASETYPE.getTriple( t_oExportURI.getBasetypeURI(t_oBasetype) ));
+			t_sbGlycan.append(" ;\n");
 		}
 
-//		for ( LIN t_oLIN :a_oWURCS.getLINs() ) {
-//			// For LIN
-//			t_sbGlycan.append("\t"+PredicateList.HAS_LIN.getTriple( t_oExportURI.getLINURI(t_oLIN) ));
-//			t_sbGlycan.append(" ;\n");
-//		}
+		for ( LIN t_oLIN :a_oWURCS.getLINs() ) {
+			// For LIN
+			t_sbGlycan.append("\t"+PredicateList.HAS_LIN.getTriple( t_oExportURI.getLINURI(t_oLIN) ));
+			t_sbGlycan.append(" ;\n");
+		}
 
 		// For WURCS sequence
 		t_sbGlycan.append("\t"+PredicateList.HAS_SEQ.getTripleLiteral( t_strWURCSString ));
@@ -410,16 +410,16 @@ public class WURCSExporterRDF {
 
 
 		// UniqueRES triple
-//		t_sbGlycan.append("# UniqueRES\n");
-//		for ( UniqueRES t_oURES : a_oWURCS.getUniqueRESs() ) {
-//			t_sbGlycan.append(t_oExportURI.getUniqueRESURI(t_oURES)+"\n");
-//			t_sbGlycan.append("\t"+PredicateList.A_URES.getAPredicate()); // a wurcs:uniqueRES
-//			t_sbGlycan.append(" ;\n");
-//
-//			// For monosaccharide of unique RES
-//			t_sbGlycan.append("\t"+PredicateList.IS_MS.getTriple( t_oExportURI.getMonosaccharideURI(t_oURES) ));
-//			t_sbGlycan.append(" .\n\n");
-//		}
+		t_sbGlycan.append("# UniqueRES\n");
+		for ( UniqueRES t_oURES : a_oWURCS.getUniqueRESs() ) {
+			t_sbGlycan.append(t_oExportURI.getUniqueRESURI(t_oURES)+"\n");
+			t_sbGlycan.append("\t"+PredicateList.A_URES.getAPredicate()); // a wurcs:uniqueRES
+			t_sbGlycan.append(" ;\n");
+
+			// For monosaccharide of unique RES
+			t_sbGlycan.append("\t"+PredicateList.IS_MS.getTriple( t_oExportURI.getMonosaccharideURI(t_oURES) ));
+			t_sbGlycan.append(" .\n\n");
+		}
 
 
 		// RES triple
@@ -431,13 +431,7 @@ public class WURCSExporterRDF {
 			t_sbGlycan.append(" ;\n");
 
 			// For uniqueRES of this RES
-//			t_sbGlycan.append("\t"+PredicateList.IS_URES.getTriple( t_oExportURI.getUniqueRESURI( t_oRES.getUniqueRESID() ) ));
-			t_sbGlycan.append("\t"+PredicateList.HAS_MS.getTriple( t_oExportURI.getMonosaccharideURI( a_oWURCS.getUniqueRESs().get(t_oRES.getUniqueRESID()-1)) ));
-//			t_sbGlycan.append(" ;\n");
-			
-			// For monosaccharide
-//			t_sbGlycan.append("\t"+PredicateList.IS_MS.getTriple( t_oExportURI.getMonosaccharideURI(t_oRES) ));
-//			t_sbGlycan.append(" .\n\n");
+			t_sbGlycan.append("\t"+PredicateList.IS_URES.getTriple( t_oExportURI.getUniqueRESURI( t_oRES.getUniqueRESID() ) ));
 
 			// For LIN contained this RES
 			for ( LIN t_oLIN : a_oWURCS.getLINs() ) {
@@ -499,86 +493,52 @@ public class WURCSExporterRDF {
 			for ( GLIP t_oGLIP : t_oGLIPs.getGLIPs() ) {
 				t_aGLIP.add(t_oGLIP);
 				t_sbGlycan.append(" ;\n");
-//				t_sbGlycan.append("\t"+PredicateList.HAS_GLIP.getTriple( t_oExportURI.getGLIPURI(t_oGLIP) ));
-				
-				// For RES index
-				t_sbGlycan.append("\t"+PredicateList.HAS_RES.getTriple( t_oExportURI.getRESURI( t_oGLIP.getRESIndex() ) ));
-
-				// For probabilities
-				if ( t_oGLIP.getBackboneProbabilityLower() != 1.0 ) {
-					t_sbGlycan.append(" ;\n");
-					t_sbGlycan.append("\t"+PredicateList.HAS_B_PROB_LOW.getTripleLiteral(t_oGLIP.getBackboneProbabilityLower()));
-					t_sbGlycan.append(" ;\n");
-					t_sbGlycan.append("\t"+PredicateList.HAS_B_PROB_UP.getTripleLiteral(t_oGLIP.getBackboneProbabilityUpper()));
-				}
-				if ( t_oGLIP.getModificationProbabilityLower() != 1.0 ) {
-					t_sbGlycan.append(" ;\n");
-					t_sbGlycan.append("\t"+PredicateList.HAS_M_PROB_LOW.getTripleLiteral(t_oGLIP.getModificationProbabilityLower()));
-					t_sbGlycan.append(" ;\n");
-					t_sbGlycan.append("\t"+PredicateList.HAS_M_PROB_UP.getTripleLiteral(t_oGLIP.getModificationProbabilityUpper()));
-				}
-				t_sbGlycan.append(" ;\n");
-
-				// For SC position
-				t_sbGlycan.append("\t"+PredicateList.HAS_SC_POS.getTripleLiteral( t_oGLIP.getBackbonePosition() ));
-				// For direction
-				if ( t_oGLIP.getBackboneDirection() != ' ' ) {
-					t_sbGlycan.append(" ;\n");
-					t_sbGlycan.append("\t"+PredicateList.HAS_DIRECTION.getTripleLiteral( t_oGLIP.getBackboneDirection() ));
-				}
-				// For MAP position (TODO: MAP position -> star index)
-				if ( t_oGLIP.getModificationPosition() != 0 ) {
-					t_sbGlycan.append(" ;\n");
-					t_sbGlycan.append("\t"+PredicateList.HAS_STAR_INDEX.getTripleLiteral( t_oGLIP.getModificationPosition() ));
-				}
-//				t_sbGlycan.append(" .\n\n");
-
-				
+				t_sbGlycan.append("\t"+PredicateList.HAS_GLIP.getTriple( t_oExportURI.getGLIPURI(t_oGLIP) ));
 			}
 			t_sbGlycan.append(" .\n\n");
 		}
 
 
 		// GLIP triple
-//		if ( !t_aGLIP.isEmpty() )
-//			t_sbGlycan.append("# GLIP\n");
-//		for ( GLIP t_oGLIP : t_aGLIP ) {
-//			t_sbGlycan.append(t_oExportURI.getGLIPURI(t_oGLIP)+"\n");
-//			t_sbGlycan.append("\t"+PredicateList.A_GLIP.getAPredicate()); // a wurcs:GLIP
-//			t_sbGlycan.append(" ;\n");
-//
-//			// For RES index
-//			t_sbGlycan.append("\t"+PredicateList.HAS_RES.getTriple( t_oExportURI.getRESURI( t_oGLIP.getRESIndex() ) ));
-//
-//			// For probabilities
-//			if ( t_oGLIP.getBackboneProbabilityLower() != 1.0 ) {
-//				t_sbGlycan.append(" ;\n");
-//				t_sbGlycan.append("\t"+PredicateList.HAS_B_PROB_LOW.getTripleLiteral(t_oGLIP.getBackboneProbabilityLower()));
-//				t_sbGlycan.append(" ;\n");
-//				t_sbGlycan.append("\t"+PredicateList.HAS_B_PROB_UP.getTripleLiteral(t_oGLIP.getBackboneProbabilityUpper()));
-//			}
-//			if ( t_oGLIP.getModificationProbabilityLower() != 1.0 ) {
-//				t_sbGlycan.append(" ;\n");
-//				t_sbGlycan.append("\t"+PredicateList.HAS_M_PROB_LOW.getTripleLiteral(t_oGLIP.getModificationProbabilityLower()));
-//				t_sbGlycan.append(" ;\n");
-//				t_sbGlycan.append("\t"+PredicateList.HAS_M_PROB_UP.getTripleLiteral(t_oGLIP.getModificationProbabilityUpper()));
-//			}
-//			t_sbGlycan.append(" ;\n");
-//
-//			// For SC position
-//			t_sbGlycan.append("\t"+PredicateList.HAS_SC_POS.getTripleLiteral( t_oGLIP.getBackbonePosition() ));
-//			// For direction
-//			if ( t_oGLIP.getBackboneDirection() != ' ' ) {
-//				t_sbGlycan.append(" ;\n");
-//				t_sbGlycan.append("\t"+PredicateList.HAS_DIRECTION.getTripleLiteral( t_oGLIP.getBackboneDirection() ));
-//			}
-//			// For MAP position (TODO: MAP position -> star index)
-//			if ( t_oGLIP.getModificationPosition() != 0 ) {
-//				t_sbGlycan.append(" ;\n");
-//				t_sbGlycan.append("\t"+PredicateList.HAS_STAR_INDEX.getTripleLiteral( t_oGLIP.getModificationPosition() ));
-//			}
-//			t_sbGlycan.append(" .\n\n");
-//		}
+		if ( !t_aGLIP.isEmpty() )
+			t_sbGlycan.append("# GLIP\n");
+		for ( GLIP t_oGLIP : t_aGLIP ) {
+			t_sbGlycan.append(t_oExportURI.getGLIPURI(t_oGLIP)+"\n");
+			t_sbGlycan.append("\t"+PredicateList.A_GLIP.getAPredicate()); // a wurcs:GLIP
+			t_sbGlycan.append(" ;\n");
+
+			// For RES index
+			t_sbGlycan.append("\t"+PredicateList.HAS_RES.getTriple( t_oExportURI.getRESURI( t_oGLIP.getRESIndex() ) ));
+
+			// For probabilities
+			if ( t_oGLIP.getBackboneProbabilityLower() != 1.0 ) {
+				t_sbGlycan.append(" ;\n");
+				t_sbGlycan.append("\t"+PredicateList.HAS_B_PROB_LOW.getTripleLiteral(t_oGLIP.getBackboneProbabilityLower()));
+				t_sbGlycan.append(" ;\n");
+				t_sbGlycan.append("\t"+PredicateList.HAS_B_PROB_UP.getTripleLiteral(t_oGLIP.getBackboneProbabilityUpper()));
+			}
+			if ( t_oGLIP.getModificationProbabilityLower() != 1.0 ) {
+				t_sbGlycan.append(" ;\n");
+				t_sbGlycan.append("\t"+PredicateList.HAS_M_PROB_LOW.getTripleLiteral(t_oGLIP.getModificationProbabilityLower()));
+				t_sbGlycan.append(" ;\n");
+				t_sbGlycan.append("\t"+PredicateList.HAS_M_PROB_UP.getTripleLiteral(t_oGLIP.getModificationProbabilityUpper()));
+			}
+			t_sbGlycan.append(" ;\n");
+
+			// For SC position
+			t_sbGlycan.append("\t"+PredicateList.HAS_SC_POS.getTripleLiteral( t_oGLIP.getBackbonePosition() ));
+			// For direction
+			if ( t_oGLIP.getBackboneDirection() != ' ' ) {
+				t_sbGlycan.append(" ;\n");
+				t_sbGlycan.append("\t"+PredicateList.HAS_DIRECTION.getTripleLiteral( t_oGLIP.getBackboneDirection() ));
+			}
+			// For MAP position (TODO: MAP position -> star index)
+			if ( t_oGLIP.getModificationPosition() != 0 ) {
+				t_sbGlycan.append(" ;\n");
+				t_sbGlycan.append("\t"+PredicateList.HAS_STAR_INDEX.getTripleLiteral( t_oGLIP.getModificationPosition() ));
+			}
+			t_sbGlycan.append(" .\n\n");
+		}
 
 		return t_sbGlycan.toString();
 	}

@@ -27,7 +27,7 @@ public class ModificationRepeatAlternative extends ModificationAlternative imple
 
 	@Override
 	public int getMaxRepeatCount() {
-		return this.m_objRepeat.getMinRepeatCount();
+		return this.m_objRepeat.getMaxRepeatCount();
 	}
 
 }

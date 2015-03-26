@@ -44,14 +44,6 @@ public class WURCSExporterURI {
 	}
 
 	/**
-	 * Get monosaccharide URI
-	 * @return http://rdf.glycoinfo.org/glycan/wurcs/2.0/monosaccharide/[UniqueRES]
-	 */
-	public String getMonosaccharideURI(RES a_Res) {
-		return this.concatenateURI( "monosaccharide", this.getRESURI( a_Res.getRESIndex()));
-	}
-
-	/**
 	 * Get MOD URI
 	 * @return http://rdf.glycoinfo.org/glycan/wurcs/2.0/MOD/[MOD]
 	 */

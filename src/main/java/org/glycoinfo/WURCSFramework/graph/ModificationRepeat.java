@@ -31,7 +31,7 @@ public class ModificationRepeat extends Modification implements InterfaceRepeat 
 
 	@Override
 	public int getMaxRepeatCount() {
-		return this.m_objRepeat.getMinRepeatCount();
+		return this.m_objRepeat.getMaxRepeatCount();
 	}
 
 }
