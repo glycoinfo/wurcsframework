@@ -3,11 +3,11 @@ package org.glycoinfo.WURCSFramework.util.comparator.graph;
 import java.util.Comparator;
 import java.util.HashSet;
 
-import org.glycoinfo.WURCSFramework.graph.Backbone;
-import org.glycoinfo.WURCSFramework.graph.Modification;
 import org.glycoinfo.WURCSFramework.util.visitor.graph.WURCSVisitorCollectSubBackbones;
 import org.glycoinfo.WURCSFramework.util.visitor.graph.WURCSVisitorCollectSubModifications;
 import org.glycoinfo.WURCSFramework.util.visitor.graph.WURCSVisitorException;
+import org.glycoinfo.WURCSFramework.wurcs.graph.Backbone;
+import org.glycoinfo.WURCSFramework.wurcs.graph.Modification;
 
 public class RootBackboneComparator implements Comparator<Backbone>{
 

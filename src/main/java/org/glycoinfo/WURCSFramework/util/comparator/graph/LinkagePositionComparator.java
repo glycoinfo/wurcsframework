@@ -2,8 +2,8 @@ package org.glycoinfo.WURCSFramework.util.comparator.graph;
 
 import java.util.Comparator;
 
-import org.glycoinfo.WURCSFramework.graph.DirectionDescriptor;
-import org.glycoinfo.WURCSFramework.graph.LinkagePosition;
+import org.glycoinfo.WURCSFramework.wurcs.graph.DirectionDescriptor;
+import org.glycoinfo.WURCSFramework.wurcs.graph.LinkagePosition;
 
 /**
  * Class for LinkagePosition comparison

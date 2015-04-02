@@ -3,10 +3,10 @@ package org.glycoinfo.WURCSFramework.util.comparator.graph;
 import java.util.Comparator;
 import java.util.LinkedList;
 
-import org.glycoinfo.WURCSFramework.graph.Backbone;
-import org.glycoinfo.WURCSFramework.graph.BackboneCarbon;
-import org.glycoinfo.WURCSFramework.graph.BackboneUnknown;
-import org.glycoinfo.WURCSFramework.graph.WURCSEdge;
+import org.glycoinfo.WURCSFramework.wurcs.graph.Backbone;
+import org.glycoinfo.WURCSFramework.wurcs.graph.BackboneCarbon;
+import org.glycoinfo.WURCSFramework.wurcs.graph.BackboneUnknown;
+import org.glycoinfo.WURCSFramework.wurcs.graph.WURCSEdge;
 
 /**
  * Class for Backbone comparison

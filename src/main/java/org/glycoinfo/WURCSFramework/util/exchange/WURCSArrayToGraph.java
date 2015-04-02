@@ -3,20 +3,6 @@ package org.glycoinfo.WURCSFramework.util.exchange;
 import java.util.HashMap;
 import java.util.LinkedList;
 
-import org.glycoinfo.WURCSFramework.graph.Backbone;
-import org.glycoinfo.WURCSFramework.graph.BackboneCarbon;
-import org.glycoinfo.WURCSFramework.graph.BackboneUnknown;
-import org.glycoinfo.WURCSFramework.graph.CarbonDescriptor;
-import org.glycoinfo.WURCSFramework.graph.DirectionDescriptor;
-import org.glycoinfo.WURCSFramework.graph.LinkagePosition;
-import org.glycoinfo.WURCSFramework.graph.Modification;
-import org.glycoinfo.WURCSFramework.graph.ModificationAlternative;
-import org.glycoinfo.WURCSFramework.graph.ModificationRepeat;
-import org.glycoinfo.WURCSFramework.graph.ModificationRepeatAlternative;
-import org.glycoinfo.WURCSFramework.graph.WURCSEdge;
-import org.glycoinfo.WURCSFramework.graph.WURCSException;
-import org.glycoinfo.WURCSFramework.graph.WURCSGraph;
-import org.glycoinfo.WURCSFramework.graph.WURCSGraphNormalizer;
 import org.glycoinfo.WURCSFramework.util.WURCSDataConverter;
 import org.glycoinfo.WURCSFramework.util.WURCSExporter;
 import org.glycoinfo.WURCSFramework.wurcs.GLIP;
@@ -29,6 +15,20 @@ import org.glycoinfo.WURCSFramework.wurcs.RES;
 import org.glycoinfo.WURCSFramework.wurcs.UniqueRES;
 import org.glycoinfo.WURCSFramework.wurcs.WURCSArray;
 import org.glycoinfo.WURCSFramework.wurcs.WURCSFormatException;
+import org.glycoinfo.WURCSFramework.wurcs.graph.Backbone;
+import org.glycoinfo.WURCSFramework.wurcs.graph.BackboneCarbon;
+import org.glycoinfo.WURCSFramework.wurcs.graph.BackboneUnknown;
+import org.glycoinfo.WURCSFramework.wurcs.graph.CarbonDescriptor;
+import org.glycoinfo.WURCSFramework.wurcs.graph.DirectionDescriptor;
+import org.glycoinfo.WURCSFramework.wurcs.graph.LinkagePosition;
+import org.glycoinfo.WURCSFramework.wurcs.graph.Modification;
+import org.glycoinfo.WURCSFramework.wurcs.graph.ModificationAlternative;
+import org.glycoinfo.WURCSFramework.wurcs.graph.ModificationRepeat;
+import org.glycoinfo.WURCSFramework.wurcs.graph.ModificationRepeatAlternative;
+import org.glycoinfo.WURCSFramework.wurcs.graph.WURCSEdge;
+import org.glycoinfo.WURCSFramework.wurcs.graph.WURCSException;
+import org.glycoinfo.WURCSFramework.wurcs.graph.WURCSGraph;
+import org.glycoinfo.WURCSFramework.wurcs.graph.WURCSGraphNormalizer;
 
 public class WURCSArrayToGraph {
 

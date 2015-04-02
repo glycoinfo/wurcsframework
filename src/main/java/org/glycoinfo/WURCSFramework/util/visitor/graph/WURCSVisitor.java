@@ -1,9 +1,9 @@
 package org.glycoinfo.WURCSFramework.util.visitor.graph;
 
-import org.glycoinfo.WURCSFramework.graph.Backbone;
-import org.glycoinfo.WURCSFramework.graph.Modification;
-import org.glycoinfo.WURCSFramework.graph.WURCSEdge;
-import org.glycoinfo.WURCSFramework.graph.WURCSGraph;
+import org.glycoinfo.WURCSFramework.wurcs.graph.Backbone;
+import org.glycoinfo.WURCSFramework.wurcs.graph.Modification;
+import org.glycoinfo.WURCSFramework.wurcs.graph.WURCSEdge;
+import org.glycoinfo.WURCSFramework.wurcs.graph.WURCSGraph;
 
 /**
  * Interface of WURCSVisitor
@@ -11,8 +11,8 @@ import org.glycoinfo.WURCSFramework.graph.WURCSGraph;
  *
  */
 public interface WURCSVisitor {
-	public void visit( Backbone                a_objBackbone                ) throws WURCSVisitorException;
-	public void visit( Modification            a_objModification            ) throws WURCSVisitorException;
+	public void visit( Backbone     a_objBackbone     ) throws WURCSVisitorException;
+	public void visit( Modification a_objModification ) throws WURCSVisitorException;
 
 	public void visit( WURCSEdge a_objWURCSEdge ) throws WURCSVisitorException;
 

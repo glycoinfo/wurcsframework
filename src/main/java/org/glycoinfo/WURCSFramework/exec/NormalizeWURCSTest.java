@@ -13,14 +13,14 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-import org.glycoinfo.WURCSFramework.graph.WURCSException;
-import org.glycoinfo.WURCSFramework.graph.WURCSGraph;
 import org.glycoinfo.WURCSFramework.util.WURCSExporter;
 import org.glycoinfo.WURCSFramework.util.WURCSImporter;
 import org.glycoinfo.WURCSFramework.util.exchange.WURCSArrayToGraph;
 import org.glycoinfo.WURCSFramework.util.exchange.WURCSGraphToArray;
 import org.glycoinfo.WURCSFramework.wurcs.WURCSArray;
 import org.glycoinfo.WURCSFramework.wurcs.WURCSFormatException;
+import org.glycoinfo.WURCSFramework.wurcs.graph.WURCSException;
+import org.glycoinfo.WURCSFramework.wurcs.graph.WURCSGraph;
 
 public class NormalizeWURCSTest {
 
@@ -103,9 +103,11 @@ public class NormalizeWURCSTest {
 				// Check change strings
 				if ( t_strOrigWURCS.equals(t_strSortGraph) ) continue;
 				changeCount++;
-				pw.print(key+": ");
-				if ( ! t_strOrigWURCS.equals(t_strSortLIN) )
-					pw.print("LIN or MOD Sort");
+				pw.print(key+":");
+				if ( ! t_strOrigWURCS.equals(t_strSortLIN) ) pw.print(" LIN or MOD Sort :");
+				if ( t_oA2G.isInverted() )                   pw.print(" Invert :");
+				if ( t_oA2G.hasAnomLink() )                  pw.print(" Anomeric linkage :");
+				if ( t_oA2G.hasCyclic() )                    pw.print(" Cyclic :");
 				pw.println("\n\t"+t_strOrigWURCS);
 				if ( ! t_strOrigWURCS.equals(t_strSortLIN) )
 					pw.println("\t"+t_strSortLIN);

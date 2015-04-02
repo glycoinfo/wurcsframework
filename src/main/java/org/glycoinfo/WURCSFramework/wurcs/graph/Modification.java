@@ -1,4 +1,4 @@
-package org.glycoinfo.WURCSFramework.graph;
+package org.glycoinfo.WURCSFramework.wurcs.graph;
 
 import java.util.HashSet;
 import java.util.LinkedList;

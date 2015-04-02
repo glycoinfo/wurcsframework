@@ -4,13 +4,6 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedList;
 
-import org.glycoinfo.WURCSFramework.graph.Backbone;
-import org.glycoinfo.WURCSFramework.graph.InterfaceRepeat;
-import org.glycoinfo.WURCSFramework.graph.LinkagePosition;
-import org.glycoinfo.WURCSFramework.graph.Modification;
-import org.glycoinfo.WURCSFramework.graph.ModificationAlternative;
-import org.glycoinfo.WURCSFramework.graph.WURCSEdge;
-import org.glycoinfo.WURCSFramework.graph.WURCSGraph;
 import org.glycoinfo.WURCSFramework.util.WURCSDataConverter;
 import org.glycoinfo.WURCSFramework.util.WURCSExporter;
 import org.glycoinfo.WURCSFramework.util.comparator.graph.WURCSEdgeComparator;
@@ -27,6 +20,13 @@ import org.glycoinfo.WURCSFramework.wurcs.MOD;
 import org.glycoinfo.WURCSFramework.wurcs.RES;
 import org.glycoinfo.WURCSFramework.wurcs.UniqueRES;
 import org.glycoinfo.WURCSFramework.wurcs.WURCSArray;
+import org.glycoinfo.WURCSFramework.wurcs.graph.Backbone;
+import org.glycoinfo.WURCSFramework.wurcs.graph.InterfaceRepeat;
+import org.glycoinfo.WURCSFramework.wurcs.graph.LinkagePosition;
+import org.glycoinfo.WURCSFramework.wurcs.graph.Modification;
+import org.glycoinfo.WURCSFramework.wurcs.graph.ModificationAlternative;
+import org.glycoinfo.WURCSFramework.wurcs.graph.WURCSEdge;
+import org.glycoinfo.WURCSFramework.wurcs.graph.WURCSGraph;
 
 /**
  * Class for conversion from WURCSGraph to WURCSArray

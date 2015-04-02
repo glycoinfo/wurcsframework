@@ -1,4 +1,4 @@
-package org.glycoinfo.WURCSFramework.graph;
+package org.glycoinfo.WURCSFramework.wurcs.graph;
 
 public enum DirectionDescriptor {
 
