@@ -20,22 +20,24 @@ public class WURCStoRDF {
 	public static void main(String[] args) throws Exception {
 		// TODO 自動生成されたメソッド・スタブ
 
-		String t_strFilePath = "C:\\GlycoCTList\\";
+		String t_strFilePath = "/home/aoki/workspace/wurcsframework/WURCSFramework/src/org/glycoinfo/WURCSFramework/testresource/";
 
 		Date day = new Date();
 		long start = day.getTime();
 
 		Boolean t_bPrefix = true;
 
-		String t_strFilePathR = t_strFilePath + "20150310\\20150310result-GlyTouCan_GlycoCTmfWURCS.txt";
+		String t_strFilePathR = t_strFilePath + "20150302result-GlyTouCan_GlycoCTmfWURCS.txt";
+//		String t_strFilePathR = t_strFilePath + "20150302result-GlyTouCanMotif_GlycoCTmfWURCS.txt";
+//		String t_strFilePathR = t_strFilePath + "ambig";
 		File file = new File(t_strFilePathR);
 
 		if(!file.isFile()) throw new Exception();
 		TreeMap<String, String> t_mapIndexToWURCS = openString(t_strFilePathR);
 		try{
 			// Open print writer
-			PrintWriter pwRDF = openTextFileW(t_strFilePath+"20150310\\WURCS-RDF.ttl");
-			PrintWriter pwMSRDF = openTextFileW(t_strFilePath+"20150310\\WURCS-MS-RDF.ttl");
+			PrintWriter pwRDF = openTextFileW(t_strFilePath+"20150331/WURCS-N-RDF.ttl");
+			PrintWriter pwMSRDF = openTextFileW(t_strFilePath+"20150331/WURCS-N-MS-RDF.ttl");
 
 			// Prefix list
 			WURCSExporterRDF t_oExport = new WURCSExporterRDF();

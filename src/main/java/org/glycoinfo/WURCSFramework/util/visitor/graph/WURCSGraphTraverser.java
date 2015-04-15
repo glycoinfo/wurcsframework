@@ -1,8 +1,8 @@
 package org.glycoinfo.WURCSFramework.util.visitor.graph;
 
-import org.glycoinfo.WURCSFramework.wurcs.graph.WURCSComponent;
-import org.glycoinfo.WURCSFramework.wurcs.graph.WURCSEdge;
-import org.glycoinfo.WURCSFramework.wurcs.graph.WURCSGraph;
+import org.glycoinfo.WURCSFramework.graph.WURCSComponent;
+import org.glycoinfo.WURCSFramework.graph.WURCSEdge;
+import org.glycoinfo.WURCSFramework.graph.WURCSGraph;
 
 /**
  * Abstract class for WURCSGlycan traverser

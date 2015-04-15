@@ -9,6 +9,28 @@ public class LIN extends MODAbstract {
 	private boolean m_bIsRepeatingUnit = false;
 	private int m_strMinRepeatCount = 0;
 	private int m_strMaxRepeatCount = 0;
+	private String scPosition = null;
+	private String uri = null;
+	private RES parentRES, childRES = null;
+
+	public String getUri() {
+		return uri;
+	}
+
+	public void setUri(String uri) {
+		if (uri.equals(""))
+			this.uri = parentRES.getuRes().getSkeletonCode() + "" + childRES.getuRes().getSkeletonCode();
+		else
+			this.uri = uri;
+	}
+
+	public String getScPosition() {
+		return scPosition;
+	}
+
+	public void setScPosition(String scPosition) {
+		this.scPosition = scPosition;
+	}
 
 	public LIN(String a_strMAP) {
 		super(a_strMAP);
@@ -45,6 +67,14 @@ public class LIN extends MODAbstract {
 	public LinkedList<GLIPs> getListOfGLIPs() {
 		return this.m_aGLIPs;
 	}
+	
+	public GLIP getFirstGLIP() {
+		return this.m_aGLIPs.getFirst().getGLIPs().getFirst();
+	}
+	
+	public GLIP getLastGLIP() {
+		return this.m_aGLIPs.getLast().getGLIPs().getLast();
+	}
 
 	public boolean containRES(RES a_oRES) {
 		for ( GLIPs t_oGLIPs : this.getListOfGLIPs() ) {
@@ -53,5 +83,45 @@ public class LIN extends MODAbstract {
 			}
 		}
 		return false;
+	}
+	
+	public boolean isPreviousLin(RES a_oRES) {
+	return getLastGLIP().getRESIndex().equals(a_oRES.getRESIndex());
+	}
+	
+	public boolean isNextLin(RES a_oRES) {
+	return getFirstGLIP().getRESIndex().equals(a_oRES.getRESIndex());
+	}
+	
+	public void setURI(RES a, RES b) {
+		
+	}
+
+	public RES getParentRES() {
+		return parentRES;
+	}
+
+	public void setParentRES(RES parentRES) {
+		this.parentRES = parentRES;
+	}
+
+	public RES getChildRES() {
+		return childRES;
+	}
+
+	public void setChildRES(RES childRES) {
+		this.childRES = childRES;
+	}
+
+	@Override
+	public String toString() {
+		return "LIN [m_aGLIPs=" + m_aGLIPs + ", m_bIsRepeatingUnit="
+				+ m_bIsRepeatingUnit + ", m_strMinRepeatCount="
+				+ m_strMinRepeatCount + ", m_strMaxRepeatCount="
+				+ m_strMaxRepeatCount + ", scPosition=" + scPosition + ", uri="
+				+ uri + 
+				", parentRES=" + (null != parentRES? parentRES.getRESIndex() : "") + 
+				", childRES=" + (null != childRES? parentRES.getRESIndex() : "") 
+				+ "]";
 	}
 }

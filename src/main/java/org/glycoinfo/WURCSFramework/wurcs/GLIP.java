@@ -13,5 +13,23 @@ public class GLIP extends LIP {
 		return this.m_strRESIndex;
 	}
 
+	@Override
+	public String toString() {
+		return "GLIP [m_strRESIndex=" + m_strRESIndex
+				+ ", getBackbonePosition()=" + getBackbonePosition()
+				+ ", getBackboneDirection()=" + getBackboneDirection()
+				+ ", getModificationPosition()=" + getModificationPosition()
+				+ ", getBackboneProbabilityUpper()="
+				+ getBackboneProbabilityUpper()
+				+ ", getBackboneProbabilityLower()="
+				+ getBackboneProbabilityLower()
+				+ ", getModificationProbabilityUpper()="
+				+ getModificationProbabilityUpper()
+				+ ", getModificationProbabilityLower()="
+				+ getModificationProbabilityLower() + ", getClass()="
+				+ getClass() + ", hashCode()=" + hashCode() + ", toString()="
+				+ super.toString() + "]";
+	}
+
 
 }

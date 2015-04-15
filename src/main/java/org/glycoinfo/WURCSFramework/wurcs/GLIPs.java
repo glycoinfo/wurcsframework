@@ -29,4 +29,10 @@ public class GLIPs {
 		if ( this.m_aGLIPs.size() > 1 ) return true;
 		return false;
 	}
+
+	@Override
+	public String toString() {
+		return "GLIPs [m_aGLIPs=" + m_aGLIPs + ", m_strAlternative="
+				+ m_strAlternative + ", isFuzzy:>" + isFuzzy() + "]";
+	}
 }

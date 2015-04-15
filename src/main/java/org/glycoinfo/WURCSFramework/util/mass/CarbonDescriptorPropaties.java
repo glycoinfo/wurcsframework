@@ -62,7 +62,7 @@ public enum CarbonDescriptorPropaties {
 	SS3_CHIRAL_X   ( 'X', false, 2, 2 ), // -C(X)(Y)- "C(OH)2"
 	SS2_KETONE_L   ( 'o', false, 1, 0 ), // -C(=O)- "CO"
 	SS2_KETONE_U   ( 'O', false, 1, 1 ), // -C(=X)- "COH"
-	SS2_UNDEFINED_U( 'U', false, 1, 0 ), // -C(=X)- "COH"
+	SS2_UNDEFINED_U( 'U', false, 1, 1 ), // -C(=X)- "COH"
 	DS2_CISTRANS_EL( 'e', false, 0, 1 ), // =C(H)- "CH"
 	DS2_CISTRANS_ZL( 'z', false, 0, 1 ), // =C(H)- "CH"
 	DS2_CISTRANS_NL( 'n', false, 0, 1 ), // =C(H)- "CH"
