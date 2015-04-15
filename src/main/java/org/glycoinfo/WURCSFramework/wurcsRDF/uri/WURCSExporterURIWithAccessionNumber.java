@@ -1,6 +1,9 @@
 package org.glycoinfo.WURCSFramework.wurcsRDF.uri;
 
+import java.util.LinkedList;
+
 import org.glycoinfo.WURCSFramework.util.WURCSStringUtils;
+import org.glycoinfo.WURCSFramework.wurcs.RES;
 import org.glycoinfo.WURCSFramework.wurcs.UniqueRES;
 
 public class WURCSExporterURIWithAccessionNumber extends WURCSExporterURI {
@@ -49,6 +52,4 @@ public class WURCSExporterURIWithAccessionNumber extends WURCSExporterURI {
 	protected String concatenateURIWithAccessionNumber(String a_oClass, String a_strObject) {
 		return this.brackets( this.m_strBaseURIwithAccessionNumber+"/"+a_oClass+"/"+WURCSStringUtils.getURLString( a_strObject ) );
 	}
-
-
 }

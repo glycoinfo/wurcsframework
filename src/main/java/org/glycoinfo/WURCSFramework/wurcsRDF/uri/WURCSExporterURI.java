@@ -1,5 +1,7 @@
 package org.glycoinfo.WURCSFramework.wurcsRDF.uri;
 
+import java.util.LinkedList;
+
 import org.glycoinfo.WURCSFramework.util.WURCSExporter;
 import org.glycoinfo.WURCSFramework.util.WURCSStringUtils;
 import org.glycoinfo.WURCSFramework.wurcs.GLIP;
@@ -99,12 +101,24 @@ public class WURCSExporterURI {
 		return this.getRESURI(a_oRES.getRESIndex());
 	}
 
+	public String getRESURI(UniqueRES a_uRES){
+		return this.getRESURI(this.m_oExport.getUniqueRESString(a_uRES));
+	}
+	
+	public String getRESURI(UniqueRES a_uRES, String a_strRESIndex){
+		return this.getRESURI(this.m_oExport.getUniqueRESString(a_uRES) + a_strRESIndex);
+	}
+
 	/**
 	 * Get RES URI from RES index
 	 * @return http://rdf.glycoinfo.org/glycan/[AccessionNumber]/wurcs/2.0/RES/[RESindex]
 	 */
 	public String getRESURI(String a_strRESIndex){
 		return this.concatenateURI( "RES", a_strRESIndex );
+	}
+	
+	public String getRESURI(UniqueRES ures, int backbonePosition) {
+		return this.getRESURI(this.m_oExport.getUniqueRESString(ures) + backbonePosition);
 	}
 
 	/**
@@ -137,5 +151,48 @@ public class WURCSExporterURI {
 
 	protected String brackets(String a_strURI) {
 		return "<"+a_strURI+">";
+	}
+	
+
+	public String getLINURI(LinkedList<UniqueRES> t_aRESs) {
+		String RESid = "";
+		for (UniqueRES res : t_aRESs) {
+			if (!RESid.isEmpty())
+				RESid += "_";
+			RESid += this.m_oExport.getUniqueRESString(res) ;
+		}
+		return this.concatenateURI("LIN", RESid);
+	}
+
+	public String getLINURI(LinkedList<UniqueRES> t_aRESs, int scpos) {
+		String RESid = "";
+		for (UniqueRES res : t_aRESs) {
+			if (!RESid.isEmpty())
+				RESid += "_";
+			RESid += this.m_oExport.getUniqueRESString(res) ;
+		}
+		return this.concatenateURI("LIN", RESid + "%" + scpos);
+	}
+
+	
+	public String getGLIPSURI(LinkedList<UniqueRES> t_aRESs, GLIPs t_oGLIPs) {
+		String RESid = "";
+		for (UniqueRES res : t_aRESs) {
+			if (!RESid.isEmpty())
+				RESid += "_";
+			RESid += this.m_oExport.getUniqueRESString(res) ;
+		}
+		// this should only the position.
+		return this.concatenateURI("GLIPS", RESid + "_" + this.m_oExport.getGLIPsString(t_oGLIPs) );
+	}
+	
+	public String getGLIPSURI(LinkedList<UniqueRES> t_aRESs) {
+		String RESid = "";
+		for (UniqueRES res : t_aRESs) {
+			if (!RESid.isEmpty())
+				RESid += "_";
+			RESid += this.m_oExport.getUniqueRESString(res) ;
+		}
+		return this.concatenateURI("GLIPS", RESid );
 	}
 }

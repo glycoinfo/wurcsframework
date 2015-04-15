@@ -1,4 +1,4 @@
-package org.glycoinfo.WURCSFramework.wurcs.graph;
+package org.glycoinfo.WURCSFramework.graph;
 
 
 
@@ -50,7 +50,7 @@ public class LinkagePosition {
 	}
 
 	public void setProbabilityPosition(int pos) throws WURCSException {
-		if ( pos != BACKBONESIDE && pos != MODIFICATIONSIDE )
+		if ( pos != BACKBONESIDE || pos != MODIFICATIONSIDE )
 			throw new WURCSException("Probability position must be 1 (backbone side) or 2 (modification side).");
 		this.m_iProbabilityPosition = pos;
 	}
@@ -118,9 +118,6 @@ public class LinkagePosition {
 	}
 
 	public void invertBackbonePosition(int length) {
-		// For unknown position
-		if ( this.m_iBackbonePosition == -1 ) return;
-
 		if ( this.m_iBackbonePosition != 1 && this.m_iBackbonePosition != length )
 			this.m_enumDirection
 				= ( this.m_enumDirection.equals(DirectionDescriptor.U) )? DirectionDescriptor.D :

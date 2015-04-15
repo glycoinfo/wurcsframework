@@ -1,4 +1,4 @@
-package org.glycoinfo.WURCSFramework.wurcs.graph;
+package org.glycoinfo.WURCSFramework.graph;
 
 /**
  * Interface for repeating unit

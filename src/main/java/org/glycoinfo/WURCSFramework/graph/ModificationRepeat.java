@@ -1,12 +1,16 @@
-package org.glycoinfo.WURCSFramework.wurcs.graph;
+package org.glycoinfo.WURCSFramework.graph;
 
-
-public class ModificationRepeatAlternative extends ModificationAlternative implements InterfaceRepeat {
+/**
+ * Class for modification at repeating linkage
+ * @author MasaakiMatsubara
+ *
+ */
+public class ModificationRepeat extends Modification implements InterfaceRepeat {
 
 	private Repeat m_objRepeat;
-	public ModificationRepeatAlternative(String MAPCode) {
-		super(MAPCode);
 
+	public ModificationRepeat(String MAPCode) {
+		super(MAPCode);
 		this.m_objRepeat = new Repeat();
 	}
 
@@ -27,7 +31,7 @@ public class ModificationRepeatAlternative extends ModificationAlternative imple
 
 	@Override
 	public int getMaxRepeatCount() {
-		return this.m_objRepeat.getMaxRepeatCount();
+		return this.m_objRepeat.getMinRepeatCount();
 	}
 
 }

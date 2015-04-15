@@ -4,7 +4,7 @@
 	<groupId>org.glycoinfo</groupId>
 	<artifactId>wurcsframework</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	
+
 	<repositories>
 		<repository>
 			<id>glycoinfo</id>
@@ -17,7 +17,7 @@
 			<url>http://nexus.glycoinfo.org/nexus/content/repositories/snapshots/</url>
 		</repository>
 	</repositories>
-	
+
 	<distributionManagement>
 		<repository>
 			<id>glycoinfo</id>
@@ -53,6 +53,19 @@
 			</plugin>
 		</plugins>
 	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.hp.hpl.jena</groupId>
+			<artifactId>jena</artifactId>
+			<version>2.6.4</version>
+		</dependency>
+		<dependency>
+			<groupId>org.openrdf.sesame</groupId>
+			<artifactId>sesame-model</artifactId>
+			<version>2.8.0-beta2</version>
+		</dependency>
+	</dependencies>
 
 	<reporting>
 		<plugins>
