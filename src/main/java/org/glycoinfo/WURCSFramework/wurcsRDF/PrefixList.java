@@ -12,7 +12,7 @@ public enum PrefixList {
 	 * @prefix wurcs: <http://www.glycoinfo.org/glyco/owl/wurcs#> .
 	 * @prefix dcterms: <http://purl.org/dc/terms/> .
 	 */
-	RDFS     ("rdsf",      "http://www.w3.org/2000/01/rdf-schema#"),
+	RDFS     ("rdfs",      "http://www.w3.org/2000/01/rdf-schema#"),
 	XSD      ("xsd",       "http://www.w3.org/2001/XMLSchema#"),
 	RDF      ("rdf",       "http://www.w3.org/1999/02/22-rdf-syntax-ns#"),
 	OWL      ("owl",       "http://www.w3.org/2002/07/owl#"),

@@ -3,9 +3,10 @@ package org.glycoinfo.WURCSFramework.util.comparator.graph;
 import java.util.Comparator;
 import java.util.LinkedList;
 
-import org.glycoinfo.WURCSFramework.graph.Backbone;
-import org.glycoinfo.WURCSFramework.graph.BackboneCarbon;
-import org.glycoinfo.WURCSFramework.graph.WURCSEdge;
+import org.glycoinfo.WURCSFramework.wurcs.graph.Backbone;
+import org.glycoinfo.WURCSFramework.wurcs.graph.BackboneCarbon;
+import org.glycoinfo.WURCSFramework.wurcs.graph.BackboneUnknown;
+import org.glycoinfo.WURCSFramework.wurcs.graph.WURCSEdge;
 
 /**
  * Class for Backbone comparison
@@ -15,6 +16,10 @@ public class BackboneComparator implements Comparator<Backbone> {
 
 	@Override
 	public int compare(Backbone b1, Backbone b2) {
+
+		// For unknown monosaccharide
+		if ( !(b1 instanceof BackboneUnknown) &&  (b2 instanceof BackboneUnknown) ) return -1;
+		if (  (b1 instanceof BackboneUnknown) && !(b2 instanceof BackboneUnknown) ) return 1;
 
 		// For root nodes
 		WURCSEdge t_oAnomEdge1 = b1.getAnomericEdge();
@@ -100,9 +105,9 @@ public class BackboneComparator implements Comparator<Backbone> {
 			t_aSubstituentLinkages2.addLast(edgeB2M2);
 			t_nModificationCount2++;
 		}
-		// Prioritize larger number of child backbone
+		// Prioritize smaller number of child backbone
 		if ( t_nChildCount1 != t_nChildCount2 )
-			return t_nChildCount2 - t_nChildCount1;
+			return t_nChildCount1 - t_nChildCount2;
 		// Prioritize larger number of connected backbone
 		if ( t_nBackboneCount1 != t_nBackboneCount2 )
 			return t_nBackboneCount2 - t_nBackboneCount1;
@@ -112,7 +117,7 @@ public class BackboneComparator implements Comparator<Backbone> {
 
 
 		// For ambiguousness of carbon number
-		// Prioritize no unknown length
+		// Prioritize known length
 		if ( !b1.hasUnknownLength() &&  b2.hasUnknownLength() ) return -1;
 		if (  b1.hasUnknownLength() && !b2.hasUnknownLength() ) return 1;
 
@@ -128,7 +133,14 @@ public class BackboneComparator implements Comparator<Backbone> {
 		// Prioritize smaller score
 		if ( score1 != score2 ) return score1 - score2;
 
+		// For same score symmetry backbone (not same SkeletonCode)
+		String strCode1 = b1.getSkeletonCode();
+		String strCode2 = b2.getSkeletonCode();
+		// Prioritize larger string
+		if ( !strCode1.equals(strCode2) ) return strCode2.compareTo(strCode1);
+
 		// For position of modification
+		// TODO: add factor of MAP score
 		score1 = 0;
 		score2 = 0;
 		for ( WURCSEdge edge : t_aSubstituentLinkages1 )
@@ -138,13 +150,19 @@ public class BackboneComparator implements Comparator<Backbone> {
 		// Prioritize smaller score
 		if ( score1 != score2 ) return score1 - score2;
 
-		// TODO: Compare position of glycosidic linkage
+		// For position of glycosidic linkage
 		score1 = 0;
 		score2 = 0;
-		for ( WURCSEdge edge : t_aGlycosidicLinkages1 )
-			score1 += edge.getLinkages().getFirst().getBackbonePosition();
-		for ( WURCSEdge edge : t_aGlycosidicLinkages2 )
-			score2 += edge.getLinkages().getFirst().getBackbonePosition();
+		for ( WURCSEdge edge : t_aGlycosidicLinkages1 ) {
+			int pos1 = edge.getLinkages().getFirst().getBackbonePosition();
+			pos1 *= this.isParentSide(edge)? 1 : -1;
+			score1 += pos1;
+		}
+		for ( WURCSEdge edge : t_aGlycosidicLinkages2 ) {
+			int pos2 = edge.getLinkages().getFirst().getBackbonePosition();
+			pos2 *= this.isParentSide(edge)? 1 : -1 ;
+			score2 += pos2;
+		}
 		// Prioritize larger score
 		if ( score1 != score2 ) return score2 - score1;
 
@@ -162,5 +180,15 @@ public class BackboneComparator implements Comparator<Backbone> {
 		for ( int i=0; i<t_aBCs.size(); i++ )
 			score += (i+1) * t_aBCs.get(i).getDesctriptor().getCarbonScore();
 		return score;
+	}
+
+	private boolean isParentSide(WURCSEdge edge) {
+		if ( edge.isReverse() ) return false;
+
+		for ( WURCSEdge next : edge.getModification().getEdges() ) {
+			if ( next.equals(edge) ) continue;
+			if ( next.isReverse() ) return true;
+		}
+		return false;
 	}
 }

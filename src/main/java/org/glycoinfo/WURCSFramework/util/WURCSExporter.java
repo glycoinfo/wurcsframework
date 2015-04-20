@@ -352,7 +352,7 @@ public class WURCSExporter {
 	 * @return String of GLIP
 	 */
 	public String getGLIPString( GLIP a_oGLIP ) {
-		String t_strGLIP =  a_oGLIP.getRESIndex();
+		String t_strGLIP = a_oGLIP.getRESIndex();
 		t_strGLIP += getLIPString( a_oGLIP.getBackbonePosition(), a_oGLIP.getBackboneDirection(), a_oGLIP.getModificationPosition() );
 
 		// Probabilities

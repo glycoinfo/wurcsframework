@@ -2,14 +2,18 @@ package org.glycoinfo.WURCSFramework.util.comparator.graph;
 
 import java.util.Comparator;
 
-import org.glycoinfo.WURCSFramework.graph.DirectionDescriptor;
-import org.glycoinfo.WURCSFramework.graph.LinkagePosition;
+import org.glycoinfo.WURCSFramework.wurcs.graph.DirectionDescriptor;
+import org.glycoinfo.WURCSFramework.wurcs.graph.LinkagePosition;
 
+/**
+ * Class for LinkagePosition comparison
+ * @author MasaakiMatsubara
+ *
+ */
 public class LinkagePositionComparator implements Comparator<LinkagePosition> {
 
 	@Override
 	public int compare(LinkagePosition o1, LinkagePosition o2) {
-		// TODO 自動生成されたメソッド・スタブ
 
 		// Compare position number on backbone
 		// Prioritize lower position number

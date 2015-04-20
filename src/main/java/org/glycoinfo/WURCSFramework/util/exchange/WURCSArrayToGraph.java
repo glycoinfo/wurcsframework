@@ -3,19 +3,6 @@ package org.glycoinfo.WURCSFramework.util.exchange;
 import java.util.HashMap;
 import java.util.LinkedList;
 
-import org.glycoinfo.WURCSFramework.graph.Backbone;
-import org.glycoinfo.WURCSFramework.graph.BackboneCarbon;
-import org.glycoinfo.WURCSFramework.graph.CarbonDescriptor;
-import org.glycoinfo.WURCSFramework.graph.DirectionDescriptor;
-import org.glycoinfo.WURCSFramework.graph.LinkagePosition;
-import org.glycoinfo.WURCSFramework.graph.Modification;
-import org.glycoinfo.WURCSFramework.graph.ModificationAlternative;
-import org.glycoinfo.WURCSFramework.graph.ModificationRepeat;
-import org.glycoinfo.WURCSFramework.graph.ModificationRepeatAlternative;
-import org.glycoinfo.WURCSFramework.graph.WURCSEdge;
-import org.glycoinfo.WURCSFramework.graph.WURCSException;
-import org.glycoinfo.WURCSFramework.graph.WURCSGraph;
-import org.glycoinfo.WURCSFramework.graph.WURCSGraphNormalizer;
 import org.glycoinfo.WURCSFramework.util.WURCSDataConverter;
 import org.glycoinfo.WURCSFramework.util.WURCSExporter;
 import org.glycoinfo.WURCSFramework.wurcs.GLIP;
@@ -28,10 +15,25 @@ import org.glycoinfo.WURCSFramework.wurcs.RES;
 import org.glycoinfo.WURCSFramework.wurcs.UniqueRES;
 import org.glycoinfo.WURCSFramework.wurcs.WURCSArray;
 import org.glycoinfo.WURCSFramework.wurcs.WURCSFormatException;
+import org.glycoinfo.WURCSFramework.wurcs.graph.Backbone;
+import org.glycoinfo.WURCSFramework.wurcs.graph.BackboneCarbon;
+import org.glycoinfo.WURCSFramework.wurcs.graph.BackboneUnknown;
+import org.glycoinfo.WURCSFramework.wurcs.graph.CarbonDescriptor;
+import org.glycoinfo.WURCSFramework.wurcs.graph.DirectionDescriptor;
+import org.glycoinfo.WURCSFramework.wurcs.graph.LinkagePosition;
+import org.glycoinfo.WURCSFramework.wurcs.graph.Modification;
+import org.glycoinfo.WURCSFramework.wurcs.graph.ModificationAlternative;
+import org.glycoinfo.WURCSFramework.wurcs.graph.ModificationRepeat;
+import org.glycoinfo.WURCSFramework.wurcs.graph.ModificationRepeatAlternative;
+import org.glycoinfo.WURCSFramework.wurcs.graph.WURCSEdge;
+import org.glycoinfo.WURCSFramework.wurcs.graph.WURCSException;
+import org.glycoinfo.WURCSFramework.wurcs.graph.WURCSGraph;
+import org.glycoinfo.WURCSFramework.wurcs.graph.WURCSGraphNormalizer;
 
 public class WURCSArrayToGraph {
 
 	private WURCSGraph m_oGraph = new WURCSGraph();
+	private WURCSGraphNormalizer t_oNormal;
 	private LinkedList<Backbone> m_aBackbones = new LinkedList<Backbone>();
 
 	/**
@@ -40,6 +42,25 @@ public class WURCSArrayToGraph {
 	 */
 	public WURCSGraph getGraph() {
 		return this.m_oGraph;
+	}
+
+	/**
+	 * Check method for invert backbone in normalizing graph
+	 * @return
+	 */
+	public boolean isInverted() {
+		if ( this.t_oNormal == null ) return false;
+		return this.t_oNormal.isInverted();
+	}
+
+	public boolean hasAnomLink() {
+		if ( this.t_oNormal == null ) return false;
+		return this.t_oNormal.linkedAnomericPositions();
+	}
+
+	public boolean hasCyclic() {
+		if ( this.t_oNormal == null ) return false;
+		return this.t_oNormal.hasCyclic();
 	}
 
 	/**
@@ -136,8 +157,15 @@ public class WURCSArrayToGraph {
 
 		}
 
-		WURCSGraphNormalizer t_oNormal = new WURCSGraphNormalizer();
-		t_oNormal.start( this.m_oGraph );
+		// For monosaccharide with no modification
+		for ( Backbone t_oBackbone : this.m_aBackbones ) {
+			if ( this.m_oGraph.getBackbones().contains(t_oBackbone) ) continue;
+			this.m_oGraph.addBackbone(t_oBackbone);
+		}
+
+		// Normalize graph
+		this.t_oNormal = new WURCSGraphNormalizer();
+		this.t_oNormal.start( this.m_oGraph );
 	}
 
 	/**
@@ -145,8 +173,9 @@ public class WURCSArrayToGraph {
 	 * @param t_oLIP LIP in WURCSArray
 	 * @return LinkagePosition Converted from LIP
 	 * @throws WURCSFormatException
+	 * @throws WURCSException
 	 */
-	private LinkagePosition convertToLinkagePosition(LIP t_oLIP) throws WURCSFormatException {
+	private LinkagePosition convertToLinkagePosition(LIP t_oLIP) throws WURCSFormatException, WURCSException {
 		int     t_iBPos      = t_oLIP.getBackbonePosition();
 		char    t_cDirection = t_oLIP.getBackboneDirection();
 		int     t_iMPos      = t_oLIP.getModificationPosition();
@@ -155,29 +184,40 @@ public class WURCSArrayToGraph {
 		DirectionDescriptor t_enumDirection = DirectionDescriptor.forChar( t_oLIP.getBackboneDirection() );
 		if ( t_enumDirection == null )
 			throw new WURCSFormatException("Unknown DirectionDescriptor is found.");
-		return new LinkagePosition(t_iBPos, t_enumDirection, t_bCompressDirection, t_iMPos, t_bCompressMPos);
+		LinkagePosition t_oLinkPos = new LinkagePosition(t_iBPos, t_enumDirection, t_bCompressDirection, t_iMPos, t_bCompressMPos);
+
+		// Set probabilities
+		if ( t_oLIP.getBackboneProbabilityLower() != 1 ) {
+			t_oLinkPos.setProbabilityPosition( LinkagePosition.BACKBONESIDE );
+			t_oLinkPos.setProbabilityLower( t_oLIP.getBackboneProbabilityLower() );
+			t_oLinkPos.setProbabilityUpper( t_oLIP.getBackboneProbabilityUpper() );
+		}
+		if ( t_oLIP.getModificationProbabilityLower() != 1 ) {
+			t_oLinkPos.setProbabilityPosition( LinkagePosition.MODIFICATIONSIDE );
+			t_oLinkPos.setProbabilityLower( t_oLIP.getModificationProbabilityLower() );
+			t_oLinkPos.setProbabilityUpper( t_oLIP.getModificationProbabilityUpper() );
+		}
+		return t_oLinkPos;
 	}
 
 	private Backbone convertToBackbone(UniqueRES a_oURES) throws WURCSFormatException {
 		Backbone t_oBackbone = new Backbone();
 		LinkedList<String> t_aCDString = this.parseSkeletonCode( a_oURES.getSkeletonCode() );
+
+		// For unknown monosaccharide
+		if ( t_aCDString.getFirst().equals("<0>") ) {
+			char t_cAnomSymbol = a_oURES.getAnomericSymbol();
+			if ( t_cAnomSymbol == ' ' ) t_cAnomSymbol = 'x';
+			BackboneUnknown t_oUnknown = new BackboneUnknown( t_cAnomSymbol );
+			return t_oUnknown;
+		}
+
 		for ( int i=0; i< t_aCDString.size(); i++ ) {
 			String t_strCD = t_aCDString.get(i);
 			boolean t_bIsTerminal = ( i == 0 || i == t_aCDString.size()-1 );
 			boolean t_bIsAnomeric = ( i == a_oURES.getAnomericPosition()-1 );
 
-			BackboneCarbon t_oBC;
-			// For unknown carbon length
-			if ( t_strCD.equals("<0>") ) {
-				if ( t_bIsAnomeric )
-					throw new WURCSFormatException("SkeletonCode with unknown length must not be anomeric position : "+a_oURES.getSkeletonCode());
-				if ( t_bIsTerminal )
-					throw new WURCSFormatException("SkeletonCode with unknown length must not be terminal : "+a_oURES.getSkeletonCode());
-
-				t_oBC = new BackboneCarbon( t_oBackbone, CarbonDescriptor.forCharacter('x' ,t_bIsTerminal), t_bIsAnomeric, true );
-			} else {
-				t_oBC = new BackboneCarbon( t_oBackbone, CarbonDescriptor.forCharacter(t_strCD.charAt(0) ,t_bIsTerminal), t_bIsAnomeric );
-			}
+			BackboneCarbon t_oBC = new BackboneCarbon( t_oBackbone, CarbonDescriptor.forCharacter(t_strCD.charAt(0) ,t_bIsTerminal), t_bIsAnomeric );
 			t_oBackbone.addBackboneCarbon(t_oBC);
 		}
 
@@ -194,10 +234,10 @@ public class WURCSArrayToGraph {
 				continue;
 			}
 			// For unknown length
-			if ( !a_strSkeletonCode.substring(i, i+3).equals("<nx>") )
+			if ( !a_strSkeletonCode.substring(i, i+3).equals("<0>") )
 				throw new WURCSFormatException("unknown CarbonDescriptor is found : "+a_strSkeletonCode);
 			i += 3;
-			t_aCDString.add("<nx>");
+			t_aCDString.add("<0>");
 		}
 		return t_aCDString;
 	}

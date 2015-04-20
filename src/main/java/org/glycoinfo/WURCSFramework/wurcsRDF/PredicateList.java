@@ -9,7 +9,6 @@ public enum PredicateList {
 	HAS_SEQ        (PrefixList.GLYCAN, "has_sequence",           ""),
 	IN_CARB_FORMAT (PrefixList.GLYCAN, "in_carbohydrate_format", ""),
 	FORMAT_WURCS   (PrefixList.GLYCAN, "carbohydrate_format_wurcs", ""),
-	HAS_PRIMARY_ID (PrefixList.GLYTOUCAN, "has_primary_id", ""),
 	NUM_URES       (PrefixList.WURCS, "uniqueRES_count",       ""),
 	NUM_RES        (PrefixList.WURCS, "RES_count",             ""),
 	NUM_LIN        (PrefixList.WURCS, "LIN_count",             ""),
@@ -88,10 +87,6 @@ public enum PredicateList {
 
 	public String getTriple(String a_strObject) {
 		return this.getPredicateWithPrefix()+"\t"+a_strObject;
-	}
-
-	public String getTriple(String id, String a_strObject) {
-		return this.getPredicateWithPrefix() + id + "\t"+a_strObject;
 	}
 
 	public String getTripleLiteral(String a_strObject) {

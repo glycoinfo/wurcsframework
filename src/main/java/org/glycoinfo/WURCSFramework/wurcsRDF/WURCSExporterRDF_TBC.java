@@ -26,7 +26,7 @@ import org.glycoinfo.WURCSFramework.wurcsRDF.uri.WURCSExporterURIWithAccessionNu
  * @author MasaakiMatsubara
  *
  */
-public class WURCSExporterRDF {
+public class WURCSExporterRDF_TBC {
 
 //	private String m_strAccessionNumber;
 	private String m_strWURCS_RDF;
@@ -468,36 +468,20 @@ public class WURCSExporterRDF {
 				t_sbGlycan.append("\t"+PredicateList.HAS_REP_MAX.getTripleLiteral(t_oLIN.getMaxRepeatCount()) );
 			}
 
+/*
 			// For GLIPS
 			for ( GLIPs t_oGLIPs : t_oLIN.getListOfGLIPs() ) {
 				t_aGLIPs.add(t_oGLIPs);
 				t_sbGlycan.append(" ;\n");
 				t_sbGlycan.append("\t"+PredicateList.HAS_GLIPS.getTriple( t_oExportURI.getGLIPSURI(t_oGLIPs) ));
 			}
+*/
 			t_sbGlycan.append(" .\n\n");
 		}
 
 
 		// GLIPS triple
 		LinkedList<GLIP> t_aGLIP = new LinkedList<GLIP>();
-		if ( !t_aGLIPs.isEmpty() )
-			t_sbGlycan.append("# GLIPS\n");
-		for ( GLIPs t_oGLIPs : t_aGLIPs ) {
-			t_sbGlycan.append(t_oExportURI.getGLIPSURI(t_oGLIPs)+"\n");
-			t_sbGlycan.append("\t"+PredicateList.A_GLIPS.getAPredicate()); // a wurcs:GLIPS
-			t_sbGlycan.append(" ;\n");
-
-			// Is fuzzy
-			t_sbGlycan.append("\t"+PredicateList.IS_FUZZY.getTripleLiteral( t_oGLIPs.isFuzzy() ));
-
-			for ( GLIP t_oGLIP : t_oGLIPs.getGLIPs() ) {
-				t_aGLIP.add(t_oGLIP);
-				t_sbGlycan.append(" ;\n");
-				t_sbGlycan.append("\t"+PredicateList.HAS_GLIP.getTriple( t_oExportURI.getGLIPURI(t_oGLIP) ));
-			}
-			t_sbGlycan.append(" .\n\n");
-		}
-
 
 		// GLIP triple
 		if ( !t_aGLIP.isEmpty() )

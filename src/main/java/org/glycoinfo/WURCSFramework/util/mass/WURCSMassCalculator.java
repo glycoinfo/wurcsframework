@@ -22,7 +22,7 @@ public class WURCSMassCalculator {
 	/**
 	 * Calculate mass for WURCSArray
 	 * @param a_objWURCS WURCSArray
-	 * @return Value of mass
+	 * @return Double of mass value
 	 */
 	public static double calcMassWURCS(WURCSArray a_objWURCS) throws WURCSMassException {
 
@@ -97,6 +97,10 @@ public class WURCSMassCalculator {
 
 		// Continue if MAPCode is omitted
 		if ( a_strMAPCode.length() == 0 ) return t_dMass;
+
+		// For double bond in acid
+		if ( a_strMAPCode.charAt(1) == '=' )
+			t_dMass += HMass * 2;
 
 		// Substitution from hydroxyl group to modification
 		t_dMass -= OHMass - HMass*nDehydration;

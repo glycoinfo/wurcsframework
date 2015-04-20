@@ -1,4 +1,4 @@
-package org.glycoinfo.WURCSFramework.graph;
+package org.glycoinfo.WURCSFramework.wurcs.graph;
 
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -60,7 +60,8 @@ public class Modification extends WURCSComponent{
 		// For modification of terminal carbon "A"
 //		System.out.println(this.m_strMAPCode+":"+this.getEdges().isEmpty());
 		if ( !this.getEdges().isEmpty() && ( this.m_strMAPCode.equals("*O") || this.m_strMAPCode.equals("*=O") ) ) {
-			System.out.println(this.m_strMAPCode+":"+this.getEdges().isEmpty());
+			// XXX remove print
+//			System.out.println(this.m_strMAPCode+":"+this.getEdges().isEmpty());
 			WURCSEdge edge = this.getEdges().getFirst();
 			Backbone t_oBackbone = edge.getBackbone();
 			int pos = edge.getLinkages().getFirst().getBackbonePosition()-1;

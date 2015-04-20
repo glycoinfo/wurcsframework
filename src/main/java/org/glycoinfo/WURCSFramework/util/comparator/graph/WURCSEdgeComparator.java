@@ -4,8 +4,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
 
-import org.glycoinfo.WURCSFramework.graph.LinkagePosition;
-import org.glycoinfo.WURCSFramework.graph.WURCSEdge;
+import org.glycoinfo.WURCSFramework.wurcs.graph.LinkagePosition;
+import org.glycoinfo.WURCSFramework.wurcs.graph.WURCSEdge;
 
 /**
  * Class for WURCSEdge comparison

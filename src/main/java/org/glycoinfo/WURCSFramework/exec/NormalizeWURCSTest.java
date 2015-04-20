@@ -1,26 +1,36 @@
 package org.glycoinfo.WURCSFramework.exec;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.util.Set;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 import org.glycoinfo.WURCSFramework.util.WURCSExporter;
 import org.glycoinfo.WURCSFramework.util.WURCSImporter;
-import org.glycoinfo.WURCSFramework.util.mass.WURCSMassCalculator;
-import org.glycoinfo.WURCSFramework.util.mass.WURCSMassException;
+import org.glycoinfo.WURCSFramework.util.exchange.WURCSArrayToGraph;
+import org.glycoinfo.WURCSFramework.util.exchange.WURCSGraphToArray;
 import org.glycoinfo.WURCSFramework.wurcs.WURCSArray;
 import org.glycoinfo.WURCSFramework.wurcs.WURCSFormatException;
+import org.glycoinfo.WURCSFramework.wurcs.graph.WURCSException;
+import org.glycoinfo.WURCSFramework.wurcs.graph.WURCSGraph;
 
 public class NormalizeWURCSTest {
 
 	public static void main(String[] args) {
 
-		String t_strWURCSFile = "20150302result-GlyTouCan_GlycoCTmfWURCS.txt";
+		String t_strDir = "C:\\GlycoCTList\\20150318\\";
+		String t_strWURCSFile = "20150318result-GlyTouCan_GlycoCTmfWURCS.txt";
 //		String input = "src/org/glycoinfo/WURCSFramework/testresource/" + t_strWURCSFile;
-		String input = "C:\\Users\\matsubara\\git\\wurcsframework\\WURCSFramework\\src\\org\\glycoinfo\\WURCSFramework\\testresource\\" + t_strWURCSFile;
+		String input  = t_strDir + t_strWURCSFile;
+		String output = t_strDir + "20150318result-GlyTouCan_WURCStoWURCS.txt";
 
 		TreeMap<String, String> t_mapWURCSIndex = new TreeMap<String, String>();
 		WURCSImporter t_objImporter = new WURCSImporter();
@@ -40,15 +50,27 @@ public class NormalizeWURCSTest {
 
 		try {
 			WURCSExporter t_oExporter = new WURCSExporter();
+			PrintWriter pw = openTextFileW(output);
+			TreeSet<String> t_aUniqueOrigWURCS = new TreeSet<String>();
+			TreeMap<String, TreeSet<String>> t_mapUniqueGraphWURCStoID = new TreeMap<String, TreeSet<String>>();
+			TreeSet<String> t_aSortLIN = new TreeSet<String>();
+			TreeSet<String> t_aInvert = new TreeSet<String>();
+			TreeSet<String> t_aAnomLink = new TreeSet<String>();
+			TreeSet<String> t_aCyclic = new TreeSet<String>();
+			TreeSet<String> t_aOthers = new TreeSet<String>();
 			int changeCount = 0;
 			for(String key : t_mapWURCSIndex.keySet()) {
-				String t_strOldWURCS = t_mapWURCSIndex.get(key);
+				if ( t_aUniqueOrigWURCS.contains(t_mapWURCSIndex.get(key)) ) continue;
+				t_aUniqueOrigWURCS.add(t_mapWURCSIndex.get(key));
+
+				System.err.println(key+":");
+				String t_strOrigWURCS = t_mapWURCSIndex.get(key);
 
 				// Extract WURCS
 				WURCSArray t_oWURCS = t_objImporter.extractWURCSArray(t_mapWURCSIndex.get(key));
 
 				// Mass calculate
-				try {
+/*				try {
 					WURCSMassCalculator.calcMassWURCS(t_oWURCS);
 				} catch (WURCSMassException e) {
 					// TODO 自動生成された catch ブロック
@@ -56,19 +78,93 @@ public class NormalizeWURCSTest {
 					System.out.println(key+": "+e.getErrorMessage());
 //					e.printStackTrace();
 				}
-
+*/
 				// Export WURCS string
-				String t_strNewWURCS = t_oExporter.getWURCSString(t_oWURCS);
-				if ( ! t_strOldWURCS.equals(t_strNewWURCS) ) {
-					System.out.println(key+":\n\t"+t_strOldWURCS+"\n\t"+t_strNewWURCS);
-					changeCount++;
-				}
+				String t_strSortLIN = t_oExporter.getWURCSString(t_oWURCS);
+				if ( !t_strOrigWURCS.equals(t_strSortLIN) ) t_aSortLIN.add(key);
+
+				// To Graph
+				WURCSArrayToGraph t_oA2G = new WURCSArrayToGraph();
+				t_oA2G.start(t_oWURCS);
+				WURCSGraph t_oGraph = t_oA2G.getGraph();
+				// For inverted backbone
+				if ( t_oA2G.isInverted() ) t_aInvert.add(key);
+				// To Array
+				WURCSGraphToArray t_oG2A = new WURCSGraphToArray();
+				t_oG2A.start(t_oGraph);
+				t_oWURCS = t_oG2A.getWURCSArray();
+
+				// Export WURCS string again
+				String t_strSortGraph = t_oExporter.getWURCSString(t_oWURCS);
+				if ( !t_mapUniqueGraphWURCStoID.containsKey(t_strSortGraph) )
+					t_mapUniqueGraphWURCStoID.put(t_strSortGraph, new TreeSet<String>());
+				t_mapUniqueGraphWURCStoID.get(t_strSortGraph).add(key);
+
+				// Check change strings
+				if ( t_strOrigWURCS.equals(t_strSortGraph) ) continue;
+				changeCount++;
+				pw.print(key+":");
+				if ( ! t_strOrigWURCS.equals(t_strSortLIN) ) pw.print(" LIN or MOD Sort :");
+				if ( t_oA2G.isInverted() )                   pw.print(" Invert :");
+				if ( t_oA2G.hasAnomLink() )                  pw.print(" Anomeric linkage :");
+				if ( t_oA2G.hasCyclic() )                    pw.print(" Cyclic :");
+				pw.println("\n\t"+t_strOrigWURCS);
+				if ( ! t_strOrigWURCS.equals(t_strSortLIN) )
+					pw.println("\t"+t_strSortLIN);
+				if ( t_strSortLIN.equals(t_strSortGraph) ) continue;
+				pw.println("\t"+t_strSortGraph);
+
+				if ( t_oA2G.hasAnomLink() ) t_aAnomLink.add(key);
+				if ( t_oA2G.hasCyclic() ) t_aCyclic.add(key);
+				if ( !t_oA2G.isInverted() && !t_oA2G.hasAnomLink() && !t_oA2G.hasCyclic() )
+					t_aOthers.add(key);
 			}
-			System.out.println("Change count: "+changeCount);
+			pw.println("\nTotal change count: "+changeCount);
+			pw.println("Sort change count: "+t_aSortLIN.size());
+			pw.println( join(t_aSortLIN) );
+			pw.println("Invert count: "+t_aInvert.size());
+			pw.println( join(t_aInvert) );
+			pw.println("Anomeric bonding count: "+t_aAnomLink.size());
+			pw.println( join(t_aAnomLink) );
+			pw.println("Cyclic count: "+t_aCyclic.size());
+			pw.println( join(t_aCyclic) );
+			pw.println("Other count: "+t_aOthers.size());
+			pw.println( join(t_aOthers) );
+			// dup
+			pw.println("Duplicate:");
+			for ( String t_strWURCS : t_mapUniqueGraphWURCStoID.keySet() ) {
+				if ( t_mapUniqueGraphWURCStoID.get(t_strWURCS).size() < 2 ) continue;
+				pw.println( join(t_mapUniqueGraphWURCStoID.get(t_strWURCS)) );
+				pw.println(t_strWURCS);
+			}
 		} catch (WURCSFormatException e) {
-			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+		} catch (WURCSException e1) {
+			e1.printStackTrace();
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	private static String join(Set<String> t_aList ) {
+		String t_strJoin = "";
+		int count = 0;
+		for ( String t_strInv : t_aList ) {
+			if ( !t_strJoin.equals("") ) t_strJoin += ",";
+			if ( count != 0 && count % 20 == 0 ) t_strJoin += "\n";
+			t_strJoin += t_strInv;
+			count++;
+		}
+		return t_strJoin;
+	}
+
+	/** Open text file for write */
+	public static PrintWriter openTextFileW( String fileName ) throws Exception {
+		String charSet = "utf-8";
+		boolean append = false;
+		boolean autoFlush = true;
+		return new PrintWriter( new BufferedWriter( new OutputStreamWriter( new FileOutputStream( new File(fileName), append ), charSet ) ), autoFlush );
+
 	}
 
 	//input WURCS string file

@@ -1,4 +1,4 @@
-package org.glycoinfo.WURCSFramework.graph;
+package org.glycoinfo.WURCSFramework.wurcs.graph;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,8 +26,12 @@ public class WURCSGraph {
 		{
 			t_objBackbone = t_iterBackbone.next();
 
-			WURCSEdge t_oEdge = t_objBackbone.getAnomericEdge();
-			if ( t_oEdge == null || !t_oEdge.isReverse() ) t_aResult.add(t_objBackbone);
+			boolean t_bIsRoot = true;
+			for ( WURCSEdge t_oEdge : t_objBackbone.getEdges() ) {
+				if ( !t_oEdge.isReverse() ) continue;
+				t_bIsRoot = false;
+			}
+			if (t_bIsRoot) t_aResult.add(t_objBackbone);
 		}
 		if ( t_aResult.size() > 0 ) return t_aResult;
 
