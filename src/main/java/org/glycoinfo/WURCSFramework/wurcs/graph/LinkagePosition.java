@@ -1,5 +1,7 @@
 package org.glycoinfo.WURCSFramework.wurcs.graph;
 
+import org.glycoinfo.WURCSFramework.wurcs.WURCSException;
+
 
 
 /**

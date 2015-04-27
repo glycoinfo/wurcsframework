@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import org.glycoinfo.WURCSFramework.wurcs.WURCSException;
+
 /**
  * Class for WURCSGraph
  * @author MasaakiMatsubara

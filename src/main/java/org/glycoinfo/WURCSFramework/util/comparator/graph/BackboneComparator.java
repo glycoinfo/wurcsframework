@@ -139,6 +139,22 @@ public class BackboneComparator implements Comparator<Backbone> {
 		// Prioritize larger string
 		if ( !strCode1.equals(strCode2) ) return strCode2.compareTo(strCode1);
 
+		// For position of glycosidic linkage
+		score1 = 0;
+		score2 = 0;
+		for ( WURCSEdge edge : t_aGlycosidicLinkages1 ) {
+			int pos1 = edge.getLinkages().getFirst().getBackbonePosition();
+			pos1 *= edge.isReverse()? -1 : 1;
+			score1 += pos1;
+		}
+		for ( WURCSEdge edge : t_aGlycosidicLinkages2 ) {
+			int pos2 = edge.getLinkages().getFirst().getBackbonePosition();
+			pos2 *= edge.isReverse()? -1 : 1 ;
+			score2 += pos2;
+		}
+		// Prioritize larger score
+		if ( score1 != score2 ) return score2 - score1;
+
 		// For position of modification
 		// TODO: add factor of MAP score
 		score1 = 0;
@@ -149,22 +165,6 @@ public class BackboneComparator implements Comparator<Backbone> {
 			score2 += edge.getLinkages().getFirst().getBackbonePosition();
 		// Prioritize smaller score
 		if ( score1 != score2 ) return score1 - score2;
-
-		// For position of glycosidic linkage
-		score1 = 0;
-		score2 = 0;
-		for ( WURCSEdge edge : t_aGlycosidicLinkages1 ) {
-			int pos1 = edge.getLinkages().getFirst().getBackbonePosition();
-			pos1 *= this.isParentSide(edge)? 1 : -1;
-			score1 += pos1;
-		}
-		for ( WURCSEdge edge : t_aGlycosidicLinkages2 ) {
-			int pos2 = edge.getLinkages().getFirst().getBackbonePosition();
-			pos2 *= this.isParentSide(edge)? 1 : -1 ;
-			score2 += pos2;
-		}
-		// Prioritize larger score
-		if ( score1 != score2 ) return score2 - score1;
 
 		return 0;
 	}
@@ -182,8 +182,16 @@ public class BackboneComparator implements Comparator<Backbone> {
 		return score;
 	}
 
-	private boolean isParentSide(WURCSEdge edge) {
-		if ( edge.isReverse() ) return false;
+	private WURCSEdge getOpositSideEdge(WURCSEdge edge) {
+		if (! edge.getModification().isGlycosidic() ) return null;
+		if ( edge.getModification().getEdges().size() > 2 ) return null;
+		return ( edge.getModification().getEdges().getFirst().equals(edge) )?
+				edge.getModification().getEdges().getLast() :
+				edge.getModification().getEdges().getFirst() ;
+	}
+
+	private boolean isChildSide(WURCSEdge edge) {
+		if ( edge.isReverse() ) return true;
 
 		for ( WURCSEdge next : edge.getModification().getEdges() ) {
 			if ( next.equals(edge) ) continue;

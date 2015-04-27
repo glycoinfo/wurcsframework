@@ -14,12 +14,12 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 import org.glycoinfo.WURCSFramework.util.WURCSExporter;
+import org.glycoinfo.WURCSFramework.util.WURCSFormatException;
 import org.glycoinfo.WURCSFramework.util.WURCSImporter;
 import org.glycoinfo.WURCSFramework.util.exchange.WURCSArrayToGraph;
 import org.glycoinfo.WURCSFramework.util.exchange.WURCSGraphToArray;
 import org.glycoinfo.WURCSFramework.wurcs.WURCSArray;
-import org.glycoinfo.WURCSFramework.wurcs.WURCSFormatException;
-import org.glycoinfo.WURCSFramework.wurcs.graph.WURCSException;
+import org.glycoinfo.WURCSFramework.wurcs.WURCSException;
 import org.glycoinfo.WURCSFramework.wurcs.graph.WURCSGraph;
 
 public class NormalizeWURCSTest {

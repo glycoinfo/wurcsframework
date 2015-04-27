@@ -82,13 +82,17 @@ public class WURCSSequenceExporterSPARQL extends SPARQLQueryGenerator {
 	}
 
 	public String getMainQuery(WURCSSequence a_oSeq) {
+		return getMainQuery(a_oSeq, true);
+	}
+
+	public String getMainQuery(WURCSSequence a_oSeq, boolean a_bComments) {
 
 		String t_strMain = this.getSPO("?glycan", "glycan:has_glycosequence", "?gseq");
 		t_strMain += this.getSPO("?gseq", "glycan:has_sequence", "?wurcs");
 
 		if ( a_oSeq.getGLINs().isEmpty() ) {
 			for ( GRES t_oGRES : a_oSeq.getGRESs() )
-				t_strMain += this.getGRESQuery(t_oGRES);
+				t_strMain += this.getGRESQuery(t_oGRES, a_bComments);
 			return t_strMain;
 		}
 
@@ -100,7 +104,7 @@ public class WURCSSequenceExporterSPARQL extends SPARQLQueryGenerator {
 				if ( !t_oGRES.getAcceptorGLINs().contains(t_oGLIN) ) continue;
 				t_oAGRES = t_oGRES;
 			}
-			String t_strAGRES = this.getGRESQuery(t_oAGRES);
+			String t_strAGRES = this.getGRESQuery(t_oAGRES, a_bComments);
 			int t_iAGRESID = this.m_aGRES.indexOf(t_oAGRES)+1;
 
 			// For donor GRES
@@ -109,13 +113,15 @@ public class WURCSSequenceExporterSPARQL extends SPARQLQueryGenerator {
 				if ( !t_oGRES.getDonorGLINs().contains(t_oGLIN) ) continue;
 				t_oDGRES = t_oGRES;
 			}
-			String t_strDGRES = this.getGRESQuery(t_oDGRES);
+			String t_strDGRES = this.getGRESQuery(t_oDGRES, a_bComments);
 			int t_iDGRESID = this.m_aGRES.indexOf(t_oDGRES)+1;
 
 			// GLIN variable string
 			String t_strGLINID = ""+t_iAGRESID+t_iDGRESID;
 
-			t_strMain += "\n  # GLIN"+t_strGLINID+"\n";
+			if (a_bComments)
+				t_strMain += "\n  # GLIN"+t_strGLINID+"\n";
+			
 			t_strMain += t_strAGRES;
 			t_strMain += this.getSPO("?GRES"+t_iAGRESID, "wurcs:is_acceptor_of", "?GLIN"+t_strGLINID);
 			t_strMain += this.getGLINPositionQuery(t_oGLIN, t_strGLINID);
@@ -188,11 +194,16 @@ public class WURCSSequenceExporterSPARQL extends SPARQLQueryGenerator {
 	}
 
 	private String getGRESQuery(GRES a_oGRES) {
+		return getGRESQuery(a_oGRES, true);
+	}
+	
+	private String getGRESQuery(GRES a_oGRES, boolean a_bComments) {
 		if ( this.m_aGRES.contains(a_oGRES) ) return "";
 		this.m_aGRES.addLast(a_oGRES);
 		int t_iGRESID = this.m_aGRES.indexOf(a_oGRES)+1;
-
-		String t_strGRES = "\n  ## GRES"+t_iGRESID+"\n";
+		String t_strGRES = "\n";
+		if (a_bComments)
+			t_strGRES += "## GRES"+t_iGRESID+"\n";
 		// For gseq
 //		t_strGRES += this.getSPO("?gseq", "wurcs:has_GES", "?GRES"+t_iGRESID);
 		t_strGRES += this.getSPO("?gseq", "wurcs:has_GRES", "?GRES"+t_iGRESID);

@@ -5,6 +5,7 @@ import java.util.LinkedList;
 
 import org.glycoinfo.WURCSFramework.util.WURCSDataConverter;
 import org.glycoinfo.WURCSFramework.util.WURCSExporter;
+import org.glycoinfo.WURCSFramework.util.WURCSFormatException;
 import org.glycoinfo.WURCSFramework.wurcs.GLIP;
 import org.glycoinfo.WURCSFramework.wurcs.GLIPs;
 import org.glycoinfo.WURCSFramework.wurcs.LIN;
@@ -14,7 +15,7 @@ import org.glycoinfo.WURCSFramework.wurcs.MOD;
 import org.glycoinfo.WURCSFramework.wurcs.RES;
 import org.glycoinfo.WURCSFramework.wurcs.UniqueRES;
 import org.glycoinfo.WURCSFramework.wurcs.WURCSArray;
-import org.glycoinfo.WURCSFramework.wurcs.WURCSFormatException;
+import org.glycoinfo.WURCSFramework.wurcs.WURCSException;
 import org.glycoinfo.WURCSFramework.wurcs.graph.Backbone;
 import org.glycoinfo.WURCSFramework.wurcs.graph.BackboneCarbon;
 import org.glycoinfo.WURCSFramework.wurcs.graph.BackboneUnknown;
@@ -26,7 +27,6 @@ import org.glycoinfo.WURCSFramework.wurcs.graph.ModificationAlternative;
 import org.glycoinfo.WURCSFramework.wurcs.graph.ModificationRepeat;
 import org.glycoinfo.WURCSFramework.wurcs.graph.ModificationRepeatAlternative;
 import org.glycoinfo.WURCSFramework.wurcs.graph.WURCSEdge;
-import org.glycoinfo.WURCSFramework.wurcs.graph.WURCSException;
 import org.glycoinfo.WURCSFramework.wurcs.graph.WURCSGraph;
 import org.glycoinfo.WURCSFramework.wurcs.graph.WURCSGraphNormalizer;
 
@@ -69,7 +69,7 @@ public class WURCSArrayToGraph {
 	 * @throws WURCSFormatException
 	 * @throws WURCSException
 	 */
-	public void start(WURCSArray a_oArray) throws WURCSFormatException, WURCSException {
+	public void start(WURCSArray a_oArray) throws WURCSExchangeException, WURCSException {
 
 		WURCSExporter t_oExport = new WURCSExporter();
 		for ( RES t_oRES : a_oArray.getRESs() ) {
@@ -98,13 +98,13 @@ public class WURCSArrayToGraph {
 			for ( GLIPs t_oGLIPs : t_oLIN.getListOfGLIPs() ) {
 				if ( t_oGLIPs.getAlternativeType() == null ) continue;
 				if ( t_oGLIPs.getGLIPs().size() < 2 )
-					throw new WURCSFormatException("Alternative GLIPs must have two or more GLIP. : "+t_oExport.getGLIPsString(t_oGLIPs));
+					throw new WURCSExchangeException("Alternative GLIPs must have two or more GLIP. : "+t_oExport.getGLIPsString(t_oGLIPs));
 
 				if ( t_oGLIPs.getAlternativeType().equals("}") ) t_aLeadInGLIPs.add(t_oGLIPs);
 				if ( t_oGLIPs.getAlternativeType().equals("{") ) t_aLeadOutGLIPs.add(t_oGLIPs);
 			}
-			if ( t_aLeadInGLIPs.size()  > 1 ) throw new WURCSFormatException("Two or more lead in GLIPs is found. : ");
-			if ( t_aLeadOutGLIPs.size() > 1 ) throw new WURCSFormatException("Two or more lead out GLIPs is found. : ");
+			if ( t_aLeadInGLIPs.size()  > 1 ) throw new WURCSExchangeException("Two or more lead in GLIPs is found. : ");
+			if ( t_aLeadOutGLIPs.size() > 1 ) throw new WURCSExchangeException("Two or more lead out GLIPs is found. : ");
 
 			// Construct modification (or its subclasses)
 			Modification t_oModif = new Modification( t_oLIN.getMAPCode() );
@@ -175,7 +175,7 @@ public class WURCSArrayToGraph {
 	 * @throws WURCSFormatException
 	 * @throws WURCSException
 	 */
-	private LinkagePosition convertToLinkagePosition(LIP t_oLIP) throws WURCSFormatException, WURCSException {
+	private LinkagePosition convertToLinkagePosition(LIP t_oLIP) throws WURCSExchangeException, WURCSException {
 		int     t_iBPos      = t_oLIP.getBackbonePosition();
 		char    t_cDirection = t_oLIP.getBackboneDirection();
 		int     t_iMPos      = t_oLIP.getModificationPosition();
@@ -183,7 +183,7 @@ public class WURCSArrayToGraph {
 		boolean t_bCompressMPos = ( t_iMPos == 0 );
 		DirectionDescriptor t_enumDirection = DirectionDescriptor.forChar( t_oLIP.getBackboneDirection() );
 		if ( t_enumDirection == null )
-			throw new WURCSFormatException("Unknown DirectionDescriptor is found.");
+			throw new WURCSExchangeException("Unknown DirectionDescriptor is found.");
 		LinkagePosition t_oLinkPos = new LinkagePosition(t_iBPos, t_enumDirection, t_bCompressDirection, t_iMPos, t_bCompressMPos);
 
 		// Set probabilities
@@ -200,7 +200,7 @@ public class WURCSArrayToGraph {
 		return t_oLinkPos;
 	}
 
-	private Backbone convertToBackbone(UniqueRES a_oURES) throws WURCSFormatException {
+	private Backbone convertToBackbone(UniqueRES a_oURES) throws WURCSExchangeException {
 		Backbone t_oBackbone = new Backbone();
 		LinkedList<String> t_aCDString = this.parseSkeletonCode( a_oURES.getSkeletonCode() );
 
@@ -224,7 +224,7 @@ public class WURCSArrayToGraph {
 		return t_oBackbone;
 	}
 
-	private LinkedList<String> parseSkeletonCode(String a_strSkeletonCode) throws WURCSFormatException {
+	private LinkedList<String> parseSkeletonCode(String a_strSkeletonCode) throws WURCSExchangeException {
 		LinkedList<String> t_aCDString = new LinkedList<String>();
 		int length = a_strSkeletonCode.length();
 		for ( int i=0; i<length; i++ ) {
@@ -235,7 +235,7 @@ public class WURCSArrayToGraph {
 			}
 			// For unknown length
 			if ( !a_strSkeletonCode.substring(i, i+3).equals("<0>") )
-				throw new WURCSFormatException("unknown CarbonDescriptor is found : "+a_strSkeletonCode);
+				throw new WURCSExchangeException("unknown CarbonDescriptor is found : "+a_strSkeletonCode);
 			i += 3;
 			t_aCDString.add("<0>");
 		}

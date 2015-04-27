@@ -16,9 +16,15 @@ public class WURCSEdgeComparator implements Comparator<WURCSEdge> {
 
 	@Override
 	public int compare(WURCSEdge o1, WURCSEdge o2) {
-		// For reverse edge
+		// For reverse edge (prioritize parent side whitch is not reverse)
 		if ( !o1.isReverse() &&  o2.isReverse() ) return -1;
 		if (  o1.isReverse() && !o2.isReverse() ) return 1;
+
+		// For unknown LinkagePosition, not unknown comes first
+		if (   o1.getLinkages().getFirst().getBackbonePosition() != -1
+			&& o2.getLinkages().getFirst().getBackbonePosition() == -1) return -1;
+		if (   o1.getLinkages().getFirst().getBackbonePosition() == -1
+			&& o2.getLinkages().getFirst().getBackbonePosition() != -1) return 1;
 
 		// For size of LinkagePosition, smaller comes first
 		if (o1.getLinkages().size() < o2.getLinkages().size()) return -1;

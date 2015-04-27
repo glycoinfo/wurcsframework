@@ -1,6 +1,7 @@
 package org.glycoinfo.WURCSFramework.util.exchange;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 
@@ -66,9 +67,10 @@ public class WURCSGraphToArray implements WURCSVisitor {
 		//XXX remove print
 //		System.out.println( this.m_oExporter.getUniqueRESString( t_oURESCandidate ) );
 		// Searce edges for MOD
+		LinkedList<MOD> t_aMODsCandidate = new LinkedList<MOD>();
+		HashSet<Modification> searchedMods = new HashSet<Modification>();
 		LinkedList<WURCSEdge> edges = a_objBackbone.getEdges();
 		Collections.sort( edges, this.m_oEdgeComp );
-		HashSet<Modification> searchedMods = new HashSet<Modification>();
 		for ( WURCSEdge t_oMODEdge : edges ) {
 			Modification t_oModif = t_oMODEdge.getModification();
 			if ( searchedMods.contains(t_oModif) ) continue;
@@ -84,11 +86,42 @@ public class WURCSGraphToArray implements WURCSVisitor {
 			// Make MOD
 			MOD t_oMOD = this.makeMOD(t_oModif);
 			if ( t_oMOD == null ) continue;
-			t_oURESCandidate.addMOD( this.makeMOD(t_oModif) );
+			t_aMODsCandidate.add(t_oMOD);
 
 			if ( !t_oMODEdge.isReverse() ) continue;
 			// XXX remove print
 			System.err.println("has parent");
+		}
+
+		// Comb out for omiting MOD
+		LinkedList<MOD> t_aMODsForAdd = new LinkedList<MOD>();
+		HashMap<Integer, LinkedList<MOD>> t_mapPosToMODs = new HashMap<Integer,LinkedList<MOD>>();
+		for ( MOD t_oMOD : t_aMODsCandidate ) {
+			if ( t_oMOD.getListOfLIPs().size() != 1 || t_oMOD.getListOfLIPs().getFirst().getLIPs().size() != 1 ){
+				t_aMODsForAdd.add(t_oMOD);
+				continue;
+			}
+			int pos = t_oMOD.getListOfLIPs().getFirst().getLIPs().getFirst().getBackbonePosition();
+			if ( pos == -1 ) {
+				t_aMODsForAdd.add(t_oMOD);
+				continue;
+			}
+			if ( !t_mapPosToMODs.containsKey(pos) )
+				t_mapPosToMODs.put(pos, new LinkedList<MOD>());
+			t_mapPosToMODs.get(pos).add(t_oMOD);
+		}
+		for ( Integer pos : t_mapPosToMODs.keySet() ) {
+			LinkedList<MOD> t_aMODs = t_mapPosToMODs.get(pos);
+			char t_cCD = a_objBackbone.getBackboneCarbons().get(pos-1).getDesctriptor().getChar();
+			if (t_cCD == 'a' || t_cCD == 'A') {
+				LinkedList<String> t_aMAPs = new LinkedList<String>();
+				for ( MOD t_oMOD : t_aMODs ) t_aMAPs.add(t_oMOD.getMAPCode());
+				if (t_aMAPs.size() == 2 && t_aMAPs.contains("*O") && t_aMAPs.contains("*=O")) continue;
+			}
+		}
+		for ( MOD t_oMOD : t_aMODsForAdd ) {
+			if ( t_oMOD.getMAPCode().equals("*O") ) continue;
+			t_oURESCandidate.addMOD( t_oMOD );
 		}
 
 		// Check unique

@@ -2,9 +2,9 @@ package org.glycoinfo.WURCSFramework.util.rdf;
 
 import java.util.LinkedList;
 
+import org.glycoinfo.WURCSFramework.util.WURCSFormatException;
 import org.glycoinfo.WURCSFramework.util.WURCSImporter;
 import org.glycoinfo.WURCSFramework.wurcs.WURCSArray;
-import org.glycoinfo.WURCSFramework.wurcs.WURCSFormatException;
 
 //TODO: 
 public class WURCSSPARQL_TBD {

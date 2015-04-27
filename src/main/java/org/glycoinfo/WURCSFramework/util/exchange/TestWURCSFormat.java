@@ -1,11 +1,11 @@
 package org.glycoinfo.WURCSFramework.util.exchange;
 
 import org.glycoinfo.WURCSFramework.util.WURCSExporter;
+import org.glycoinfo.WURCSFramework.util.WURCSFormatException;
 import org.glycoinfo.WURCSFramework.util.WURCSImporter;
 import org.glycoinfo.WURCSFramework.wurcs.WURCSArray;
-import org.glycoinfo.WURCSFramework.wurcs.WURCSFormatException;
+import org.glycoinfo.WURCSFramework.wurcs.WURCSException;
 import org.glycoinfo.WURCSFramework.wurcs.graph.Backbone;
-import org.glycoinfo.WURCSFramework.wurcs.graph.WURCSException;
 import org.glycoinfo.WURCSFramework.wurcs.graph.WURCSGraph;
 
 public class TestWURCSFormat {
@@ -32,7 +32,9 @@ public class TestWURCSFormat {
 		// GlycomeDB: 33783
 //		input = "WURCS=2.0/2,4,5/[12122h-1b_1-5][hxh]/1-1-1-2/a1-c2_a2-b1_b2-c1_c6-d1*OP^XO*/3O/3=O_b1-b2~n";
 		// GlycomeDB: 7018
-		input = "WURCS=2.0/1,3,3/[2212h-1a_1-4]/1-1-1/a3-b5_b3-c5_b3-b5~n";
+//		input = "WURCS=2.0/1,3,3/[2212h-1a_1-4]/1-1-1/a3-b5_b3-c5_b3-b5~n";
+		//
+		input = "WURCS=2.0/3,4,4/[hxh][22112h-1a_1-4][22112h-1a_1-5]/1-2-1-3/a2-b1_b5-c1*OP^XO*/3O/3=O_c2-d1_a1-d4*OP^XO*/3O/3=O~n";
 		WURCSImporter t_objImporter = new WURCSImporter();
 		try {
 			// Import WURCS without error messages

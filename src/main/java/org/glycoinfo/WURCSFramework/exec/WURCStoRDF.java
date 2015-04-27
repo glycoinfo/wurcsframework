@@ -8,6 +8,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.net.URLDecoder;
 import java.util.Date;
 import java.util.TreeMap;
 
@@ -22,14 +23,14 @@ public class WURCStoRDF {
 	public static void main(String[] args) throws Exception {
 		// TODO 自動生成されたメソッド・スタブ
 
-		String t_strFilePath = "C:\\GlycoCTList\\";
+		String t_strFilePath = "/home/aoki/workspace/wurcsframework/WURCSFramework/src/org/glycoinfo/WURCSFramework/testresource/";
 
 		Date day = new Date();
 		long start = day.getTime();
 
 		Boolean t_bPrefix = true;
 
-		String t_strFilePathR = t_strFilePath + "20150318\\20150318result-GlyTouCan_GlycoCTmfWURCS.txt";
+		String t_strFilePathR = t_strFilePath + "20150422glytoucan.wurcs.tsv";
 		File file = new File(t_strFilePathR);
 
 		if(!file.isFile()) throw new Exception();
@@ -39,7 +40,7 @@ public class WURCStoRDF {
 //			PrintWriter pwRDF1  = openTextFileW(t_strFilePath+"20150318\\WURCS-RDF-0.5.1.ttl");
 //			PrintWriter pwRDF2  = openTextFileW(t_strFilePath+"20150318\\WURCS-RDF-0.5.2.ttl");
 //			PrintWriter pwMSRDF = openTextFileW(t_strFilePath+"20150318\\WURCS-MS-RDF.ttl");
-			PrintWriter pwSEQRDF = openTextFileW(t_strFilePath+"20150318\\WURCS-SEQ-RDF-0.1.ttl");
+			PrintWriter pwSEQRDF = openTextFileW(t_strFilePath+"20150422glytoucan.wurcs.tsv.TTL");
 
 			for(String key : t_mapIndexToWURCS.keySet()) {
 				WURCSImporter t_oImport = new WURCSImporter();

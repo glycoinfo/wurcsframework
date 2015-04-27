@@ -64,11 +64,7 @@ public class BackboneUnknown extends Backbone {
 
 	@Override
 	public void invert() {
-		for ( WURCSEdge edge : this.getEdges() ) {
-			for ( LinkagePosition link : edge.getLinkages() ) {
-				link.invertBackbonePosition(this.getBackboneCarbons().size());
-			}
-		}
+		// Do notthing
 	}
 
 }

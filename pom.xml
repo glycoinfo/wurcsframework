@@ -3,13 +3,23 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.glycoinfo</groupId>
 	<artifactId>wurcsframework</artifactId>
-	<version>0.0.1</version>
-	
+	<version>0.0.2-SNAPSHOT</version>
+
 	<repositories>
 		<repository>
+			<id>apache-repo</id>
+			<url>https://repository.apache.org/content/repositories/releases/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+		<repository>
 			<id>glycoinfo</id>
-			<name>Internal Releases</name>
-			<url>http://nexus.glycoinfo.org/content/repositories/releases/</url>
+			<name>public</name>
+			<url>http://nexus.glycoinfo.org/content/repositories/public/</url>
 		</repository>
 		<repository>
 			<id>glycoinfo-snapshots</id>
@@ -17,7 +27,7 @@
 			<url>http://nexus.glycoinfo.org/content/repositories/snapshots/</url>
 		</repository>
 	</repositories>
-	
+
 	<distributionManagement>
 		<repository>
 			<id>glycoinfo</id>
@@ -62,7 +72,6 @@
 				<version>2.3</version>
 			</plugin>
 
-
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-linkcheck-plugin</artifactId>
@@ -70,8 +79,20 @@
 				<configuration>
 				</configuration>
 			</plugin>
-
 		</plugins>
 	</reporting>
 
+	<dependencies>
+		<dependency>
+			<groupId>org.apache.jena</groupId>
+			<artifactId>apache-jena-libs</artifactId>
+			<version>2.11.1</version>
+			<type>pom</type>
+		</dependency>
+		<dependency>
+			<groupId>org.openrdf.sesame</groupId>
+			<artifactId>sesame-model</artifactId>
+			<version>2.8.0-beta2</version>
+		</dependency>
+	</dependencies>
 </project>

@@ -10,9 +10,9 @@ import java.io.IOException;
 import java.util.TreeMap;
 
 import org.glycoinfo.WURCSFramework.util.WURCSExporter;
+import org.glycoinfo.WURCSFramework.util.WURCSFormatException;
 import org.glycoinfo.WURCSFramework.util.WURCSImporter;
 import org.glycoinfo.WURCSFramework.wurcs.WURCSArray;
-import org.glycoinfo.WURCSFramework.wurcs.WURCSFormatException;
 
 public class SubsumptionGenerator {
 	public static void main(String[] args) throws Exception {

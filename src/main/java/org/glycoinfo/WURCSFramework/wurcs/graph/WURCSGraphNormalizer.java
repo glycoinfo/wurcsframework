@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 import org.glycoinfo.WURCSFramework.util.comparator.graph.BackboneComparator;
+import org.glycoinfo.WURCSFramework.wurcs.WURCSException;
 
 /**
  * Class for normalize WURCSGraph before traverse
@@ -52,6 +53,48 @@ public class WURCSGraphNormalizer {
 			t_objBackbone.getAnomericEdge().reverse();
 		}
 
+		// Invert Backbone
+		LinkedList<Backbone> t_aSymmetricBackbone = new LinkedList<Backbone>();
+		t_iterBackbone = a_oGraph.getBackboneIterator();
+		while (t_iterBackbone.hasNext())
+		{
+			t_objBackbone = t_iterBackbone.next();
+			Backbone copy   = t_objBackbone.copy();
+			Backbone invert = t_objBackbone.copy();
+			invert.invert();
+			// Check with no edges
+			int iComp = t_oBComp.compare(copy, invert);
+			// XXX remove print
+//			System.err.println(iComp);
+			if ( iComp > 0 ) {
+				t_objBackbone.invert();
+				this.m_bInverted = true;
+			}
+			if ( iComp != 0 ) continue;
+
+			// Symmetry check
+			// XXX remove print
+			System.err.println( "Symmetry backbone: " + t_objBackbone.getSkeletonCode() );
+			t_aSymmetricBackbone.addLast(t_objBackbone);
+		}
+		// Invert symmetric Backbone
+		HashMap<Backbone, Backbone> t_hashOrigToInvert = new HashMap<Backbone, Backbone>();
+		a_oGraph.copy(t_hashOrigToInvert);
+		for ( Backbone origBackbone : t_aSymmetricBackbone ) {
+			Backbone copyBackbone = t_hashOrigToInvert.get(origBackbone);
+			copyBackbone.invert();
+			// Check with edges
+
+			if ( t_oBComp.compare(origBackbone, copyBackbone) > 0 ) {
+				// XXX remove print
+				System.err.println(t_oBComp.compare(origBackbone, copyBackbone));
+				System.err.println("Invert Backbone");
+				origBackbone.invert();
+				this.m_bInverted = true;
+			}
+		}
+
+
 		// Reverse edges for open chain backbones
 		LinkedList<Backbone> t_aOpenChainBackbones = new LinkedList<Backbone>();
 		t_iterBackbone = a_oGraph.getBackboneIterator();
@@ -61,7 +104,6 @@ public class WURCSGraphNormalizer {
 			t_aOpenChainBackbones.add(t_objBackbone);
 		}
 		this.reverseEdgeForOpenChain(t_aOpenChainBackbones);
-
 
 		// For glycosidic linkage between anomeric positions
 		Iterator<Modification> t_iterModification = a_oGraph.getModificationIterator();
@@ -120,48 +162,6 @@ public class WURCSGraphNormalizer {
 			t_hashSearchedBackbones.addAll(t_aCyclicBackbones);
 			this.m_bCyclic = true;
 		}
-
-
-		// Invert Backbone
-		LinkedList<Backbone> t_aSymmetricBackbone = new LinkedList<Backbone>();
-		while (t_iterBackbone.hasNext())
-		{
-			t_objBackbone = t_iterBackbone.next();
-			Backbone copy   = t_objBackbone.copy();
-			Backbone invert = t_objBackbone.copy();
-			invert.invert();
-			// Check with no edges
-			int iComp = t_oBComp.compare(copy, invert);
-			// XXX remove print
-//			System.err.println(iComp);
-			if ( iComp > 0 ) {
-				t_objBackbone.invert();
-				this.m_bInverted = true;
-			}
-			if ( iComp != 0 ) continue;
-
-			// Symmetry check
-			// XXX remove print
-			System.err.println( "Symmetry backbone: " + t_objBackbone.getSkeletonCode() );
-			t_aSymmetricBackbone.addLast(t_objBackbone);
-		}
-		// Invert symmetric Backbone
-		HashMap<Backbone, Backbone> t_hashOrigToInvert = new HashMap<Backbone, Backbone>();
-		a_oGraph.copy(t_hashOrigToInvert);
-		for ( Backbone origBackbone : t_aSymmetricBackbone ) {
-			Backbone copyBackbone = t_hashOrigToInvert.get(origBackbone);
-			copyBackbone.invert();
-			// Check with edges
-
-			if ( t_oBComp.compare(origBackbone, copyBackbone) > 0 ) {
-				// XXX remove print
-				System.err.println(t_oBComp.compare(origBackbone, copyBackbone));
-				System.err.println("Invert Backbone");
-				origBackbone.invert();
-				this.m_bInverted = true;
-			}
-		}
-
 	}
 
 	private boolean checkCyclic(LinkedList<Backbone> a_aBackbones) {
@@ -203,7 +203,10 @@ public class WURCSGraphNormalizer {
 			for ( WURCSEdge t_oEdgeB2M : t_objBackbone.getEdges() ) {
 				if ( !t_oEdgeB2M.getModification().isGlycosidic() ) continue;
 				Modification t_oModif = t_oEdgeB2M.getModification();
-				if ( t_oModif instanceof InterfaceRepeat ) continue;
+
+				// Skip repeat
+//				if ( t_oModif instanceof InterfaceRepeat ) continue;
+
 				for ( WURCSEdge t_oEdgeM2B  : t_oModif.getEdges() ) {
 					if ( t_oEdgeM2B == t_oEdgeB2M ) continue;
 					if ( t_oEdgeM2B.isReverse() ) {
@@ -233,6 +236,7 @@ public class WURCSGraphNormalizer {
 				for ( WURCSEdge t_oEdgeB2M  : t_oModif.getEdges() ) {
 					if ( t_oEdgeM2B == t_oEdgeB2M ) continue;
 					if ( t_oEdgeB2M.getBackbone() != t_objBackbone ) continue;
+					// XXX remove print
 					System.err.println("4");
 					System.err.println( t_objBackbone.getSkeletonCode() );
 					t_oEdgeB2M.reverse();

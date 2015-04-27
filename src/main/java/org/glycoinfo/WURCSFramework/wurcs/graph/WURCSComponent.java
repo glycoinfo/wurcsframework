@@ -3,6 +3,7 @@ package org.glycoinfo.WURCSFramework.wurcs.graph;
 import java.util.LinkedList;
 
 import org.glycoinfo.WURCSFramework.util.visitor.graph.WURCSVisitable;
+import org.glycoinfo.WURCSFramework.wurcs.WURCSException;
 
 /**
  * Abstract class for component of Carbohydrate

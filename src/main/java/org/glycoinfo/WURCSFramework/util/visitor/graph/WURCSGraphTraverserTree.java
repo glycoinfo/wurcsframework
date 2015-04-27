@@ -8,10 +8,10 @@ import java.util.LinkedList;
 
 import org.glycoinfo.WURCSFramework.util.comparator.graph.BackboneComparator;
 import org.glycoinfo.WURCSFramework.util.comparator.graph.WURCSEdgeComparator;
+import org.glycoinfo.WURCSFramework.wurcs.WURCSException;
 import org.glycoinfo.WURCSFramework.wurcs.graph.Backbone;
 import org.glycoinfo.WURCSFramework.wurcs.graph.WURCSComponent;
 import org.glycoinfo.WURCSFramework.wurcs.graph.WURCSEdge;
-import org.glycoinfo.WURCSFramework.wurcs.graph.WURCSException;
 import org.glycoinfo.WURCSFramework.wurcs.graph.WURCSGraph;
 
 public class WURCSGraphTraverserTree extends WURCSGraphTraverser {
