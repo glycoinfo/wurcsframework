@@ -49,7 +49,8 @@ public enum WURCSTripleURL_TBD{
 
 	// For WURCSSequence
 	GRES_AC()	{ public String get(String ac_no, Object val)	{ return GLYCAN.BASE_URL+"/"+ac_no+WURCS.VERSION+"/GRES/"+objectToString(val) ;}},
-	GLIN()		{ public String get(String ac_no, Object val)	{ return GLYCAN.BASE_URL+WURCS.VERSION+"/GLIN/"+urlenc(objectToString(val)) ;}};
+	GLIN()		{ public String get(String ac_no, Object val)	{ return GLYCAN.BASE_URL+WURCS.VERSION+"/GLIN/"+urlenc(objectToString(val)) ;}},
+	GLIN_AC()	{ public String get(String ac_no, Object val)	{ return GLYCAN.BASE_URL+"/"+ac_no+WURCS.VERSION+"/GLIN/"+urlenc(objectToString(val)) ;}};
 
 	 abstract public String get(String ac_no, Object value);
 

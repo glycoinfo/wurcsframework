@@ -2,8 +2,8 @@ package org.glycoinfo.WURCSFramework.wurcs.graph;
 
 import java.util.LinkedList;
 
-import org.glycoinfo.WURCSFramework.util.visitor.graph.WURCSVisitor;
-import org.glycoinfo.WURCSFramework.util.visitor.graph.WURCSVisitorException;
+import org.glycoinfo.WURCSFramework.util.graph.visitor.WURCSVisitor;
+import org.glycoinfo.WURCSFramework.util.graph.visitor.WURCSVisitorException;
 
 
 /**

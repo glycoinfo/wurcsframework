@@ -1,6 +1,5 @@
 package org.glycoinfo.WURCSFramework.exec;
 
-import java.io.File;
 import java.util.LinkedList;
 
 import org.glycoinfo.WURCSFramework.util.WURCSFormatException;
@@ -24,14 +23,16 @@ public class WURCStoMassTest {
 		input = "WURCS=2.0/2,2,1/[h2122h][12122h-1b_1-5]/1-2/a2-b1";
 		input = "WURCS=2.0/2,2,1/[x2122h-1x_1-5][12122a-1b_1-5_6*=O_6*OC]/1-2/a2-b1";
 
-		WURCSArray t_objWURCS = new WURCSArray("2.0", 0, 0, 0);
-		WURCSImporter t_objImporter = new WURCSImporter();
-		File file = new File(input);
 
 		try {
-			t_objWURCS = t_objImporter.extractWURCSArray(input.substring(input.indexOf("W")));
+			WURCSImporter t_objImporter = new WURCSImporter();
+			WURCSArray t_objWURCS = t_objImporter.extractWURCSArray(input.substring(input.indexOf("W")));
+			// Calcurate mass from WURCS
+			double mass = WURCSMassCalculator.calcMassWURCS(t_objWURCS);
+			System.out.println(mass);
 		} catch (WURCSFormatException e) {
-			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+		} catch (WURCSMassException e) {
 			e.printStackTrace();
 		}
 
@@ -50,18 +51,6 @@ public class WURCStoMassTest {
 		testMass = WURCSMassCalculator.getMassSkeletonCode("u2122h");
 		System.out.println(testMass);
 		System.out.println();
-
-
-		// Calcurate mass from WURCS
-		double mass;
-		try {
-			mass = WURCSMassCalculator.calcMassWURCS(t_objWURCS);
-			System.out.println(mass);
-		} catch (WURCSMassException e) {
-			// TODO 自動生成された catch ブロック
-			e.printStackTrace();
-		}
-
 	}
 
 }

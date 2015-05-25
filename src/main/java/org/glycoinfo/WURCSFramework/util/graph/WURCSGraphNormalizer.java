@@ -1,4 +1,4 @@
-package org.glycoinfo.WURCSFramework.wurcs.graph;
+package org.glycoinfo.WURCSFramework.util.graph;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -6,8 +6,16 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-import org.glycoinfo.WURCSFramework.util.comparator.graph.BackboneComparator;
+import org.glycoinfo.WURCSFramework.util.graph.comparator.BackboneComparator;
+import org.glycoinfo.WURCSFramework.util.graph.comparator.WURCSVisitorCollectSequenceComparator;
+import org.glycoinfo.WURCSFramework.util.graph.visitor.WURCSVisitorCollectSequence;
 import org.glycoinfo.WURCSFramework.wurcs.WURCSException;
+import org.glycoinfo.WURCSFramework.wurcs.graph.Backbone;
+import org.glycoinfo.WURCSFramework.wurcs.graph.InterfaceRepeat;
+import org.glycoinfo.WURCSFramework.wurcs.graph.Modification;
+import org.glycoinfo.WURCSFramework.wurcs.graph.ModificationAlternative;
+import org.glycoinfo.WURCSFramework.wurcs.graph.WURCSEdge;
+import org.glycoinfo.WURCSFramework.wurcs.graph.WURCSGraph;
 
 /**
  * Class for normalize WURCSGraph before traverse
@@ -116,14 +124,21 @@ public class WURCSGraphNormalizer {
 			LinkedList<Backbone> t_aRootCandidate = new LinkedList<Backbone>();
 			for ( WURCSEdge t_oEdge : t_objModification.getEdges() )
 				t_aRootCandidate.add( t_oEdge.getBackbone() );
-			Collections.sort(t_aRootCandidate, t_oBComp);
+
+			// Get root backbone in root
+			Backbone t_oRoot = this.getRootOfBackbones(t_aRootCandidate, a_oGraph);
+
+//			this.forwardParentEdgeForRootBackbone(t_oRoot, t_aRootCandidate);
+
+//			Collections.sort(t_aRootCandidate, t_oBComp);
 
 			// Reorder direction of edge for root backbone
 			for ( WURCSEdge t_oEdge : t_objModification.getEdges() ) {
-				if ( t_oEdge.getBackbone() != t_aRootCandidate.getFirst() ) continue;
+				if ( t_oEdge.getBackbone() != t_oRoot ) continue;
 				t_oEdge.forward();
 			}
 			this.m_bAnomBond = true;
+
 		}
 
 		// For repeat and alternative
@@ -156,11 +171,60 @@ public class WURCSGraphNormalizer {
 			}
 			System.err.println(":");
 
+			// Get root backbone in cyclic
+			Backbone t_oRoot = this.getRootOfBackbones(t_aCyclicBackbones, a_oGraph);
+			this.forwardParentEdgeForRootBackbone(t_oRoot, t_aCyclicBackbones);
+
 			// Sort Backbones in cyclic
-			Collections.sort( t_aCyclicBackbones, t_oBComp );
-			t_aCyclicBackbones.getFirst().getAnomericEdge().forward();
-			t_hashSearchedBackbones.addAll(t_aCyclicBackbones);
+//			Collections.sort( t_aCyclicBackbones, t_oBComp );
+//			t_aCyclicBackbones.getFirst().getAnomericEdge().forward();
+//			t_hashSearchedBackbones.addAll(t_aCyclicBackbones);
 			this.m_bCyclic = true;
+		}
+	}
+
+	private Backbone getRootOfBackbones(LinkedList<Backbone> a_aCandidateRootBackbones, WURCSGraph a_oGraph) throws WURCSException {
+		LinkedList<WURCSVisitorCollectSequence> t_aSeqs = new LinkedList<WURCSVisitorCollectSequence>();
+		HashMap<WURCSVisitorCollectSequence, Backbone> t_hashSeqToCB = new HashMap<WURCSVisitorCollectSequence, Backbone>();
+		for ( Backbone t_oCB : a_aCandidateRootBackbones ) {
+			// Copy graph
+			HashMap<Backbone, Backbone> t_hashOrigToCopyB = new HashMap<Backbone, Backbone>();
+//			WURCSGraph t_oCopyGraph = a_oGraph.copy(t_hashOrigToCopyB);
+			a_oGraph.copy(t_hashOrigToCopyB);
+			// Collect copied cyclic backbones
+			LinkedList<Backbone> t_aCopiedCyclicBackbones = new LinkedList<Backbone>();
+			for ( Backbone t_oCB2 : a_aCandidateRootBackbones ) {
+				t_aCopiedCyclicBackbones.add( t_hashOrigToCopyB.get(t_oCB2) );
+			}
+
+			// Forward cyclic edge for copied cyclic backbone
+			Backbone t_oCopyCB = t_hashOrigToCopyB.get(t_oCB);
+			this.forwardParentEdgeForRootBackbone(t_oCopyCB, t_aCopiedCyclicBackbones);
+
+			// Collect sequence
+			WURCSVisitorCollectSequence t_oSeq = new WURCSVisitorCollectSequence();
+			t_oSeq.start(t_oCopyCB);
+			t_aSeqs.add(t_oSeq);
+			t_hashSeqToCB.put(t_oSeq, t_oCB);
+		}
+
+		// Sort sequences
+		Collections.sort(t_aSeqs, new WURCSVisitorCollectSequenceComparator());
+
+		// Get first backbone
+		return t_hashSeqToCB.get( t_aSeqs.getFirst() );
+	}
+
+	private void forwardParentEdgeForRootBackbone(Backbone a_oBackbone, LinkedList<Backbone> a_aCandidateRootBackbones) {
+		for ( WURCSEdge t_oParentEdge : a_oBackbone.getParentEdges() ) {
+			// Forward only cyclic parent
+			boolean t_bIsParent = false;
+			for ( WURCSEdge t_oParentParentEdge : t_oParentEdge.getModification().getParentEdges() ) {
+				if ( !a_aCandidateRootBackbones.contains( t_oParentParentEdge.getBackbone() ) ) continue;
+				t_bIsParent = true;
+			}
+			if ( !t_bIsParent ) continue;
+			t_oParentEdge.forward();
 		}
 	}
 

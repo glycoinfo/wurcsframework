@@ -1,5 +1,7 @@
-package org.glycoinfo.WURCSFramework.util.visitor.graph;
+package org.glycoinfo.WURCSFramework.util.graph.traverser;
 
+import org.glycoinfo.WURCSFramework.util.graph.visitor.WURCSVisitor;
+import org.glycoinfo.WURCSFramework.util.graph.visitor.WURCSVisitorException;
 import org.glycoinfo.WURCSFramework.wurcs.graph.WURCSComponent;
 import org.glycoinfo.WURCSFramework.wurcs.graph.WURCSEdge;
 import org.glycoinfo.WURCSFramework.wurcs.graph.WURCSGraph;

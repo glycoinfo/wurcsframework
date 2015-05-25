@@ -48,6 +48,8 @@ public class WURCSExporter {
 		// Unit count
 		t_strWURCS
 			+= a_objWURCS.getUniqueRESCount() +","+ a_objWURCS.getRESCount() +","+ a_objWURCS.getLINCount();
+		if ( a_objWURCS.isComposition() )
+			t_strWURCS += "+";
 		t_strWURCS += "/";
 
 		// Unique RESs

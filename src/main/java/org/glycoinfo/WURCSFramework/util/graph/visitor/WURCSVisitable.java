@@ -1,4 +1,4 @@
-package org.glycoinfo.WURCSFramework.util.visitor.graph;
+package org.glycoinfo.WURCSFramework.util.graph.visitor;
 
 
 public interface WURCSVisitable {

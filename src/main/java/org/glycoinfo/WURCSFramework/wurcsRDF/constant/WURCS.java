@@ -4,7 +4,7 @@ package org.glycoinfo.WURCSFramework.wurcsRDF.constant;
 //import com.hp.hpl.jena.rdf.model.Resource;
 
 public class WURCS{
-	
+
 //	private static Model m_model = ModelFactory.createDefaultModel();
 	public static final String PREFIX = "wurcs";
 	public static final String NS = "http://www.glycoinfo.org/glyco/owl/wurcs#";
@@ -15,7 +15,7 @@ public class WURCS{
 //	public static final Resource NAMESPACE = m_model.createResource( NS );
 //	public static final Resource FULL_LANG = m_model.getResource( getURI() );
 	public static final String BASE_URL = GLYCAN.BASE_URL+"/"+VERSION;
-	
+
 	// Property
 	public static final String NUM_URES			= getURI("uniqueRES_count");
 	public static final String NUM_RES			= getURI("RES_count");
@@ -36,7 +36,7 @@ public class WURCS{
 	public static final String HAS_BASETYPE		= getURI("has_basetype");
 	public static final String HAS_ANOBASE		= getURI("has_anobase");
 	public static final String HAS_MOD			= getURI("has_MOD");
-	public static final String HAS_MAP			= getURI("has_MAPS");
+	public static final String HAS_MAP			= getURI("has_MAP");
 	public static final String HAS_LIPS			= getURI("has_LIPS");
 	public static final String HAS_LIP			= getURI("has_LIP");
 	public static final String HAS_GLIPS		= getURI("has_GLIPS");
@@ -51,7 +51,7 @@ public class WURCS{
 	public static final String HAS_M_PROB_UP	= getURI("has_modification_prob_upper");
 	public static final String HAS_M_PROB_LOW	= getURI("has_modification_prob_lower");
 	public static final String SUBSUMES			= getURI("subsumes");
-	
+
 	/*
 	NUM_URES       (PrefixList.WURCS, "uniqueRES_count",       ""),
 	NUM_RES        (PrefixList.WURCS, "RES_count",             ""),
@@ -88,7 +88,7 @@ public class WURCS{
 	HAS_M_PROB_LOW (PrefixList.WURCS, "has_modification_prob_lower", ""),
 	SUBSUMES       (PrefixList.WURCS, "subsumes",              "");
 	*/
-	
+
 	public static final String A_ANOBASE_Prop	= getURI("anobase");
 	public static final String A_BASETYPE_Prop	= getURI("basetype");
 	public static final String A_ANOBASE		= getURI("anobase");
@@ -97,7 +97,7 @@ public class WURCS{
 	A_ANOBASE      (PrefixList.WURCS, "anobase",               ""),
 	A_BASETYPE     (PrefixList.WURCS, "basetype",              ""),
 	 */
-	
+
 	// Object
 	public static final String A_URES	= getURI("uniqueRES");
 	public static final String A_RES	= getURI("RES");

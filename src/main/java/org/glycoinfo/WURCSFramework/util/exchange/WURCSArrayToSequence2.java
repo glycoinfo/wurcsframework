@@ -1,41 +1,38 @@
 package org.glycoinfo.WURCSFramework.util.exchange;
 
-import java.util.Collections;
-import java.util.LinkedList;
 import java.util.TreeMap;
 
 import org.glycoinfo.WURCSFramework.util.WURCSDataConverter;
 import org.glycoinfo.WURCSFramework.util.WURCSExporter;
-import org.glycoinfo.WURCSFramework.util.comparator.GLIPComparator;
 import org.glycoinfo.WURCSFramework.wurcs.GLIP;
 import org.glycoinfo.WURCSFramework.wurcs.GLIPs;
 import org.glycoinfo.WURCSFramework.wurcs.LIN;
 import org.glycoinfo.WURCSFramework.wurcs.RES;
 import org.glycoinfo.WURCSFramework.wurcs.UniqueRES;
 import org.glycoinfo.WURCSFramework.wurcs.WURCSArray;
-import org.glycoinfo.WURCSFramework.wurcs.sequence.GLIN;
-import org.glycoinfo.WURCSFramework.wurcs.sequence.GRES;
-import org.glycoinfo.WURCSFramework.wurcs.sequence.MS;
-import org.glycoinfo.WURCSFramework.wurcs.sequence.WURCSSequence;
+import org.glycoinfo.WURCSFramework.wurcs.sequence2.GLIN;
+import org.glycoinfo.WURCSFramework.wurcs.sequence2.GRES;
+import org.glycoinfo.WURCSFramework.wurcs.sequence2.MS;
+import org.glycoinfo.WURCSFramework.wurcs.sequence2.WURCSSequence2;
 
 /**
  * Class for conversion from WURCSArray to WRUCSSequence object
  * @author MasaakiMatsubara
  *
  */
-public class WURCSArrayToSequence {
+public class WURCSArrayToSequence2 {
 
-	private WURCSSequence m_oSequence;
+	private WURCSSequence2 m_oSequence;
 	private TreeMap<Integer, UniqueRES> m_mapRESIDtoURES = new TreeMap<Integer, UniqueRES>();
 
-	public WURCSSequence getSequence() {
+	public WURCSSequence2 getSequence() {
 		return this.m_oSequence;
 	}
 
 	public void start(WURCSArray a_oWURCSArray) {
 		WURCSExporter t_oExport = new WURCSExporter();
 
-		WURCSSequence t_oSequence = new WURCSSequence( t_oExport.getWURCSString(a_oWURCSArray) );
+		WURCSSequence2 t_oSequence = new WURCSSequence2( t_oExport.getWURCSString(a_oWURCSArray) );
 
 		TreeMap<Integer, MS> t_mapURESIDToMS = new TreeMap<Integer, MS>();
 		//Make MS from UniqueRES
@@ -58,9 +55,11 @@ public class WURCSArrayToSequence {
 		}
 
 		// Make GLIN from LIN
+		int t_iNumLIN = 0;
 		for ( LIN t_oLIN : a_oWURCSArray.getLINs() ) {
 			// Ignore not glycosidic LIN
 			if ( t_oLIN.getListOfGLIPs().size() > 2 ) continue;
+			t_iNumLIN++;
 
 			// Donor and acceptor GLIPs
 			GLIPs t_oAcceptorGLIPs = t_oLIN.getListOfGLIPs().getFirst();
@@ -72,11 +71,13 @@ public class WURCSArrayToSequence {
 				t_oAcceptorGLIPs = tmp;
 			}
 			if ( t_oAcceptorGLIPs == t_oDonorGLIPs ) t_oDonorGLIPs = null;
-
+/*
 			GLIN t_oGLIN = new GLIN(
 					t_oLIN.getMAPCode(),
 					this.getGLINString(t_oAcceptorGLIPs, t_oDonorGLIPs, t_oLIN.getMAPCode(), t_mapRESIDToGRES)
 				);
+*/
+			GLIN t_oGLIN = new GLIN( t_iNumLIN, t_oLIN.getMAPCode() );
 			t_oSequence.addGLIN(t_oGLIN);
 
 			// Set repeat count
@@ -92,9 +93,10 @@ public class WURCSArrayToSequence {
 
 				int t_oRESID = WURCSDataConverter.convertRESIndexToID( t_oGLIP.getRESIndex() );
 				GRES t_oGRES = t_mapRESIDToGRES.get(t_oRESID);
-				if ( t_oGLIN.getAcceptorMSs().contains(t_oGRES) ) continue;
+//				if ( t_oGLIN.getAcceptorMSs().contains(t_oGRES) ) continue;
 				t_oGRES.addAcceptorGLIN(t_oGLIN);
-				t_oGLIN.addAcceptorMS( t_oGRES.getMS() );
+//				t_oGLIN.addAcceptorMS( t_oGRES.getMS() );
+				t_oGLIN.addAcceptor(t_oGRES);
 			}
 
 			if ( t_oDonorGLIPs == null ) continue;
@@ -105,9 +107,10 @@ public class WURCSArrayToSequence {
 
 				int t_oRESID = WURCSDataConverter.convertRESIndexToID( t_oGLIP.getRESIndex() );
 				GRES t_oGRES = t_mapRESIDToGRES.get(t_oRESID);
-				if ( t_oGLIN.getDonorMSs().contains(t_oGRES) ) continue;
+//				if ( t_oGLIN.getDonorMSs().contains(t_oGRES) ) continue;
 				t_oGRES.addDonorGLIN(t_oGLIN);
-				t_oGLIN.addDonorMS( t_oGRES.getMS() );
+//				t_oGLIN.addDonorMS( t_oGRES.getMS() );
+				t_oGLIN.addDonor(t_oGRES);
 			}
 		}
 
@@ -156,6 +159,7 @@ public class WURCSArrayToSequence {
 	 * @param a_oLIN LIN
 	 * @return String of GLIN
 	 */
+/*
 	private String getGLINString(GLIPs a_oAGLIPs, GLIPs a_oDGLIPs, String a_strMAP, TreeMap<Integer, GRES> a_mapRESIDToGRES) {
 		WURCSExporter t_oExport = new WURCSExporter();
 
@@ -198,5 +202,5 @@ public class WURCSArrayToSequence {
 
 		return t_strGLIN;
 	}
-
+*/
 }

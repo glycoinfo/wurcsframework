@@ -2,10 +2,10 @@ package org.glycoinfo.WURCSFramework.util.rdf;
 
 import java.util.LinkedList;
 
-import org.glycoinfo.WURCSFramework.wurcs.sequence.GLIN;
-import org.glycoinfo.WURCSFramework.wurcs.sequence.GRES;
-import org.glycoinfo.WURCSFramework.wurcs.sequence.MS;
-import org.glycoinfo.WURCSFramework.wurcs.sequence.WURCSSequence;
+import org.glycoinfo.WURCSFramework.wurcs.sequence2.GLIN;
+import org.glycoinfo.WURCSFramework.wurcs.sequence2.GRES;
+import org.glycoinfo.WURCSFramework.wurcs.sequence2.MS;
+import org.glycoinfo.WURCSFramework.wurcs.sequence2.WURCSSequence2;
 import org.glycoinfo.WURCSFramework.wurcsRDF.WURCSTripleURL_TBD;
 
 /**
@@ -13,13 +13,13 @@ import org.glycoinfo.WURCSFramework.wurcsRDF.WURCSTripleURL_TBD;
  * @author MasaakiMatsubara
  *
  */
-public class WURCSSequenceExporterSPARQL extends SPARQLQueryGenerator {
+public class WURCSSequence2ExporterSPARQL extends SPARQLQueryGenerator {
 
 	private LinkedList<MS>   m_aMS   = new LinkedList<MS>();
 	private LinkedList<GRES> m_aGRES = new LinkedList<GRES>();
 
-	private String m_strGraphURI    = "<http://rdf.glycoinfo.org/wurcs/seq/0.1>";
-	private String m_strGraphURIPos = "<http://rdf.glycoinfo.org/wurcs/seq/0.1/pos>";
+	private String m_strGraphURI    = "<http://rdf.glycoinfo.org/wurcs/seq/0.3>";
+	private String m_strGraphURIPos = "<http://rdf.glycoinfo.org/wurcs/seq/0.3/pos>";
 	private String m_strMSGraphURIDefault = "<http://rdf.glycoinfo.org/wurcs/0.5.1/ms>";
 
 	private String m_strMSGraphURI  = this.m_strMSGraphURIDefault;
@@ -40,7 +40,7 @@ public class WURCSSequenceExporterSPARQL extends SPARQLQueryGenerator {
 		return this.m_strQuery;
 	}
 
-	public void start(WURCSSequence a_oSeq) {
+	public void start(WURCSSequence2 a_oSeq) {
 		this.clear();
 
 		String t_strQuery = "";
@@ -81,23 +81,21 @@ public class WURCSSequenceExporterSPARQL extends SPARQLQueryGenerator {
 		this.m_strQuery = t_strQuery;
 	}
 
-	public String getMainQuery(WURCSSequence a_oSeq) {
+	public String getMainQuery(WURCSSequence2 a_oSeq) {
 		return getMainQuery(a_oSeq, true);
 	}
 
-	public String getMainQuery(WURCSSequence a_oSeq, boolean a_bComments) {
+	public String getMainQuery(WURCSSequence2 a_oSeq, boolean a_bComments) {
 
 		String t_strMain = this.getSPO("?glycan", "glycan:has_glycosequence", "?gseq");
 		t_strMain += this.getSPO("?gseq", "glycan:has_sequence", "?wurcs");
 
-		int t_nGLINCount = 0;
 		for ( GLIN t_oGLIN : a_oSeq.getGLINs() ) {
-			t_nGLINCount++;
 
 			// GLIN variable string
-			String t_strGLINVar = "?GLIN"+t_nGLINCount;
+			String t_strGLINVar = "?GLIN"+t_oGLIN.getID();
 			if (a_bComments)
-				t_strMain += "\n  # GLIN"+t_nGLINCount+"\n";
+				t_strMain += "\n  # GLIN"+t_oGLIN.getID()+"\n";
 
 			// For acceptor GRES
 			for ( GRES t_oGRES : a_oSeq.getGRESs() ) {

@@ -37,12 +37,13 @@ public class WURCSImporter {
 		int t_numUniqueRES =        0;
 		int t_numRES =              0;
 		int t_numLIN =              0;
+		boolean t_bIsComposition =  false;
 		String t_strUniqueRESs =   "";
 		String t_strRESSequence = "";
 		String t_strLINs =         "";
 
 		//String strExp = "WURCS=(.+)\\/(\\d+),(\\d+),(\\d+)\\/(.+)\\]/([0-9-]+)/(.+)";
-		String strExp = "WURCS=(.+)/(\\d+),(\\d+),(\\d+)/\\[(.+)\\]/([\\d\\-<>]+)/(.*)";
+		String strExp = "WURCS=(.+)/(\\d+),(\\d+),(\\d+)(\\+)?/\\[(.+)\\]/([\\d\\-<>]+)/(.*)";
 
 		Matcher t_oMatcher = Pattern.compile(strExp).matcher(a_strWURCS);
 		//WURCS=2.0/7,10,9/[x2122h-1x_1-5_2*NCC/3=O][12122h-1b_1-5_2*NCC/3=O][11122h-1b_1-5][21122h-1a_1-5][12112h-1b_1-5_2*NCC/3=O][12112h-1b_1-5][11221m-1a_1-5]/1-2-3-4-2-5-4-2-6-7/a4-b1_a6-j1_b4-c1_d2-e1_e4-f1_g2-h1_h4-i1_d1-c3\c6_g1-c3\c6
@@ -51,16 +52,18 @@ public class WURCSImporter {
 		//		group(2)	7
 		//		group(3)	10
 		//		group(4)	9
-		//		group(5)	x2122h-1x_1-5_2*NCC/3=O][12122h-1b_1-5_2*NCC/3=O][11122h-1b_1-5][21122h-1a_1-5][12112h-1b_1-5_2*NCC/3=O][12112h-1b_1-5][11221m-1a_1-5
-		//		group(6)	1-2-3-4-2-5-4-2-6-7
-		//		group(7)	a4-b1_a6-j1_b4-c1_d2-e1_e4-f1_g2-h1_h4-i1_d1-c3\c6_g1-c3\c6
+		//		group(5)	""
+		//		group(6)	x2122h-1x_1-5_2*NCC/3=O][12122h-1b_1-5_2*NCC/3=O][11122h-1b_1-5][21122h-1a_1-5][12112h-1b_1-5_2*NCC/3=O][12112h-1b_1-5][11221m-1a_1-5
+		//		group(7)	1-2-3-4-2-5-4-2-6-7
+		//		group(8)	a4-b1_a6-j1_b4-c1_d2-e1_e4-f1_g2-h1_h4-i1_d1-c3\c6_g1-c3\c6
 		int t_iVersion      = 1;
 		int t_iNumuRES      = 2;
 		int t_iNumRES       = 3;
 		int t_iNumLIN       = 4;
-		int t_iUniqueRESs   = 5;
-		int t_iResSequenses = 6;
-		int t_iLINs         = 7;
+		int t_iComposition  = 5;
+		int t_iUniqueRESs   = 6;
+		int t_iResSequenses = 7;
+		int t_iLINs         = 8;
 //		if ( !wurcsMatch.matches() )
 //			return null;
 		//if ( !wurcsMatch.find() )
@@ -72,11 +75,12 @@ public class WURCSImporter {
 		t_numUniqueRES   = Integer.parseInt(t_oMatcher.group(t_iNumuRES));
 		t_numRES         = Integer.parseInt(t_oMatcher.group(t_iNumRES));
 		t_numLIN         = Integer.parseInt(t_oMatcher.group(t_iNumLIN));
+		t_bIsComposition =                 (t_oMatcher.group(t_iComposition) != null);
 		t_strUniqueRESs  =                  t_oMatcher.group(t_iUniqueRESs);
 		t_strRESSequence =                  t_oMatcher.group(t_iResSequenses);
 		t_strLINs        =                  t_oMatcher.group(t_iLINs);
 
-		WURCSArray t_objWURCSContainer = new WURCSArray(t_strVersion, t_numUniqueRES, t_numRES, t_numLIN);
+		WURCSArray t_objWURCSContainer = new WURCSArray(t_strVersion, t_numUniqueRES, t_numRES, t_numLIN, t_bIsComposition);
 
 		// Extract UniqueRES list
 		// x2122h-1x_1-5_2*NCC/3=O][12122h-1b_1-5_2*NCC/3=O][11122h-1b_1-5][21122h-1a_1-5][12112h-1b_1-5_2*NCC/3=O][12112h-1b_1-5][11221m-1a_1-5

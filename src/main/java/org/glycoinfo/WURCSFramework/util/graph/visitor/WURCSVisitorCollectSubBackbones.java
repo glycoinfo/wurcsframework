@@ -1,28 +1,30 @@
-package org.glycoinfo.WURCSFramework.util.visitor.graph;
+package org.glycoinfo.WURCSFramework.util.graph.visitor;
 
 import java.util.HashSet;
 
+import org.glycoinfo.WURCSFramework.util.graph.traverser.WURCSGraphTraverser;
+import org.glycoinfo.WURCSFramework.util.graph.traverser.WURCSGraphTraverserTree;
 import org.glycoinfo.WURCSFramework.wurcs.graph.Backbone;
 import org.glycoinfo.WURCSFramework.wurcs.graph.Modification;
 import org.glycoinfo.WURCSFramework.wurcs.graph.WURCSEdge;
 import org.glycoinfo.WURCSFramework.wurcs.graph.WURCSGraph;
 
-public class WURCSVisitorCollectSubModifications implements WURCSVisitor {
+public class WURCSVisitorCollectSubBackbones implements WURCSVisitor {
 
-	private HashSet<Modification> m_aModifications = new HashSet<Modification>();
+	private HashSet<Backbone> m_aBackbones = new HashSet<Backbone>();
 
-	public HashSet<Modification> getModifications() {
-		return this.m_aModifications;
+	public HashSet<Backbone> getBackbones() {
+		return this.m_aBackbones;
 	}
 
 	@Override
 	public void visit(Backbone a_objBackbone) throws WURCSVisitorException {
-		// Do nothing
+		this.m_aBackbones.add(a_objBackbone);
 	}
 
 	@Override
 	public void visit(Modification a_objModification) throws WURCSVisitorException {
-		this.m_aModifications.add(a_objModification);
+		// Do nothing
 	}
 
 	@Override
@@ -38,7 +40,7 @@ public class WURCSVisitorCollectSubModifications implements WURCSVisitor {
 
 	@Override
 	public void start(WURCSGraph a_objGraph) throws WURCSVisitorException {
-
+		// Do nothing
 	}
 
 	@Override
@@ -48,7 +50,7 @@ public class WURCSVisitorCollectSubModifications implements WURCSVisitor {
 
 	@Override
 	public void clear() {
-		this.m_aModifications.clear();
+		this.m_aBackbones.clear();
 	}
 
 }

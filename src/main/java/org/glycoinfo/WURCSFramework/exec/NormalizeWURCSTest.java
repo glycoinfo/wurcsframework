@@ -18,6 +18,7 @@ import org.glycoinfo.WURCSFramework.util.WURCSFormatException;
 import org.glycoinfo.WURCSFramework.util.WURCSImporter;
 import org.glycoinfo.WURCSFramework.util.exchange.WURCSArrayToGraph;
 import org.glycoinfo.WURCSFramework.util.exchange.WURCSGraphToArray;
+import org.glycoinfo.WURCSFramework.util.graph.visitor.WURCSVisitorExpandRepeatingUnit;
 import org.glycoinfo.WURCSFramework.wurcs.WURCSArray;
 import org.glycoinfo.WURCSFramework.wurcs.WURCSException;
 import org.glycoinfo.WURCSFramework.wurcs.graph.WURCSGraph;
@@ -69,16 +70,6 @@ public class NormalizeWURCSTest {
 				// Extract WURCS
 				WURCSArray t_oWURCS = t_objImporter.extractWURCSArray(t_mapWURCSIndex.get(key));
 
-				// Mass calculate
-/*				try {
-					WURCSMassCalculator.calcMassWURCS(t_oWURCS);
-				} catch (WURCSMassException e) {
-					// TODO 自動生成された catch ブロック
-
-					System.out.println(key+": "+e.getErrorMessage());
-//					e.printStackTrace();
-				}
-*/
 				// Export WURCS string
 				String t_strSortLIN = t_oExporter.getWURCSString(t_oWURCS);
 				if ( !t_strOrigWURCS.equals(t_strSortLIN) ) t_aSortLIN.add(key);
@@ -89,11 +80,26 @@ public class NormalizeWURCSTest {
 				WURCSGraph t_oGraph = t_oA2G.getGraph();
 				// For inverted backbone
 				if ( t_oA2G.isInverted() ) t_aInvert.add(key);
+
+				// Expand exact repeating unit
+				WURCSVisitorExpandRepeatingUnit t_oExpandRep = new WURCSVisitorExpandRepeatingUnit();
+				t_oExpandRep.start(t_oGraph);
+
 				// To Array
 				WURCSGraphToArray t_oG2A = new WURCSGraphToArray();
 				t_oG2A.start(t_oGraph);
 				t_oWURCS = t_oG2A.getWURCSArray();
 
+				// Mass calculate
+/*				try {
+					WURCSMassCalculator.calcMassWURCS(t_oWURCS);
+				} catch (WURCSMassException e) {
+					// TODO 自動生成された catch ブロック
+
+					System.out.println(key+": "+e.getErrorMessage());
+//					e.printStackTrace();
+				}
+*/
 				// Export WURCS string again
 				String t_strSortGraph = t_oExporter.getWURCSString(t_oWURCS);
 				if ( !t_mapUniqueGraphWURCStoID.containsKey(t_strSortGraph) )

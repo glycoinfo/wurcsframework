@@ -71,34 +71,41 @@ public class WURCSGraph {
 
 	/**
 	 * Remove backbone
-	 * @param a_objResidue
-	 * @return
+	 * @param a_objBackbone
+	 * @return true if succeeded
 	 * @throws WURCSException
 	 */
-	public boolean removeBackbone(Backbone a_objResidue) throws WURCSException {
+	public boolean removeBackbone(Backbone a_objBackbone) throws WURCSException {
+		this.removeEdgesAroundComponent(a_objBackbone);
+		return this.m_aBackbones.remove(a_objBackbone);
+	}
+
+	/**
+	 * Remove modification
+	 * @param a_objModification
+	 * @return true if succeeded
+	 * @throws WURCSException
+	 */
+	public boolean removeModification(Modification a_objModification) throws WURCSException {
+		this.removeEdgesAroundComponent(a_objModification);
+		return this.m_aModifications.remove(a_objModification);
+	}
+
+	private void removeEdgesAroundComponent(WURCSComponent a_objResidue) throws WURCSException {
 		WURCSEdge t_objLinkage;
 		WURCSComponent t_objResidue;
 		if ( a_objResidue == null )
 			throw new WURCSException("Invalide residue.");
-		// Search edges on the backbone
-		for (Iterator<WURCSEdge> t_iterBackboneEdges = a_objResidue.getEdges().iterator(); t_iterBackboneEdges.hasNext();) {
-			t_objLinkage = t_iterBackboneEdges.next();
-			t_objResidue = t_objLinkage.getModification();
+		// Search edges on the modification
+		while ( !a_objResidue.getEdges().isEmpty() ) {
+			t_objLinkage = a_objResidue.getEdges().getFirst();
+			t_objResidue = t_objLinkage.getBackbone();
 			if ( t_objResidue == null )
-				throw new WURCSException("A linkage with a null modification exists.");
+				throw new WURCSException("A linkage with a null residue exists.");
 			// Remove edge
 			t_objResidue.removeEdge(t_objLinkage);
-			// Search edges on the connected modification
-			for (Iterator<WURCSEdge> t_iterModificationEdges = a_objResidue.getEdges().iterator(); t_iterModificationEdges.hasNext();) {
-				t_objLinkage = t_iterModificationEdges.next();
-				t_objResidue = t_objLinkage.getBackbone();
-				if ( t_objResidue == null )
-					throw new WURCSException("A linkage with a null backbone exists.");
-				// Remove edge
-				t_objResidue.removeEdge(t_objLinkage);
-			}
+			a_objResidue.removeEdge(t_objLinkage);
 		}
-		return this.m_aBackbones.remove(a_objResidue);
 	}
 
 	/**
@@ -189,23 +196,29 @@ public class WURCSGraph {
 	}
 
 	public WURCSGraph copy() throws WURCSException {
-		HashMap<Backbone, Backbone> t_hashOrigToCopy = new HashMap<Backbone, Backbone>();
-		WURCSGraph copy = this.copy(t_hashOrigToCopy);
+		HashMap<Backbone, Backbone> t_hashOrigToCopyB = new HashMap<Backbone, Backbone>();
+		HashMap<Modification, Modification> t_hashOrigToCopyM = new HashMap<Modification, Modification>();
+		WURCSGraph copy = this.copy(t_hashOrigToCopyB, t_hashOrigToCopyM);
 		return copy;
 	}
 
-	public WURCSGraph copy( HashMap<Backbone, Backbone> a_hashOrigToCopyBackbone ) throws WURCSException {
+	public WURCSGraph copy( HashMap<Backbone, Backbone> a_hashOrigToCopyB ) throws WURCSException {
+		HashMap<Modification, Modification> t_hashOrigToCopyM = new HashMap<Modification, Modification>();
+		WURCSGraph copy = this.copy(a_hashOrigToCopyB, t_hashOrigToCopyM);
+		return copy;
+	}
+
+	public WURCSGraph copy( HashMap<Backbone, Backbone> a_hashOrigToCopyBackbone, HashMap<Modification, Modification> a_hashOrigToCopyModification ) throws WURCSException {
 		WURCSGraph copy = new WURCSGraph();
 
-		HashMap<Modification, Modification> t_hashOrigToCopyModification = new HashMap<Modification, Modification>();
 		for ( Backbone t_origBack : this.m_aBackbones ) {
 			Backbone t_copyBack = t_origBack.copy();
 			a_hashOrigToCopyBackbone.put(t_origBack, t_copyBack);
 			for ( WURCSEdge t_origEdge : t_origBack.getEdges() ) {
 				Modification t_origModif = t_origEdge.getModification();
-				if ( !t_hashOrigToCopyModification.containsKey(t_origModif) )
-					t_hashOrigToCopyModification.put(t_origModif, t_origModif.copy());
-				Modification t_copyModif = t_hashOrigToCopyModification.get(t_origModif);
+				if ( !a_hashOrigToCopyModification.containsKey(t_origModif) )
+					a_hashOrigToCopyModification.put(t_origModif, t_origModif.copy());
+				Modification t_copyModif = a_hashOrigToCopyModification.get(t_origModif);
 				copy.addResidues( t_copyBack, t_origEdge.copy(), t_copyModif );
 			}
 		}

@@ -1,4 +1,4 @@
-package org.glycoinfo.WURCSFramework.util.comparator.graph;
+package org.glycoinfo.WURCSFramework.util.graph.comparator;
 
 import java.util.Comparator;
 import java.util.LinkedList;
@@ -6,6 +6,8 @@ import java.util.LinkedList;
 import org.glycoinfo.WURCSFramework.wurcs.graph.Backbone;
 import org.glycoinfo.WURCSFramework.wurcs.graph.BackboneCarbon;
 import org.glycoinfo.WURCSFramework.wurcs.graph.BackboneUnknown;
+import org.glycoinfo.WURCSFramework.wurcs.graph.InterfaceRepeat;
+import org.glycoinfo.WURCSFramework.wurcs.graph.ModificationAlternative;
 import org.glycoinfo.WURCSFramework.wurcs.graph.WURCSEdge;
 
 /**
@@ -17,6 +19,10 @@ public class BackboneComparator implements Comparator<Backbone> {
 	@Override
 	public int compare(Backbone b1, Backbone b2) {
 
+		// For alternative root
+		if ( !this.checkAroundAlternative(b1) &&  this.checkAroundAlternative(b2) ) return -1;
+		if (  this.checkAroundAlternative(b1) && !this.checkAroundAlternative(b2) ) return 1;
+
 		// For unknown monosaccharide
 		if ( !(b1 instanceof BackboneUnknown) &&  (b2 instanceof BackboneUnknown) ) return -1;
 		if (  (b1 instanceof BackboneUnknown) && !(b2 instanceof BackboneUnknown) ) return 1;
@@ -24,24 +30,45 @@ public class BackboneComparator implements Comparator<Backbone> {
 		// For root nodes
 		WURCSEdge t_oAnomEdge1 = b1.getAnomericEdge();
 		WURCSEdge t_oAnomEdge2 = b2.getAnomericEdge();
-		boolean isRoot1 = ( t_oAnomEdge1 == null || t_oAnomEdge1.getModification().isAglycone() );
-		boolean isRoot2 = ( t_oAnomEdge2 == null || t_oAnomEdge2.getModification().isAglycone() );
+//		boolean isRoot1 = ( t_oAnomEdge1 == null || t_oAnomEdge1.getModification().isAglycone() );
+//		boolean isRoot2 = ( t_oAnomEdge2 == null || t_oAnomEdge2.getModification().isAglycone() );
 		// Prioritize root
-		if (  isRoot1 && !isRoot2  ) return -1;
-		if ( !isRoot1 &&  isRoot2  ) return 1;
+//		if (  isRoot1 && !isRoot2  ) return -1;
+//		if ( !isRoot1 &&  isRoot2  ) return 1;
 
 		// For number of parent backbone
-		LinkedList<Backbone> t_aParents1 = new LinkedList<Backbone>();
-		LinkedList<Backbone> t_aParents2 = new LinkedList<Backbone>();
-		if ( !isRoot1 )
-			for ( WURCSEdge parentEdge : t_oAnomEdge1.getModification().getEdges() )
-				t_aParents1.add( parentEdge.getBackbone() );
-		if ( !isRoot2 )
-			for ( WURCSEdge parentEdge : t_oAnomEdge2.getModification().getEdges() )
-				t_aParents2.add( parentEdge.getBackbone() );
+//		LinkedList<Backbone> t_aParents1 = new LinkedList<Backbone>();
+//		LinkedList<Backbone> t_aParents2 = new LinkedList<Backbone>();
+//		if ( !isRoot1 )
+//			for ( WURCSEdge parentEdge : t_oAnomEdge1.getModification().getEdges() )
+//				t_aParents1.add( parentEdge.getBackbone() );
+//		if ( !isRoot2 )
+//			for ( WURCSEdge parentEdge : t_oAnomEdge2.getModification().getEdges() )
+//				t_aParents2.add( parentEdge.getBackbone() );
 		// Prioritize smaller number of parent
-		if ( t_aParents1.size() != t_aParents2.size() )
-			return t_aParents1.size() - t_aParents2.size();
+//		if ( t_aParents1.size() != t_aParents2.size() )
+//			return t_aParents1.size() - t_aParents2.size();
+
+		// For ambiguousness of carbon number
+		// Prioritize known length
+		if ( !b1.hasUnknownLength() &&  b2.hasUnknownLength() ) return -1;
+		if (  b1.hasUnknownLength() && !b2.hasUnknownLength() ) return 1;
+
+		// For backbone length
+		// Prioritize longer backbone
+		if ( b1.getBackboneCarbons().size() != b2.getBackboneCarbons().size() )
+			return b2.getBackboneCarbons().size() - b1.getBackboneCarbons().size();
+
+		// For score of backbone carbons
+		// Compare backbone scores
+		int t_iComp = this.compareBackboneScore(b1, b2);
+		if ( t_iComp != 0 ) return t_iComp;
+
+		// For same score symmetry backbone (not same SkeletonCode)
+		String strCode1 = b1.getSkeletonCode();
+		String strCode2 = b2.getSkeletonCode();
+		// Prioritize larger string
+		if ( !strCode1.equals(strCode2) ) return strCode2.compareTo(strCode1);
 
 
 		// For number of connected backbone and modification
@@ -53,8 +80,9 @@ public class BackboneComparator implements Comparator<Backbone> {
 		 *   +->M2--->B
 		 *   +->M3-A->B      In the case, there is 3 child of 5 connected backbone
 		 */
-		LinkedList<WURCSEdge> t_aGlycosidicLinkages1 = new LinkedList<WURCSEdge>();
-		LinkedList<WURCSEdge> t_aGlycosidicLinkages2 = new LinkedList<WURCSEdge>();
+/*
+		LinkedList<WURCSEdge> t_aGlycosidicLinkages1  = new LinkedList<WURCSEdge>();
+		LinkedList<WURCSEdge> t_aGlycosidicLinkages2  = new LinkedList<WURCSEdge>();
 		LinkedList<WURCSEdge> t_aSubstituentLinkages1 = new LinkedList<WURCSEdge>();
 		LinkedList<WURCSEdge> t_aSubstituentLinkages2 = new LinkedList<WURCSEdge>();
 		int t_nChildCount1 = 0;
@@ -114,34 +142,28 @@ public class BackboneComparator implements Comparator<Backbone> {
 		// Prioritize larger number of connected modification
 		if ( t_nModificationCount1 != t_nModificationCount2 )
 			return t_nModificationCount2 - t_nModificationCount1;
+*/
 
+		LinkedList<WURCSEdge> t_aGlycosidicLinkages1  = this.getChildGlycosidicEdges(b1);
+		LinkedList<WURCSEdge> t_aGlycosidicLinkages2  = this.getChildGlycosidicEdges(b2);
+		LinkedList<WURCSEdge> t_aSubstituentLinkages1 = this.getSubstituentEdges(b1);
+		LinkedList<WURCSEdge> t_aSubstituentLinkages2 = this.getSubstituentEdges(b2);
+		int t_nChildCount1 = t_aGlycosidicLinkages1.size();
+		int t_nChildCount2 = t_aGlycosidicLinkages2.size();
+		int t_nModificationCount1 = t_aSubstituentLinkages1.size();
+		int t_nModificationCount2 = t_aSubstituentLinkages2.size();
+		// Prioritize smaller number of child backbone
+		if ( t_nChildCount1 != t_nChildCount2 )
+			return t_nChildCount1 - t_nChildCount2;
+		// Prioritize larger number of connected modification
+		if ( t_nModificationCount1 != t_nModificationCount2 )
+			return t_nModificationCount2 - t_nModificationCount1;
 
-		// For ambiguousness of carbon number
-		// Prioritize known length
-		if ( !b1.hasUnknownLength() &&  b2.hasUnknownLength() ) return -1;
-		if (  b1.hasUnknownLength() && !b2.hasUnknownLength() ) return 1;
-
-		// For backbone length
-		// Prioritize longer backbone
-		if ( b1.getBackboneCarbons().size() != b2.getBackboneCarbons().size() )
-			return b2.getBackboneCarbons().size() - b1.getBackboneCarbons().size();
-
-		// For score of backbone carbons
-		// Compare backbone scores
-		int score1 = this.getBackboneScore(b1);
-		int score2 = this.getBackboneScore(b2);
-		// Prioritize smaller score
-		if ( score1 != score2 ) return score1 - score2;
-
-		// For same score symmetry backbone (not same SkeletonCode)
-		String strCode1 = b1.getSkeletonCode();
-		String strCode2 = b2.getSkeletonCode();
-		// Prioritize larger string
-		if ( !strCode1.equals(strCode2) ) return strCode2.compareTo(strCode1);
+		// Prioritize smaller number of child
 
 		// For position of glycosidic linkage
-		score1 = 0;
-		score2 = 0;
+		int score1 = 0;
+		int score2 = 0;
 		for ( WURCSEdge edge : t_aGlycosidicLinkages1 ) {
 			int pos1 = edge.getLinkages().getFirst().getBackbonePosition();
 			pos1 *= edge.isReverse()? -1 : 1;
@@ -167,6 +189,41 @@ public class BackboneComparator implements Comparator<Backbone> {
 		if ( score1 != score2 ) return score1 - score2;
 
 		return 0;
+	}
+
+	public int compareBackboneScore(Backbone b1, Backbone b2) {
+		int score1 = this.getBackboneScore(b1);
+		int score2 = this.getBackboneScore(b2);
+		// Prioritize smaller score
+		return score1 - score2;
+	}
+
+	private boolean checkAroundAlternative(Backbone b) {
+		for ( WURCSEdge t_oEdge : b.getEdges() ) {
+			if ( t_oEdge.getModification() instanceof ModificationAlternative ) return true;
+		}
+		return false;
+	}
+
+	private LinkedList<WURCSEdge> getSubstituentEdges(Backbone b) {
+		LinkedList<WURCSEdge> t_aModEdges = new LinkedList<WURCSEdge>();
+		for ( WURCSEdge t_oEdge : b.getChildEdges() ) {
+			if ( t_oEdge.getModification().isGlycosidic() ) continue;
+			if ( t_oEdge.getModification() instanceof InterfaceRepeat ) continue;
+			t_aModEdges.add(t_oEdge);
+		}
+		return t_aModEdges;
+	}
+
+	private LinkedList<WURCSEdge> getChildGlycosidicEdges(Backbone b) {
+		LinkedList<WURCSEdge> t_aModEdges = new LinkedList<WURCSEdge>();
+		for ( WURCSEdge t_oEdge : b.getChildEdges() ) {
+			if ( !t_oEdge.getModification().isGlycosidic() ) continue;
+			if ( t_oEdge.equals(b.getAnomericEdge()) ) continue;
+
+			t_aModEdges.add(t_oEdge);
+		}
+		return t_aModEdges;
 	}
 
 	/**

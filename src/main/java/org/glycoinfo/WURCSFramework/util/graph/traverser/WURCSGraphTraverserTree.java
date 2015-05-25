@@ -1,4 +1,4 @@
-package org.glycoinfo.WURCSFramework.util.visitor.graph;
+package org.glycoinfo.WURCSFramework.util.graph.traverser;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -6,8 +6,10 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-import org.glycoinfo.WURCSFramework.util.comparator.graph.BackboneComparator;
-import org.glycoinfo.WURCSFramework.util.comparator.graph.WURCSEdgeComparator;
+import org.glycoinfo.WURCSFramework.util.graph.comparator.BackboneComparator;
+import org.glycoinfo.WURCSFramework.util.graph.comparator.WURCSEdgeComparator;
+import org.glycoinfo.WURCSFramework.util.graph.visitor.WURCSVisitor;
+import org.glycoinfo.WURCSFramework.util.graph.visitor.WURCSVisitorException;
 import org.glycoinfo.WURCSFramework.wurcs.WURCSException;
 import org.glycoinfo.WURCSFramework.wurcs.graph.Backbone;
 import org.glycoinfo.WURCSFramework.wurcs.graph.WURCSComponent;
@@ -16,8 +18,8 @@ import org.glycoinfo.WURCSFramework.wurcs.graph.WURCSGraph;
 
 public class WURCSGraphTraverserTree extends WURCSGraphTraverser {
 
-	WURCSEdgeComparator m_oComp = new WURCSEdgeComparator();
-	private HashSet<WURCSEdge> m_aSearchedEdges = new HashSet<WURCSEdge>();
+	protected WURCSEdgeComparator m_oComp = new WURCSEdgeComparator();
+	protected HashSet<WURCSEdge> m_aSearchedEdges = new HashSet<WURCSEdge>();
 
 	public WURCSGraphTraverserTree(WURCSVisitor a_objVisitor) throws WURCSVisitorException {
 		super(a_objVisitor);
@@ -30,11 +32,9 @@ public class WURCSGraphTraverserTree extends WURCSGraphTraverser {
 		this.m_iState = WURCSGraphTraverser.ENTER;
 		a_objResidue.accept(this.m_objVisitor);
 
-		LinkedList<WURCSEdge> t_aEdges = a_objResidue.getEdges();
+		LinkedList<WURCSEdge> t_aEdges = a_objResidue.getChildEdges();
 		Collections.sort(t_aEdges, this.m_oComp);
 		for ( WURCSEdge t_oEdge : t_aEdges ) {
-
-			if ( a_objResidue.equals( t_oEdge.getNextComponent() ) ) continue;
 
 			this.traverse( t_oEdge );
 			// callback after return
@@ -48,12 +48,12 @@ public class WURCSGraphTraverserTree extends WURCSGraphTraverser {
 
 	@Override
 	public void traverse(WURCSEdge a_objEdge) throws WURCSVisitorException {
-		if ( this.m_aSearchedEdges.contains(a_objEdge) )
-			throw new WURCSVisitorException("Illegal traverse.");
-
 		// callback of the function before subtree
 		this.m_iState = WURCSGraphTraverser.ENTER;
 		a_objEdge.accept(this.m_objVisitor);
+
+		if ( this.m_aSearchedEdges.contains(a_objEdge) )
+			throw new WURCSVisitorException("Illegal traverse.");
 
 		this.m_aSearchedEdges.add(a_objEdge);
 
@@ -70,7 +70,7 @@ public class WURCSGraphTraverserTree extends WURCSGraphTraverser {
 		try {
 			// get root nodes of forest of graphs
 			t_aRoot = a_objGlycan.getRootBackbones();
-			// Priorize according to WURCSGlycan all isolated subgraphs and process consecutivly
+			// Priorize according to WURCSGlycan all isolated subgraphs and process consecutively
 			BackboneComparator t_oBComp = new BackboneComparator();
 			Collections.sort(t_aRoot,t_oBComp);
 
@@ -83,5 +83,4 @@ public class WURCSGraphTraverserTree extends WURCSGraphTraverser {
 		}
 
 	}
-
 }

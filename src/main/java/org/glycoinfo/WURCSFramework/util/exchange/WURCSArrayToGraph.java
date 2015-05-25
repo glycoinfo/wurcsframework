@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import org.glycoinfo.WURCSFramework.util.WURCSDataConverter;
 import org.glycoinfo.WURCSFramework.util.WURCSExporter;
 import org.glycoinfo.WURCSFramework.util.WURCSFormatException;
+import org.glycoinfo.WURCSFramework.util.graph.WURCSGraphNormalizer;
 import org.glycoinfo.WURCSFramework.wurcs.GLIP;
 import org.glycoinfo.WURCSFramework.wurcs.GLIPs;
 import org.glycoinfo.WURCSFramework.wurcs.LIN;
@@ -28,7 +29,6 @@ import org.glycoinfo.WURCSFramework.wurcs.graph.ModificationRepeat;
 import org.glycoinfo.WURCSFramework.wurcs.graph.ModificationRepeatAlternative;
 import org.glycoinfo.WURCSFramework.wurcs.graph.WURCSEdge;
 import org.glycoinfo.WURCSFramework.wurcs.graph.WURCSGraph;
-import org.glycoinfo.WURCSFramework.wurcs.graph.WURCSGraphNormalizer;
 
 public class WURCSArrayToGraph {
 

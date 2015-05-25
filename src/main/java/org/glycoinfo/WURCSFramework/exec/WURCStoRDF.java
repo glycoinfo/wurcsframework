@@ -8,39 +8,39 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.net.URLDecoder;
 import java.util.Date;
 import java.util.TreeMap;
 
 import org.glycoinfo.WURCSFramework.util.WURCSImporter;
-import org.glycoinfo.WURCSFramework.util.exchange.WURCSArrayToSequence;
+import org.glycoinfo.WURCSFramework.util.exchange.WURCSArrayToSequence2;
 import org.glycoinfo.WURCSFramework.wurcs.WURCSArray;
-import org.glycoinfo.WURCSFramework.wurcs.sequence.WURCSSequence;
-import org.glycoinfo.WURCSFramework.wurcsRDF.WURCSSequenceExporterRDFModel;
+import org.glycoinfo.WURCSFramework.wurcs.sequence2.WURCSSequence2;
+import org.glycoinfo.WURCSFramework.wurcsRDF.WURCSSequence2ExporterRDFModel;
 
 public class WURCStoRDF {
 
 	public static void main(String[] args) throws Exception {
 		// TODO 自動生成されたメソッド・スタブ
 
-		String t_strFilePath = "/home/aoki/workspace/wurcsframework/WURCSFramework/src/org/glycoinfo/WURCSFramework/testresource/";
+		String t_strRDFPath  = "C:\\RDF\\GlyTouCan\\";
 
 		Date day = new Date();
 		long start = day.getTime();
 
 		Boolean t_bPrefix = true;
 
-		String t_strFilePathR = t_strFilePath + "20150422glytoucan.wurcs.tsv";
-		File file = new File(t_strFilePathR);
+		String t_strWURCSListFile = t_strRDFPath + "20150422glytoucan.wurcs.tsv";
+		File file = new File(t_strWURCSListFile);
 
 		if(!file.isFile()) throw new Exception();
-		TreeMap<String, String> t_mapIndexToWURCS = openString(t_strFilePathR);
+		TreeMap<String, String> t_mapIndexToWURCS = openString(t_strWURCSListFile);
 		try{
 			// Open print writer
-//			PrintWriter pwRDF1  = openTextFileW(t_strFilePath+"20150318\\WURCS-RDF-0.5.1.ttl");
-//			PrintWriter pwRDF2  = openTextFileW(t_strFilePath+"20150318\\WURCS-RDF-0.5.2.ttl");
-//			PrintWriter pwMSRDF = openTextFileW(t_strFilePath+"20150318\\WURCS-MS-RDF.ttl");
-			PrintWriter pwSEQRDF = openTextFileW(t_strFilePath+"20150422glytoucan.wurcs.tsv.TTL");
+//			PrintWriter pwRDF1  = openTextFileW(t_strRDFPath+"WURCS-RDF-0.5.1.ttl");
+//			PrintWriter pwRDF2  = openTextFileW(t_strRDFPath+"WURCS-RDF-0.5.2.ttl");
+//			PrintWriter pwMSRDF = openTextFileW(t_strRDFPath+"WURCS-MS-RDF.ttl");
+//			PrintWriter pwSEQRDF = openTextFileW(t_strRDFPath+"WURCS-SEQ-RDF-0.2.ttl");
+			PrintWriter pwSEQRDF2 = openTextFileW(t_strRDFPath+"WURCS-SEQ-RDF-0.3.ttl");
 
 			for(String key : t_mapIndexToWURCS.keySet()) {
 				WURCSImporter t_oImport = new WURCSImporter();
@@ -59,7 +59,7 @@ public class WURCStoRDF {
 				// Generate monosaccharide RDF strings
 				WURCSRDFModelMs t_oMSExport = new WURCSRDFModelMs(t_oWURCS.getUniqueRESs() );
 				pwMSRDF.println( t_oMSExport.get_RDF("TURTLE") );
-*/
+
 				// Conversion WURCS sequence style
 				WURCSArrayToSequence t_oA2S = new WURCSArrayToSequence();
 				t_oA2S.start(t_oWURCS);
@@ -68,6 +68,15 @@ public class WURCStoRDF {
 				// For using WURCSSequence
 				WURCSSequenceExporterRDFModel t_oSeqExport = new WURCSSequenceExporterRDFModel( t_strAccessionNumber, t_oSeq );
 				pwSEQRDF.println( t_oSeqExport.get_RDF("TURTLE") );
+*/
+				// Conversion WURCS sequence style2
+				WURCSArrayToSequence2 t_oA2S2 = new WURCSArrayToSequence2();
+				t_oA2S2.start(t_oWURCS);
+				WURCSSequence2 t_oSeq2 = t_oA2S2.getSequence();
+
+				// For using WURCSSequence
+				WURCSSequence2ExporterRDFModel t_oSeq2Export = new WURCSSequence2ExporterRDFModel( t_strAccessionNumber, t_oSeq2 );
+				pwSEQRDF2.println( t_oSeq2Export.get_RDF("TURTLE") );
 			}
 
 			System.out.println("Fin...");

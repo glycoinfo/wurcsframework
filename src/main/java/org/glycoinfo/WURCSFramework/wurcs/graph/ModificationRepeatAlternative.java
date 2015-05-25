@@ -30,4 +30,10 @@ public class ModificationRepeatAlternative extends ModificationAlternative imple
 		return this.m_objRepeat.getMaxRepeatCount();
 	}
 
+	@Override
+	public ModificationRepeatAlternative copy() {
+		ModificationRepeatAlternative t_oCopy = new ModificationRepeatAlternative(this.getMAPCode());
+		t_oCopy.m_objRepeat = this.m_objRepeat;
+		return t_oCopy;
+	}
 }

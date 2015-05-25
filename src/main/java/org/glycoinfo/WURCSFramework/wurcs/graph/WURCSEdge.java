@@ -2,9 +2,9 @@ package org.glycoinfo.WURCSFramework.wurcs.graph;
 
 import java.util.LinkedList;
 
-import org.glycoinfo.WURCSFramework.util.visitor.graph.WURCSVisitable;
-import org.glycoinfo.WURCSFramework.util.visitor.graph.WURCSVisitor;
-import org.glycoinfo.WURCSFramework.util.visitor.graph.WURCSVisitorException;
+import org.glycoinfo.WURCSFramework.util.graph.visitor.WURCSVisitable;
+import org.glycoinfo.WURCSFramework.util.graph.visitor.WURCSVisitor;
+import org.glycoinfo.WURCSFramework.util.graph.visitor.WURCSVisitorException;
 
 /**
  * Class for edge between Backbone and Modification
@@ -73,6 +73,29 @@ public class WURCSEdge implements WURCSVisitable {
 	@Override
 	public void accept(WURCSVisitor a_objVisitor) throws WURCSVisitorException {
 		a_objVisitor.visit(this);
+	}
+
+	/**
+	 * For debug
+	 * @return String of edge information
+	 */
+	public String printEdge() {
+		if ( this.getBackbone() == null || this.getModification() == null )
+			return "";
+		String t_strSkeletonCode = this.getBackbone().getSkeletonCode();
+		String t_strMAP = this.getModification().getMAPCode();
+		if ( this.getModification() instanceof InterfaceRepeat )
+			t_strMAP += "~"+((InterfaceRepeat)this.getModification()).getMinRepeatCount();
+		String t_strEdge = "";
+		for ( LinkagePosition t_oLiP : this.getLinkages() ) {
+			if ( !t_strEdge.equals("") ) t_strEdge += "|";
+			t_strEdge += t_oLiP.getBackbonePosition();
+			if ( t_oLiP.getDirection() != DirectionDescriptor._ )
+				t_strEdge += t_oLiP.getDirection();
+			if ( t_oLiP.getModificationPosition() != 0 )
+				t_strEdge += t_oLiP.getModificationPosition();
+		}
+		return t_strSkeletonCode+"_"+t_strEdge+t_strMAP;
 	}
 
 }

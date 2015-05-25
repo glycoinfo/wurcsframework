@@ -32,5 +32,8 @@ public class ModificationAlternative extends Modification {
 		return this.m_aLeadOutEdges;
 	}
 
+	public ModificationAlternative copy() {
+		return new ModificationAlternative(this.getMAPCode());
+	}
 
 }

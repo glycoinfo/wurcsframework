@@ -2,13 +2,12 @@ package org.glycoinfo.WURCSFramework.exec;
 
 import org.glycoinfo.WURCSFramework.util.WURCSFormatException;
 import org.glycoinfo.WURCSFramework.util.WURCSImporter;
-import org.glycoinfo.WURCSFramework.util.exchange.WURCSArrayToSequence;
-import org.glycoinfo.WURCSFramework.util.rdf.WURCSSequenceExporterSPARQL;
+import org.glycoinfo.WURCSFramework.util.exchange.WURCSArrayToSequence2;
+import org.glycoinfo.WURCSFramework.util.rdf.WURCSSequence2ExporterSPARQL;
 import org.glycoinfo.WURCSFramework.wurcs.WURCSArray;
-import org.glycoinfo.WURCSFramework.wurcs.sequence.WURCSSequence;
+import org.glycoinfo.WURCSFramework.wurcs.sequence2.WURCSSequence2;
 
-public class WURCStoSPARQL {
-
+public class WURCStoSPARQL2 {
 	public static void main(String[] args) {
 
 		String input = "";
@@ -24,11 +23,11 @@ public class WURCStoSPARQL {
 		try {
 			WURCSImporter t_oImport = new WURCSImporter();
 			WURCSArray t_oWURCS = t_oImport.extractWURCSArray(input);
-			WURCSArrayToSequence t_oA2S = new WURCSArrayToSequence();
+			WURCSArrayToSequence2 t_oA2S = new WURCSArrayToSequence2();
 			t_oA2S.start(t_oWURCS);
-			WURCSSequence t_oSeq = t_oA2S.getSequence();
+			WURCSSequence2 t_oSeq = t_oA2S.getSequence();
 
-			WURCSSequenceExporterSPARQL t_oExport = new WURCSSequenceExporterSPARQL();
+			WURCSSequence2ExporterSPARQL t_oExport = new WURCSSequence2ExporterSPARQL();
 
 			// Set option for SPARQL query generator
 			//t_oExport.setCountOption(true); // True for result count

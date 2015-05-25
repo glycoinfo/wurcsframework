@@ -34,4 +34,9 @@ public class ModificationRepeat extends Modification implements InterfaceRepeat 
 		return this.m_objRepeat.getMaxRepeatCount();
 	}
 
+	public ModificationRepeat copy() {
+		ModificationRepeat t_oCopy = new ModificationRepeat(this.getMAPCode());
+		t_oCopy.m_objRepeat = this.m_objRepeat;
+		return t_oCopy;
+	}
 }

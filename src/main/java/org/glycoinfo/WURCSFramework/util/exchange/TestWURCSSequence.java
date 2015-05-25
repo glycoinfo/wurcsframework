@@ -17,6 +17,7 @@ public class TestWURCSSequence {
 		input = "WURCS=2.0/2,6,7/[22122h-1a_1-5][22112h-1a_1-5]/1-1-1-1-1-2/a1-c4_a4-b1_b4-c1_c6-d1_d4-e1_e6-f1_b1-b4~n";
 		input = "WURCS=2.0/5,5,5/[h222h][12112h-1b_1-5_2*NCC/3=O_6*OPO/3O/3=O][22112h-1a_1-5_2*NCC/3=O_6*OPO/3O/3=O][22112m-1a_1-5_2*NCC/3=O_4*N][12122h-1b_1-5]/1-2-3-4-5/a5-b1_b3-c1_c4-d1_d3-e1_a1-e6*OP^XO*/3O/3=O~n";
 	//	input = "WURCS=2.0/2,4,5/[12122h-1b_1-5][hxh]/1-1-1-2/a1-c2_a2-b1_b2-c1_c6-d1*OP^XO*/3O/3=O_b1-b2~n";
+		input = "WURCS=2.0/7,12,14/[x2122h-1x_1-5_2*NCC/3=O][12122h-1b_1-5_2*NCC/3=O][11122h-1b_1-5][21122h-1a_1-5][xxxxxh-1x_1-?_2*NCC/3=O][12112h-1b_1-5][a6d21122h-2a_2-6_5*NCC/3=O]/1-2-3-4-5-6-7-7-4-5-6-7/a4-b1_b4-c1_e4-f1_f3-g2_g8-h2_j4-k1_k3-l2_c?-d1_c?-i1_d?-e1_i?-j1_a?|b?|c?|d?|e?|f?|g?|h?|i?|j?|k?|l?}*OCC/3=O_a?|b?|c?|d?|e?|f?|g?|h?|i?|j?|k?|l?}*OCC/3=O_a?|b?|c?|d?|e?|f?|g?|h?|i?|j?|k?|l?}*OCC/3=O";
 
 		WURCSImporter t_objImporter = new WURCSImporter();
 		try {
