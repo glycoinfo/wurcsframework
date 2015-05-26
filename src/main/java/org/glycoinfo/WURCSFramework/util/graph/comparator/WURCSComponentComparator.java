@@ -30,6 +30,7 @@ public class WURCSComponentComparator implements Comparator<WURCSComponent> {
 			Monosaccharide t_oMS2 = new Monosaccharide( (Backbone)o2 );
 			MonosaccharideComparator t_oComp = new MonosaccharideComparator();
 			int t_iComp = t_oComp.compare(t_oMS1, t_oMS2);
+//			System.err.println("MS: "+t_iComp);
 /*
 			Backbone t_oB1 = (Backbone)o1;
 			Backbone t_oB2 = (Backbone)o2;

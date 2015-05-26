@@ -205,7 +205,7 @@ public class WURCSGraphToArray implements WURCSVisitor {
 		for ( WURCSComponent t_oNode : t_oSeq.getNodes() )
 			t_oNode.accept(this);
 
-		for ( Modification t_oMod : t_oSeq.getCyclicModifications() ) {
+		for ( Modification t_oMod : t_oSeq.getLeafModifications() ) {
 			t_oMod.accept(this);
 		}
 

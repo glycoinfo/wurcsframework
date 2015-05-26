@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import org.glycoinfo.WURCSFramework.wurcs.WURCSException;
+import org.glycoinfo.WURCSFramework.util.WURCSException;
 
 /**
  * Class for WURCSGraph

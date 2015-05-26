@@ -2,8 +2,8 @@ package org.glycoinfo.WURCSFramework.wurcs.graph;
 
 import java.util.LinkedList;
 
+import org.glycoinfo.WURCSFramework.util.WURCSException;
 import org.glycoinfo.WURCSFramework.util.graph.visitor.WURCSVisitable;
-import org.glycoinfo.WURCSFramework.wurcs.WURCSException;
 
 /**
  * Abstract class for component of Carbohydrate

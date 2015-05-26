@@ -8,7 +8,7 @@ import org.glycoinfo.WURCSFramework.wurcs.graph.LinkagePosition;
 import org.glycoinfo.WURCSFramework.wurcs.graph.WURCSEdge;
 
 /**
- * Class for WURCSEdge comparison
+ * Class for WURCSEdge comparison only linkage information
  * @author MassaakiMatsubara
  *
  */
@@ -24,13 +24,24 @@ public class WURCSEdgeComparatorSimple implements Comparator<WURCSEdge> {
 		// For unknown LinkagePosition, not unknown comes first
 		int t_iPos1 = o1.getLinkages().getFirst().getBackbonePosition();
 		int t_iPos2 = o2.getLinkages().getFirst().getBackbonePosition();
-		if ( t_iPos1 != -1 && t_iPos2 == -1) return -1;
-		if ( t_iPos1 == -1 && t_iPos2 != -1) return 1;
+//		if ( t_iPos1 != -1 && t_iPos2 == -1) return -1;
+//		if ( t_iPos1 == -1 && t_iPos2 != -1) return 1;
+//		if ( t_iPos1 == -1 && t_iPos2 == -1) return 0;
+
+		// In GlycoCT criteria unknown comes first
+		// TODO: check priority
+		if ( t_iPos1 != -1 && t_iPos2 == -1) return 1;
+		if ( t_iPos1 == -1 && t_iPos2 != -1) return -1;
 		if ( t_iPos1 == -1 && t_iPos2 == -1) return 0;
 
 		// For size of LinkagePosition, smaller (not fuzzier) comes first
-		if (o1.getLinkages().size() < o2.getLinkages().size()) return -1;
-		if (o1.getLinkages().size() > o2.getLinkages().size()) return 1;
+//		if (o1.getLinkages().size() < o2.getLinkages().size()) return -1;
+//		if (o1.getLinkages().size() > o2.getLinkages().size()) return 1;
+
+		// For GlycoCT criteria unknown comes first
+		// TODO: check priority
+		if (o1.getLinkages().size() < o2.getLinkages().size()) return 1;
+		if (o1.getLinkages().size() > o2.getLinkages().size()) return -1;
 
 		// Compare linkages inside WURCSEdges if of equal size
 		LinkedList<LinkagePosition> t_aLinkages1 = o1.getLinkages();

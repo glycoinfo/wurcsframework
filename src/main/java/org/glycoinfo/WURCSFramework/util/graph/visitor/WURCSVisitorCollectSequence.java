@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 
+import org.glycoinfo.WURCSFramework.util.WURCSException;
 import org.glycoinfo.WURCSFramework.util.graph.comparator.WURCSVisitorCollectSequenceComparator;
 import org.glycoinfo.WURCSFramework.util.graph.traverser.WURCSGraphTraverser;
 import org.glycoinfo.WURCSFramework.util.graph.traverser.WURCSGraphTraverserNoBranch;
-import org.glycoinfo.WURCSFramework.wurcs.WURCSException;
 import org.glycoinfo.WURCSFramework.wurcs.graph.Backbone;
 import org.glycoinfo.WURCSFramework.wurcs.graph.InterfaceRepeat;
 import org.glycoinfo.WURCSFramework.wurcs.graph.Modification;
@@ -26,13 +26,21 @@ public class WURCSVisitorCollectSequence implements WURCSVisitor {
 	private LinkedList<WURCSComponent> m_aNodes = new LinkedList<WURCSComponent>();
 
 	private LinkedList<Modification> m_aRepeats = new LinkedList<Modification>();
-	private LinkedList<Modification> m_aCyclics = new LinkedList<Modification>();
+	private LinkedList<Modification> m_aLeaves  = new LinkedList<Modification>();
 
+	private LinkedList<Integer> m_aBranchingPoints = new LinkedList<Integer>();
 	private int m_nBranchBackbone = 0;
 	private int m_nBranchModification = 0;
 
+	private int m_iDepth = 0;
+	private int m_nTerminal = 0;
+
 	private LinkedList<WURCSComponent> m_aParentNodes   = new LinkedList<WURCSComponent>();
 	private LinkedList<WURCSEdge>      m_aBranchEdges = new LinkedList<WURCSEdge>();
+
+	protected void setParentNodes(LinkedList<WURCSComponent> a_aParentNodes) {
+		this.m_aParentNodes.addAll(a_aParentNodes);
+	}
 
 	/**
 	 * Get collected edges
@@ -48,6 +56,22 @@ public class WURCSVisitorCollectSequence implements WURCSVisitor {
 	 */
 	public LinkedList<WURCSComponent> getNodes() {
 		return this.m_aNodes;
+	}
+
+	/**
+	 * Get repeat linkages
+	 * @return
+	 */
+	public LinkedList<Modification> getRepeatModifications() {
+		return this.m_aRepeats;
+	}
+
+	/**
+	 * Get leaf modifications
+	 * @return
+	 */
+	public LinkedList<Modification> getLeafModifications() {
+		return this.m_aLeaves;
 	}
 
 	/**
@@ -67,19 +91,46 @@ public class WURCSVisitorCollectSequence implements WURCSVisitor {
 	}
 
 	/**
-	 * Get repeat linkages
-	 * @return
+	 * Get depth of the sequence
+	 * @return Number of depth
 	 */
-	public LinkedList<Modification> getRepeatModifications() {
-		return this.m_aRepeats;
+	public int getDepth() {
+		return this.m_iDepth;
 	}
 
 	/**
-	 * Get cyclic modifications
-	 * @return
+	 * Get terminal count
+	 * @return Number of Terminal
 	 */
-	public LinkedList<Modification> getCyclicModifications() {
-		return this.m_aCyclics;
+	public int getTerminalCount() {
+		return this.m_nTerminal;
+	}
+
+	public LinkedList<Integer> getBranchingPoints() {
+		return this.m_aBranchingPoints;
+	}
+
+	public boolean hasIllegalRepeat() {
+//		System.err.println("check repeat:"+this.m_aRepeats);
+		// For repeat
+		for ( Modification t_oRep : this.m_aRepeats ) {
+			WURCSEdge t_oStartEdge = t_oRep.getEdges().getFirst();
+			WURCSEdge t_oEndEdge   = t_oRep.getEdges().getLast();
+			// Anomeric side is end
+			if ( t_oStartEdge.isAnomeric() ) {
+				t_oEndEdge   = t_oRep.getEdges().getFirst();
+				t_oStartEdge = t_oRep.getEdges().getLast();
+			}
+
+			int t_iStartID = this.m_aNodes.indexOf( t_oStartEdge.getBackbone() );
+			int t_iEndID   = this.m_aNodes.indexOf( t_oEndEdge.getBackbone() );
+//			System.err.println( t_iStartID+" vs "+t_iEndID );
+			// Repeat is reversed
+			if ( t_iStartID - t_iEndID < 0 ) return true;
+			// Repeat is in terminal
+//			if ( t_iStartID == this.m_aNodes.size()-1 || t_iEndID == 0 ) return true;
+		}
+		return false;
 	}
 
 	@Override
@@ -87,37 +138,48 @@ public class WURCSVisitorCollectSequence implements WURCSVisitor {
 		if ( this.m_aNodes.contains(a_objBackbone) )
 			throw new WURCSVisitorException("The backbone is already added.");
 
+		// Add node
 		this.m_aNodes.addLast(a_objBackbone);
 
+		// Count depth
+		this.m_iDepth++;
+
 		// Check glycosidic branch edges
-		LinkedList<WURCSEdge> t_aEdges = new LinkedList<WURCSEdge>();
+		LinkedList<WURCSEdge> t_aChildGlycosidicEdges = new LinkedList<WURCSEdge>();
 		for ( WURCSEdge t_oEdge : a_objBackbone.getChildEdges() ) {
 			Modification t_oMod = t_oEdge.getModification();
-			if ( !t_oMod.isGlycosidic() ) continue;
-
 			// For repeating unit
 			if ( t_oMod instanceof InterfaceRepeat ) {
 				this.m_aRepeats.addLast(t_oMod);
 				continue;
 			}
 
+			if ( !t_oMod.isGlycosidic() ) continue;
+
 			// For cyclic part
 			if ( t_oMod.isLeaf() ) {
-				this.m_aCyclics.addLast(t_oMod);
+				this.m_aLeaves.addLast(t_oMod);
 				continue;
 			}
 
-			t_aEdges.add(t_oEdge);
+			t_aChildGlycosidicEdges.add(t_oEdge);
 		}
 
+		// Count terminal
+		if ( t_aChildGlycosidicEdges.size() == 0 )
+			this.m_nTerminal++;
+
 		// Return if there is no branch
-		if ( t_aEdges.size() < 2 ) return;
+		if ( t_aChildGlycosidicEdges.size() < 2 ) return;
 
 		// Count branch on backbone
 		this.m_nBranchBackbone++;
 
+		// Add depth of branching point
+		this.m_aBranchingPoints.addLast(this.m_iDepth);
+
 		// Traverse sequence of the branches, and add self sequence after sorting branch sequences
-		this.traverseBranches(t_aEdges);
+		this.traverseBranches(t_aChildGlycosidicEdges);
 	}
 
 	@Override
@@ -128,7 +190,11 @@ public class WURCSVisitorCollectSequence implements WURCSVisitor {
 		if ( this.m_aNodes.contains(a_objModification) )
 			throw new WURCSVisitorException("The modification is already added.");
 
+		// Add node
 		this.m_aNodes.addLast(a_objModification);
+
+		// Count depth
+		this.m_iDepth++;
 
 		// Check branch edges
 		LinkedList<WURCSEdge> t_aEdges = a_objModification.getChildEdges();
@@ -173,6 +239,17 @@ public class WURCSVisitorCollectSequence implements WURCSVisitor {
 	public void clear() {
 		this.m_aEdges = new LinkedList<WURCSEdge>();
 		this.m_aNodes = new LinkedList<WURCSComponent>();
+
+		this.m_aRepeats = new LinkedList<Modification>();
+		this.m_aLeaves = new LinkedList<Modification>();
+
+		this.m_nBranchBackbone = 0;
+		this.m_nBranchModification = 0;
+
+		this.m_aBranchingPoints = new LinkedList<Integer>();
+
+		this.m_iDepth = 0;
+		this.m_nTerminal = 0;
 
 		this.m_aParentNodes   = new LinkedList<WURCSComponent>();
 		this.m_aBranchEdges = new LinkedList<WURCSEdge>();
@@ -233,6 +310,7 @@ public class WURCSVisitorCollectSequence implements WURCSVisitor {
 		LinkedList<WURCSVisitorCollectSequence> t_aSequences = new LinkedList<WURCSVisitorCollectSequence>();
 		for ( WURCSEdge t_oEdge : a_aBranchStartEdges ) {
 			WURCSVisitorCollectSequence t_oSeq = new WURCSVisitorCollectSequence();
+
 			t_oSeq.start(t_oEdge);
 			t_aSequences.add(t_oSeq);
 		}
@@ -242,23 +320,38 @@ public class WURCSVisitorCollectSequence implements WURCSVisitor {
 
 	/**
 	 * Add sequences to self sequence
-	 * @param a_aSequences
+	 * @param a_aSequences Child sequences
 	 */
 	private void addSequences(LinkedList<WURCSVisitorCollectSequence> a_aSequences) {
 		// Sort branch sequences
 		Collections.sort(a_aSequences, new WURCSVisitorCollectSequenceComparator());
 
+		int t_iMaxDepth = 0;
 		for ( WURCSVisitorCollectSequence t_oSeq : a_aSequences ) {
 			// Add nodes and edges of the branches sequence
 			this.m_aEdges.addAll(t_oSeq.getEdges());
 			this.m_aNodes.addAll(t_oSeq.getNodes());
 
-			this.m_aCyclics.addAll(t_oSeq.getCyclicModifications());
+			this.m_aLeaves.addAll(t_oSeq.getLeafModifications());
 			this.m_aRepeats.addAll(t_oSeq.getRepeatModifications());
+
+			// For max depth
+			if ( t_iMaxDepth < t_oSeq.getDepth() ) t_iMaxDepth = t_oSeq.getDepth();
+
+			for ( int t_iBranchingDepth : t_oSeq.getBranchingPoints() ) {
+				t_iBranchingDepth += this.m_iDepth;
+				this.m_aBranchingPoints.addLast(t_iBranchingDepth);
+			}
 
 			// Add number of branch of the branches sequence
 			this.m_nBranchBackbone     += t_oSeq.getBranchCountOnBackbone();
 			this.m_nBranchModification += t_oSeq.getBranchCountOnModification();
+
+			// Add terminal count
+			this.m_nTerminal += t_oSeq.getTerminalCount();
 		}
+
+		// Add depth
+		this.m_iDepth += t_iMaxDepth;
 	}
 }

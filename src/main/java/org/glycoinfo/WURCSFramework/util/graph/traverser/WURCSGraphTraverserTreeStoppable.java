@@ -10,7 +10,7 @@ import org.glycoinfo.WURCSFramework.wurcs.graph.WURCSEdge;
 
 public class WURCSGraphTraverserTreeStoppable extends WURCSGraphTraverserTree {
 
-	private boolean m_bStopTraverse = false;
+	private boolean m_bStop = false;
 
 	public WURCSGraphTraverserTreeStoppable(WURCSVisitor a_objVisitor) throws WURCSVisitorException {
 		super(a_objVisitor);
@@ -27,7 +27,7 @@ public class WURCSGraphTraverserTreeStoppable extends WURCSGraphTraverserTree {
 		Collections.sort(t_aEdges, this.m_oComp);
 		for ( WURCSEdge t_oEdge : t_aEdges ) {
 
-			this.m_bStopTraverse = false;
+			this.m_bStop = false;
 
 			this.traverse( t_oEdge );
 			// callback after return
@@ -50,7 +50,7 @@ public class WURCSGraphTraverserTreeStoppable extends WURCSGraphTraverserTree {
 
 		this.m_aSearchedEdges.add(a_objEdge);
 
-		if ( this.m_bStopTraverse ) return;
+		if ( this.m_bStop ) return;
 
 		this.traverse( a_objEdge.getNextComponent() );
 
@@ -63,6 +63,6 @@ public class WURCSGraphTraverserTreeStoppable extends WURCSGraphTraverserTree {
 	 * Set stop traverse flag
 	 */
 	public void stop() {
-		this.m_bStopTraverse = true;
+		this.m_bStop = true;
 	}
 }

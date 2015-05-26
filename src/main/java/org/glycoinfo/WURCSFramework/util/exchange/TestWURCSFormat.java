@@ -1,5 +1,6 @@
 package org.glycoinfo.WURCSFramework.util.exchange;
 
+import org.glycoinfo.WURCSFramework.util.WURCSException;
 import org.glycoinfo.WURCSFramework.util.WURCSExporter;
 import org.glycoinfo.WURCSFramework.util.WURCSFormatException;
 import org.glycoinfo.WURCSFramework.util.WURCSImporter;
@@ -7,7 +8,6 @@ import org.glycoinfo.WURCSFramework.util.graph.visitor.WURCSVisitorExpandRepeati
 import org.glycoinfo.WURCSFramework.util.mass.WURCSMassCalculator;
 import org.glycoinfo.WURCSFramework.util.mass.WURCSMassException;
 import org.glycoinfo.WURCSFramework.wurcs.WURCSArray;
-import org.glycoinfo.WURCSFramework.wurcs.WURCSException;
 import org.glycoinfo.WURCSFramework.wurcs.graph.Backbone;
 import org.glycoinfo.WURCSFramework.wurcs.graph.WURCSGraph;
 
@@ -35,29 +35,21 @@ public class TestWURCSFormat {
 		// GlycomeDB: 33783
 //		input = "WURCS=2.0/2,4,5/[12122h-1b_1-5][hxh]/1-1-1-2/a1-c2_a2-b1_b2-c1_c6-d1*OP^XO*/3O/3=O_b1-b2~n";
 		// GlycomeDB: 7018
-//		input = "WURCS=2.0/1,3,3/[2212h-1a_1-4]/1-1-1/a3-b5_b3-c5_b3-b5~n";
-		// GlyTouCan: G15870IW
-//		input = "WURCS=2.0/2,3,3/[12122h-1b_1-5][12112h-1b_1-5]/1-2-2/a6-b1_b6-c1_b1-b6~10";
-		// GlycomeDB: 12241'
-//		input = "WURCS=2.0/3,12,16/[1212h-1b_1-5][12112h-1b_1-5][1211h-1a_1-4]/1-2-2-2-2-2-2-2-2-3-3-2/a4-b1_b3-d1_b6-c1_d3-h1_d6-e1_e3-f1_f3-g1_h3-l1_h6-i1_i6-j1_j3-k1_a1-a4~2_a1-l3~2_b1-b3~n_d1-d3~n_h1-h3~n";
-		// GlyTouCan: G06216SX
-		input = "WURCS=2.0/6,18,18/[u2122h][12112h-1b_1-5][21122h-1a_1-5][12211m-1a_1-5][12122m-1b_1-5_3*NCC/3=O][12122h-1b_1-5]/1-2-3-4-2-5-6-2-3-4-2-5-6-2-3-4-2-5/a4-b1_b4-c1_c3-d1_c4-g1_d4-e1_e6-f1_g4-h1_h4-i1_i3-j1_i4-m1_j4-k1_k6-l1_m4-n1_n4-o1_o3-p1_p4-q1_q6-r1_g1-i4~15";
-		// GlyTouCan: G32915EI
-//		input = "WURCS=2.0/1,1,0/[<0>_5*OCC/3=O_7*OCC/3=O_8*OCC/3=O]/1/";
-		// GlyTouCan: G00285OE
-		input = "WURCS=2.0/2,3,3/[u2112a][22112a-1a_1-5]/1-2-2/a4-b1_b4-c1_b1-b4~9";
-		// GlyTouCan: G00835ME (cyclic)
-		input = "WURCS=2.0/2,7,7/[22122h-1a_1-5][22122H-1a_1-5_6*NC]/1-1-1-1-1-1-2/a1-g4_a4-b1_b4-c1_c4-d1_d4-e1_e4-f1_f4-g1";
-		// GlyTouCan: G02006IV: Cyclic :
-		input = "WURCS=2.0/1,9,9/[22122h-1a_1-5]/1-1-1-1-1-1-1-1-1/a1-g4_a4-b1_b4-c1_c4-d1_d4-e1_e4-f1_e6-i1_f4-g1_g6-h1";
-		// GlyTouCan: G03468DF: Cyclic :
-		input = "WURCS=2.0/1,6,7/[22122h-1a_1-5]/1-1-1-1-1-1/a1-c4_a4-b1_b4-c1_c6-d1_d4-e1_e6-f1_b1-b4~n";
-		// GlyTouCan: G02723DD:
-		input = "WURCS=2.0/1,2,1/[12122h-1b_1-5]/1-1/a3-b?*OSO*/3=O/3=O";
-		// GlyTouCan: G99474SM: Cyclic :
-		input = "WURCS=2.0/2,7,7/[22122h-1a_1-5][22122h-1a_1-5_3*NCCCCO/6=O/3=O]/1-1-1-1-1-1-2/a1-g4_a4-b1_b4-c1_c4-d1_d4-e1_e4-f1_f4-g1";
-		// GlyTouCan: G01028CW:
-		input = "WURCS=2.0/6,12,11/[h2122h_2*NCC/3=O][12122h-1b_1-5_2*NCC/3=O][11122h-1b_1-5][21122h-1a_1-5][12112h-1b_1-5][11221m-1a_1-5]/1-2-3-4-2-5-2-5-4-2-5-6/a4-b1_a6-l1_b4-c1_d2-e1_d6-g1_e4-f1_g4-h1_i2-j1_j4-k1_d1-c3|c6_i1-c3|c6";
+		input = "WURCS=2.0/1,3,3/[2212h-1a_1-4]/1-1-1/a3-b5_b3-c5_b3-b5~n";
+		// GlyTouCan: G07481OW:
+		input = "WURCS=2.0/5,6,5/[hxh][h2122h][12112h-1b_1-5][12122h-1b_1-5_2*NCC/3=O][11221m-1a_1-5]/1-2-3-4-5-3/a3n2-b1n1*ONCCOP^XO*/7O/7=O_b4-c1_c3-d1_d3-e1_d4-f1";
+		// GlyTouCan: G00605LS: Anomeric linkage :
+		input = "WURCS=2.0/2,5,4/[22122h-1a_1-5][22112h-1a_1-5]/1-2-2-2-1/a1-b1_b6-c1_c6-d1_d6-e1";
+		// GlyTouCan: G36259OZ: Anomeric linkage :
+		input = "WURCS=2.0/2,2,1/[22122h-1a_1-5][22122h-1a_1-5_6*OPO/3O/3=O]/1-2/a1-b1";
+		// GlyTouCan: G22652VR:
+		input = "WURCS=2.0/5,5,5/[22122a-1a_1-5][112112h-1a_1-5_6*OC][12112h-1b_1-4_2*NCC/3=O][1222h-1b_1-4][hxh]/1-2-3-4-5/a3-b1_a4-c1_a6-e2*N*_c5-d1_a1-d2~n";
+		// GlyTouCan: G09646QM:
+		input = "WURCS=2.0/1,12,11/[h222h]/1-1-1-1-1-1-1-1-1-1-1-1/a5-b1*OP^XO*/3O/3=O_b5-c1*OP^XO*/3O/3=O_c5-d1*OP^XO*/3O/3=O_d5-e1*OP^XO*/3O/3=O_e5-f1*OP^XO*/3O/3=O_f5-g1*OP^XO*/3O/3=O_g5-h1*OP^XO*/3O/3=O_h5-i1*OP^XO*/3O/3=O_i5-j1*OP^XO*/3O/3=O_j5-k1*OP^XO*/3O/3=O_k5-l1*OP^XO*/3O/3=O";
+		// GlyTouCan: G94434RV:
+//		input = "WURCS=2.0/2,2,2/[<0>-?b][<0>-?a]/1-2/a7-b1_a1-b7~n";
+
+
 		WURCSImporter t_objImporter = new WURCSImporter();
 		try {
 			// Import WURCS without error messages

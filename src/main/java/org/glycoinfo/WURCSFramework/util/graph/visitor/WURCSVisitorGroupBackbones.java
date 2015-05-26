@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
 
+import org.glycoinfo.WURCSFramework.util.WURCSException;
 import org.glycoinfo.WURCSFramework.util.graph.traverser.WURCSGraphTraverser;
 import org.glycoinfo.WURCSFramework.util.graph.traverser.WURCSGraphTraverserConnectingGroup;
-import org.glycoinfo.WURCSFramework.wurcs.WURCSException;
 import org.glycoinfo.WURCSFramework.wurcs.graph.Backbone;
 import org.glycoinfo.WURCSFramework.wurcs.graph.Modification;
 import org.glycoinfo.WURCSFramework.wurcs.graph.WURCSEdge;

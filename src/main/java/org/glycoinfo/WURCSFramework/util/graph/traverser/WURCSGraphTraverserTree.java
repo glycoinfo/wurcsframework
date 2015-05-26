@@ -6,11 +6,11 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import org.glycoinfo.WURCSFramework.util.WURCSException;
 import org.glycoinfo.WURCSFramework.util.graph.comparator.BackboneComparator;
 import org.glycoinfo.WURCSFramework.util.graph.comparator.WURCSEdgeComparator;
 import org.glycoinfo.WURCSFramework.util.graph.visitor.WURCSVisitor;
 import org.glycoinfo.WURCSFramework.util.graph.visitor.WURCSVisitorException;
-import org.glycoinfo.WURCSFramework.wurcs.WURCSException;
 import org.glycoinfo.WURCSFramework.wurcs.graph.Backbone;
 import org.glycoinfo.WURCSFramework.wurcs.graph.WURCSComponent;
 import org.glycoinfo.WURCSFramework.wurcs.graph.WURCSEdge;

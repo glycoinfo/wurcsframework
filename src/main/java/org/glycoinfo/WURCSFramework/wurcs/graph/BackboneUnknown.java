@@ -34,7 +34,9 @@ public class BackboneUnknown extends Backbone {
 	@Override
 	public int getAnomericPosition() {
 		if ( this.m_cAnomericSymbol == 'o' || this.m_cAnomericSymbol == 'x' ) return 0;
+		// TODO: position
 		return -1;
+//		return 1;
 	}
 
 	@Override

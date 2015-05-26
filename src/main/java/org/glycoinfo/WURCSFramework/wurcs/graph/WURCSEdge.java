@@ -61,6 +61,15 @@ public class WURCSEdge implements WURCSVisitable {
 		return this.m_bIsReverse;
 	}
 
+	public boolean isAnomeric() {
+		int t_iAnomPos = this.getBackbone().getAnomericPosition();
+		if ( this.getLinkages().size() > 2 ) return false;
+		for ( LinkagePosition t_oLiP : this.getLinkages() ) {
+			if ( t_oLiP.getBackbonePosition() == t_iAnomPos ) return true;
+		}
+		return false;
+	}
+
 	public WURCSEdge copy() {
 		WURCSEdge copy = new WURCSEdge();
 		for ( LinkagePosition link : this.m_aLinkages ) {

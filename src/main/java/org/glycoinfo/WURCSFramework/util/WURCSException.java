@@ -1,4 +1,4 @@
-package org.glycoinfo.WURCSFramework.wurcs;
+package org.glycoinfo.WURCSFramework.util;
 
 /**
  * Class for exception of WURCS object
