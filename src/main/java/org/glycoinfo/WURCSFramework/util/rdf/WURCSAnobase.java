@@ -1,8 +1,8 @@
 package org.glycoinfo.WURCSFramework.util.rdf;
 
-import org.glycoinfo.WURCSFramework.util.WURCSExporter;
-import org.glycoinfo.WURCSFramework.util.WURCSMonosaccharideIntegrator;
-import org.glycoinfo.WURCSFramework.wurcs.UniqueRES;
+import org.glycoinfo.WURCSFramework.util.array.WURCSExporter;
+import org.glycoinfo.WURCSFramework.util.array.WURCSMonosaccharideIntegrator;
+import org.glycoinfo.WURCSFramework.wurcs.array.UniqueRES;
 
 //TODO:
 public class WURCSAnobase {

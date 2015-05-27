@@ -8,8 +8,8 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.TreeMap;
 
-import org.glycoinfo.WURCSFramework.util.WURCSImporter;
-import org.glycoinfo.WURCSFramework.wurcs.WURCSArray;
+import org.glycoinfo.WURCSFramework.util.array.WURCSImporter;
+import org.glycoinfo.WURCSFramework.wurcs.array.WURCSArray;
 //import org.glycoinfo.WURCSFramework.wurcsRDF.WURCSrdf;
 import org.glycoinfo.WURCSFramework.wurcsRDF.WURCSExporterRDF_TBC;
 

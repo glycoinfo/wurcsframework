@@ -6,7 +6,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.TreeMap;
 
-import org.glycoinfo.WURCSFramework.util.WURCSJsonExporter;
 import org.json.simple.JSONArray;
 
 /**

@@ -11,9 +11,9 @@ import java.io.PrintWriter;
 import java.util.Date;
 import java.util.TreeMap;
 
-import org.glycoinfo.WURCSFramework.util.WURCSImporter;
+import org.glycoinfo.WURCSFramework.util.array.WURCSImporter;
 import org.glycoinfo.WURCSFramework.util.exchange.WURCSArrayToSequence2;
-import org.glycoinfo.WURCSFramework.wurcs.WURCSArray;
+import org.glycoinfo.WURCSFramework.wurcs.array.WURCSArray;
 import org.glycoinfo.WURCSFramework.wurcs.sequence2.WURCSSequence2;
 import org.glycoinfo.WURCSFramework.wurcsRDF.WURCSSequence2ExporterRDFModel;
 

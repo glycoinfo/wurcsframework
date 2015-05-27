@@ -174,7 +174,7 @@ public class WURCSRDFModel {
 	}
 
 	public static void main(String[] args){
-		org.glycoinfo.WURCSFramework.wurcs.WURCSArray wa;
+		org.glycoinfo.WURCSFramework.wurcs.array.WURCSArray wa;
 		String text = readFile("D:/sde/eclipse43ee/git/glytoucan-ws/src/work/java/org/glycoinfo/WURCSFramework/testresource/20150302result-GlyTouCan_GlycoCTmfWURCS.txt");
 		String[] lines = text.split("\n");
 		for( int  i=0; i<lines.length; i++ ){
@@ -182,7 +182,7 @@ public class WURCSRDFModel {
 				String[] values = lines[i].split("\t");
 				if( values.length != 2 || !values[1].startsWith("WURCS=") )continue;
 				System.out.println(values[0]+":"+i);
-				wa = (new org.glycoinfo.WURCSFramework.util.WURCSImporter()).extractWURCSArray(values[1]);
+				wa = (new org.glycoinfo.WURCSFramework.util.array.WURCSImporter()).extractWURCSArray(values[1]);
 //				WURCSRDFModelGlycan wcmodel1 = new WURCSRDFModelGlycan(values[0], wa);
 				WURCSRDFModelMs wcmodel1 = new WURCSRDFModelMs(wa.getUniqueRESs());
 				System.out.println(wcmodel1.get_RDF("TURTLE"));

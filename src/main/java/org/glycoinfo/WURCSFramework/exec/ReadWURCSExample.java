@@ -6,8 +6,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.TreeMap;
 
-import org.glycoinfo.WURCSFramework.util.WURCSImporter;
-import org.glycoinfo.WURCSFramework.wurcs.WURCSArray;
+import org.glycoinfo.WURCSFramework.util.array.WURCSImporter;
+import org.glycoinfo.WURCSFramework.wurcs.array.WURCSArray;
 
 public class ReadWURCSExample {
 

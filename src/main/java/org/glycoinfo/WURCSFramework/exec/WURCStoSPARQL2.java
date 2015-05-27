@@ -1,10 +1,10 @@
 package org.glycoinfo.WURCSFramework.exec;
 
-import org.glycoinfo.WURCSFramework.util.WURCSFormatException;
-import org.glycoinfo.WURCSFramework.util.WURCSImporter;
+import org.glycoinfo.WURCSFramework.util.array.WURCSFormatException;
+import org.glycoinfo.WURCSFramework.util.array.WURCSImporter;
 import org.glycoinfo.WURCSFramework.util.exchange.WURCSArrayToSequence2;
 import org.glycoinfo.WURCSFramework.util.rdf.WURCSSequence2ExporterSPARQL;
-import org.glycoinfo.WURCSFramework.wurcs.WURCSArray;
+import org.glycoinfo.WURCSFramework.wurcs.array.WURCSArray;
 import org.glycoinfo.WURCSFramework.wurcs.sequence2.WURCSSequence2;
 
 public class WURCStoSPARQL2 {

@@ -4,14 +4,14 @@ import java.util.LinkedList;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-import org.glycoinfo.WURCSFramework.util.WURCSExporter;
-import org.glycoinfo.WURCSFramework.util.WURCSMonosaccharideIntegrator;
+import org.glycoinfo.WURCSFramework.util.array.WURCSExporter;
+import org.glycoinfo.WURCSFramework.util.array.WURCSMonosaccharideIntegrator;
 import org.glycoinfo.WURCSFramework.util.rdf.WURCSAnobase;
 import org.glycoinfo.WURCSFramework.util.rdf.WURCSBasetype;
-import org.glycoinfo.WURCSFramework.wurcs.LIP;
-import org.glycoinfo.WURCSFramework.wurcs.LIPs;
-import org.glycoinfo.WURCSFramework.wurcs.MOD;
-import org.glycoinfo.WURCSFramework.wurcs.UniqueRES;
+import org.glycoinfo.WURCSFramework.wurcs.array.LIP;
+import org.glycoinfo.WURCSFramework.wurcs.array.LIPs;
+import org.glycoinfo.WURCSFramework.wurcs.array.MOD;
+import org.glycoinfo.WURCSFramework.wurcs.array.UniqueRES;
 import org.glycoinfo.WURCSFramework.wurcsRDF.constant.WURCS;
 import org.openrdf.model.vocabulary.RDF;
 

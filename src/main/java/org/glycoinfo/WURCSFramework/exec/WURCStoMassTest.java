@@ -2,11 +2,11 @@ package org.glycoinfo.WURCSFramework.exec;
 
 import java.util.LinkedList;
 
-import org.glycoinfo.WURCSFramework.util.WURCSFormatException;
-import org.glycoinfo.WURCSFramework.util.WURCSImporter;
-import org.glycoinfo.WURCSFramework.util.mass.WURCSMassCalculator;
-import org.glycoinfo.WURCSFramework.util.mass.WURCSMassException;
-import org.glycoinfo.WURCSFramework.wurcs.WURCSArray;
+import org.glycoinfo.WURCSFramework.util.array.WURCSFormatException;
+import org.glycoinfo.WURCSFramework.util.array.WURCSImporter;
+import org.glycoinfo.WURCSFramework.util.array.mass.WURCSMassCalculator;
+import org.glycoinfo.WURCSFramework.util.array.mass.WURCSMassException;
+import org.glycoinfo.WURCSFramework.wurcs.array.WURCSArray;
 
 
 public class WURCStoMassTest {

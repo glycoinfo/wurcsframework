@@ -2,14 +2,14 @@ package org.glycoinfo.WURCSFramework.wurcsRDF;
 
 import java.util.LinkedList;
 
-import org.glycoinfo.WURCSFramework.util.WURCSExporter;
-import org.glycoinfo.WURCSFramework.util.WURCSMonosaccharideIntegrator;
-import org.glycoinfo.WURCSFramework.wurcs.GLIP;
-import org.glycoinfo.WURCSFramework.wurcs.GLIPs;
-import org.glycoinfo.WURCSFramework.wurcs.LIN;
-import org.glycoinfo.WURCSFramework.wurcs.RES;
-import org.glycoinfo.WURCSFramework.wurcs.UniqueRES;
-import org.glycoinfo.WURCSFramework.wurcs.WURCSArray;
+import org.glycoinfo.WURCSFramework.util.array.WURCSExporter;
+import org.glycoinfo.WURCSFramework.util.array.WURCSMonosaccharideIntegrator;
+import org.glycoinfo.WURCSFramework.wurcs.array.GLIP;
+import org.glycoinfo.WURCSFramework.wurcs.array.GLIPs;
+import org.glycoinfo.WURCSFramework.wurcs.array.LIN;
+import org.glycoinfo.WURCSFramework.wurcs.array.RES;
+import org.glycoinfo.WURCSFramework.wurcs.array.UniqueRES;
+import org.glycoinfo.WURCSFramework.wurcs.array.WURCSArray;
 import org.glycoinfo.WURCSFramework.wurcsRDF.constant.GLYCAN;
 import org.glycoinfo.WURCSFramework.wurcsRDF.constant.WURCS;
 import org.openrdf.model.vocabulary.OWL;

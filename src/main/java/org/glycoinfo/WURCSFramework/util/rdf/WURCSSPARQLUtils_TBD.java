@@ -5,14 +5,14 @@ import java.util.Date;
 import java.util.LinkedList;
 
 import org.glycoinfo.WURCSFramework.util.WURCSDataConverter;
-import org.glycoinfo.WURCSFramework.util.WURCSExporter;
 import org.glycoinfo.WURCSFramework.util.WURCSStringUtils;
-import org.glycoinfo.WURCSFramework.wurcs.GLIP;
-import org.glycoinfo.WURCSFramework.wurcs.GLIPs;
-import org.glycoinfo.WURCSFramework.wurcs.LIN;
-import org.glycoinfo.WURCSFramework.wurcs.RES;
-import org.glycoinfo.WURCSFramework.wurcs.UniqueRES;
-import org.glycoinfo.WURCSFramework.wurcs.WURCSArray;
+import org.glycoinfo.WURCSFramework.util.array.WURCSExporter;
+import org.glycoinfo.WURCSFramework.wurcs.array.GLIP;
+import org.glycoinfo.WURCSFramework.wurcs.array.GLIPs;
+import org.glycoinfo.WURCSFramework.wurcs.array.LIN;
+import org.glycoinfo.WURCSFramework.wurcs.array.RES;
+import org.glycoinfo.WURCSFramework.wurcs.array.UniqueRES;
+import org.glycoinfo.WURCSFramework.wurcs.array.WURCSArray;
 
 //TODO: 
 public class WURCSSPARQLUtils_TBD {

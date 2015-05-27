@@ -1,12 +1,12 @@
 package org.glycoinfo.WURCSFramework.exec;
 
-import org.glycoinfo.WURCSFramework.util.WURCSExporter;
-import org.glycoinfo.WURCSFramework.util.WURCSFormatException;
-import org.glycoinfo.WURCSFramework.util.WURCSImporter;
 import org.glycoinfo.WURCSFramework.util.WURCSStructureUtils;
-import org.glycoinfo.WURCSFramework.wurcs.LIN;
-import org.glycoinfo.WURCSFramework.wurcs.UniqueRES;
-import org.glycoinfo.WURCSFramework.wurcs.WURCSArray;
+import org.glycoinfo.WURCSFramework.util.array.WURCSExporter;
+import org.glycoinfo.WURCSFramework.util.array.WURCSFormatException;
+import org.glycoinfo.WURCSFramework.util.array.WURCSImporter;
+import org.glycoinfo.WURCSFramework.wurcs.array.LIN;
+import org.glycoinfo.WURCSFramework.wurcs.array.UniqueRES;
+import org.glycoinfo.WURCSFramework.wurcs.array.WURCSArray;
 import org.glycoinfo.WURCSFramework.wurcsRDF.PrefixList;
 import org.glycoinfo.WURCSFramework.wurcsRDF.WURCSExporterRDF;
 

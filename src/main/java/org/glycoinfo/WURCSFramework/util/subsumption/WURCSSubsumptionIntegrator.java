@@ -2,10 +2,10 @@ package org.glycoinfo.WURCSFramework.util.subsumption;
 
 import java.util.LinkedList;
 
-import org.glycoinfo.WURCSFramework.util.WURCSMonosaccharideIntegrator;
+import org.glycoinfo.WURCSFramework.util.array.WURCSMonosaccharideIntegrator;
 import org.glycoinfo.WURCSFramework.util.rdf.WURCSBasetype;
-import org.glycoinfo.WURCSFramework.wurcs.MOD;
-import org.glycoinfo.WURCSFramework.wurcs.UniqueRES;
+import org.glycoinfo.WURCSFramework.wurcs.array.MOD;
+import org.glycoinfo.WURCSFramework.wurcs.array.UniqueRES;
 /**
  * @author st
  *

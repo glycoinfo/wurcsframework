@@ -4,12 +4,12 @@ import java.util.HashMap;
 import java.util.LinkedList;
 
 import org.glycoinfo.WURCSFramework.util.WURCSException;
-import org.glycoinfo.WURCSFramework.util.WURCSExporter;
+import org.glycoinfo.WURCSFramework.util.array.WURCSExporter;
 import org.glycoinfo.WURCSFramework.util.exchange.WURCSGraphToArray;
 import org.glycoinfo.WURCSFramework.util.graph.comparator.WURCSEdgeComparator;
 import org.glycoinfo.WURCSFramework.util.graph.traverser.WURCSGraphTraverser;
 import org.glycoinfo.WURCSFramework.util.graph.traverser.WURCSGraphTraverserTreeStoppable;
-import org.glycoinfo.WURCSFramework.wurcs.WURCSArray;
+import org.glycoinfo.WURCSFramework.wurcs.array.WURCSArray;
 import org.glycoinfo.WURCSFramework.wurcs.graph.Backbone;
 import org.glycoinfo.WURCSFramework.wurcs.graph.Modification;
 import org.glycoinfo.WURCSFramework.wurcs.graph.ModificationRepeat;

@@ -3,12 +3,12 @@ package org.glycoinfo.WURCSFramework.util.subsumption;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-import org.glycoinfo.WURCSFramework.util.WURCSMonosaccharideIntegrator;
+import org.glycoinfo.WURCSFramework.util.array.WURCSMonosaccharideIntegrator;
 import org.glycoinfo.WURCSFramework.util.rdf.WURCSBasetype;
-import org.glycoinfo.WURCSFramework.wurcs.LIP;
-import org.glycoinfo.WURCSFramework.wurcs.LIPs;
-import org.glycoinfo.WURCSFramework.wurcs.MOD;
-import org.glycoinfo.WURCSFramework.wurcs.UniqueRES;
+import org.glycoinfo.WURCSFramework.wurcs.array.LIP;
+import org.glycoinfo.WURCSFramework.wurcs.array.LIPs;
+import org.glycoinfo.WURCSFramework.wurcs.array.MOD;
+import org.glycoinfo.WURCSFramework.wurcs.array.UniqueRES;
 
 /**
  * Class for utility to generate WURCSSubsumption

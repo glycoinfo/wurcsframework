@@ -12,11 +12,11 @@ import java.util.List;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-import org.glycoinfo.WURCSFramework.util.WURCSExporter;
-import org.glycoinfo.WURCSFramework.util.WURCSImporter;
+import org.glycoinfo.WURCSFramework.util.array.WURCSExporter;
+import org.glycoinfo.WURCSFramework.util.array.WURCSImporter;
 import org.glycoinfo.WURCSFramework.util.rdf.WURCSBasetype;
-import org.glycoinfo.WURCSFramework.wurcs.UniqueRES;
-import org.glycoinfo.WURCSFramework.wurcs.WURCSArray;
+import org.glycoinfo.WURCSFramework.wurcs.array.UniqueRES;
+import org.glycoinfo.WURCSFramework.wurcs.array.WURCSArray;
 
 
 public class WURCSBaseTypeExample {

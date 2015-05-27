@@ -1,7 +1,7 @@
 package org.glycoinfo.WURCSFramework.wurcsRDF.uri;
 
 import org.glycoinfo.WURCSFramework.util.WURCSStringUtils;
-import org.glycoinfo.WURCSFramework.wurcs.UniqueRES;
+import org.glycoinfo.WURCSFramework.wurcs.array.UniqueRES;
 
 public class WURCSExporterURIWithAccessionNumber extends WURCSExporterURI {
 

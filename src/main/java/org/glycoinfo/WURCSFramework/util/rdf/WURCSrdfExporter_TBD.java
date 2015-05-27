@@ -6,14 +6,14 @@ import java.util.regex.Pattern;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
-import org.glycoinfo.WURCSFramework.wurcs.FuzzyGLIPOld;
-import org.glycoinfo.WURCSFramework.wurcs.GLIP;
-import org.glycoinfo.WURCSFramework.wurcs.LIN;
-import org.glycoinfo.WURCSFramework.wurcs.LIP;
-import org.glycoinfo.WURCSFramework.wurcs.MOD;
-import org.glycoinfo.WURCSFramework.wurcs.RES;
-import org.glycoinfo.WURCSFramework.wurcs.UniqueRES;
-import org.glycoinfo.WURCSFramework.wurcs.WURCSArray;
+import org.glycoinfo.WURCSFramework.wurcs.array.FuzzyGLIPOld;
+import org.glycoinfo.WURCSFramework.wurcs.array.GLIP;
+import org.glycoinfo.WURCSFramework.wurcs.array.LIN;
+import org.glycoinfo.WURCSFramework.wurcs.array.LIP;
+import org.glycoinfo.WURCSFramework.wurcs.array.MOD;
+import org.glycoinfo.WURCSFramework.wurcs.array.RES;
+import org.glycoinfo.WURCSFramework.wurcs.array.UniqueRES;
+import org.glycoinfo.WURCSFramework.wurcs.array.WURCSArray;
 //import org.glycoinfo.WURCSFramework.wurcsRDF.WURCSrdf;
 import org.glycoinfo.WURCSFramework.wurcsRDF.WURCSExporterRDF;
 
