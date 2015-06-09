@@ -39,6 +39,11 @@ public class Backbone extends WURCSComponent{
 		return this.m_aCarbons;
 	}
 
+	/** Get length of carbon chain */
+	public int getLength() {
+		return this.m_aCarbons.size();
+	}
+
 	/** Get skeltone code from BackboneCarbons */
 	public String getSkeletonCode() {
 		String code = "";
@@ -140,6 +145,18 @@ public class Backbone extends WURCSComponent{
 		return false;
 	}
 
+	/**
+	 * Calculate Backbone scores based on carbon score of CarbonDescriptor
+	 * @return Integer of backbone score
+	 */
+	public int getBackboneScore() {
+		int score = 0;
+		int length = this.m_aCarbons.size();
+		for ( int i=0; i<length; i++ )
+			score += (i+1) * this.m_aCarbons.get(i).getDesctriptor().getCarbonScore();
+		return score;
+	}
+
 	private void clear() {
 		this.m_aCarbons.clear();
 		this.m_objAnomericCarbon = null;
@@ -183,7 +200,7 @@ public class Backbone extends WURCSComponent{
 		}
 		for ( WURCSEdge edge : this.getEdges() ) {
 			for ( LinkagePosition link : edge.getLinkages() ) {
-				link.invertBackbonePosition(this.getBackboneCarbons().size());
+				link.invertBackbonePosition(this.m_aCarbons.size());
 			}
 		}
 	}

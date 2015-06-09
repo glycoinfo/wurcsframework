@@ -13,7 +13,7 @@ import org.glycoinfo.WURCSFramework.util.graph.traverser.WURCSGraphTraverserTree
 import org.glycoinfo.WURCSFramework.util.graph.visitor.WURCSVisitor;
 import org.glycoinfo.WURCSFramework.util.graph.visitor.WURCSVisitorCollectSequence;
 import org.glycoinfo.WURCSFramework.util.graph.visitor.WURCSVisitorException;
-import org.glycoinfo.WURCSFramework.util.graph.visitor.WURCSVisitorGroupBackbones;
+import org.glycoinfo.WURCSFramework.util.graph.visitor.WURCSVisitorCollectConnectingBackboneGroups;
 import org.glycoinfo.WURCSFramework.wurcs.array.GLIP;
 import org.glycoinfo.WURCSFramework.wurcs.array.GLIPs;
 import org.glycoinfo.WURCSFramework.wurcs.array.LIN;
@@ -216,7 +216,7 @@ public class WURCSGraphToArray implements WURCSVisitor {
 //		t_objTraverser.traverseGraph(a_objGraph);
 
 		// Check composition
-		WURCSVisitorGroupBackbones t_oGroup = new WURCSVisitorGroupBackbones();
+		WURCSVisitorCollectConnectingBackboneGroups t_oGroup = new WURCSVisitorCollectConnectingBackboneGroups();
 		t_oGroup.start(a_objGraph);
 		if ( t_oGroup.getBackboneGroups().size() > 1 )
 			this.m_bIsComposition = true;

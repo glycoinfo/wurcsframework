@@ -18,8 +18,8 @@ public enum CarbonDescriptor_TBD {
 //	SZ3_ACETAL_U   ( 'C', "sp3", 1,0, 2, null, null, "-O", "-O", "-X",  7 ), // -C(O)(O)(X) ver 2.0a new
 //	SZ3_DOUBLE_L   ( 'd', "sp3", 1,0, 2, null, null, "-X", "-X", "-H",  7 ), // -C(X)(X)(H) ver 2.0a change (from 'W')
 //	SZ3_DOUBLE_U   ( 'D', "sp3", 1,0, 2, null, null, "-X", "-X", "-X", 10 ), // -C(X)(X)(Y) ver 2.0a change (from 'L')
-	SZ3_ACETAL_L   ( 'c', "sp3", 1,0, 2, null, null, "-X", "-X", "-H",  6 ), // -C(X)(X)(H) ver 2.0b change (from 'd')
-	SZ3_ACETAL_U   ( 'C', "sp3", 1,0, 2, null, null, "-X", "-X", "-X",  7 ), // -C(X)(X)(X) ver 2.0b change (from 'D')
+	SZ3_ACETAL_L   ( 'c', "sp3", 1,0, 2, null, null, "-X", "-X", "-H",  8 ), // -C(X)(X)(H) ver 2.0b change (from 'd')
+	SZ3_ACETAL_U   ( 'C', "sp3", 1,0, 2, null, null, "-X", "-X", "-X", 10 ), // -C(X)(X)(X) ver 2.0b change (from 'D')
 //	SZ3_STEREO_S   ( '1', "sp3", 1,0, 3,  "S", true, "-X", "-X", "-H", 20 ), // -C(X)(Y)(H) ver 2.0a new                anomer
 //	SZ3_STEREO_R   ( '2', "sp3", 1,0, 3,  "R", true, "-X", "-X", "-H", 19 ), // -C(X)(Y)(H) ver 2.0a new                anomer
 //	SZ3_STEREO_s   ( '3', "sp3", 1,0, 3,  "s", true, "-X", "-X", "-H", 20 ), // -C(X)(Y)(H) ver 2.0a new                anomer
@@ -67,7 +67,7 @@ public enum CarbonDescriptor_TBD {
 //	DZ2_CISTRANS_NU( 'P', "sp2", 2,0, 2,  "N", null, "-X", "-X", null,  8 ), // =C(X)(Y) ver 2.0a new (impossible configuration)
 	DZ2_CISTRANS_XU( 'F', "sp2", 2,0, 2,  "X", null, "-X", "-X", null,  8 ), // =C(X)(Y) ver 2.0a new
 	SZ1_XETHYNE    ( 'T', "sp" , 1,0, 1, null, null, "#X", null, null, 10 ), // -C(#X) ver 2.0a change (from 'Y')
-	DZ1_KETENE_L   ( 'k', "sp" , 2,0, 1, null, null, "=O", null, null,  6 ), // =C(=O) ver 2.0a new
+//	DZ1_KETENE_L   ( 'k', "sp" , 2,0, 1, null, null, "=O", null, null,  6 ), // =C(=O) ver 2.0a new
 	DZ1_KETENE_U   ( 'K', "sp" , 2,0, 1, null, null, "=X", null, null,  6 ), // =C(=X) ver 2.0a change (from 'q')
 	TZ1_ETHYNE_L   ( 't', "sp" , 3,0, 1, null, null, "-H", null, null,  4 ), // #C(H)
 	TZ1_ETHYNE_U   ( 'T', "sp" , 3,0, 1, null, null, "-X", null, null,  6 ), // #C(X)
@@ -78,8 +78,9 @@ public enum CarbonDescriptor_TBD {
 	SZX_UNDEF_ALL  ( 'Q',  "?" , 1,0, 0, null, null, null, null, null,  0 ), // terminal carbon type undefined at all ver 2.0b change (from '0')
 	// Non-terminal
 	SS3_METHYNE    ( 'd', "sp3", 1,1, 1, null, null, "-H", "-H", null,  4 ), // -C(H)(H)-
-	SS3_ACETAL     ( 'c', "sp3", 1,1, 1, null, null, "-O", "-O", null,  6 ), // -C(O)(O)- ver 2.0a change (from 'b')
-	SS3_XMETHYNE   ( 'D', "sp3", 1,1, 1, null, null, "-X", "-X", null,  8 ), // -C(X)(X)-
+//	SS3_ACETAL     ( 'c', "sp3", 1,1, 1, null, null, "-O", "-O", null,  6 ), // -C(O)(O)- ver 2.0a change (from 'b')
+//	SS3_XMETHYNE   ( 'D', "sp3", 1,1, 1, null, null, "-X", "-X", null,  8 ), // -C(X)(X)-
+	SS3_ACETAL     ( 'C', "sp3", 1,1, 1, null, null, "-X", "-X", null,  8 ), // -C(X)(X)- ver 2.0b change (from 'c')
 	SS3_STEREO_S_L ( '1', "sp3", 1,1, 2,  "S", null, "-X", "-H", null,  8 ), // -C(X)(Y)- ver 2.0a new
 	SS3_STEREO_R_L ( '2', "sp3", 1,1, 2,  "R", null, "-X", "-H", null,  7 ), // -C(X)(Y)- ver 2.0a new
 	SS3_STEREO_s_L ( '3', "sp3", 1,1, 2,  "s", null, "-X", "-H", null,  8 ), // -C(X)(Y)- ver 2.0a new

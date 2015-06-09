@@ -137,35 +137,51 @@ public class WURCSJsonExporter {
 	 */
 	private JSONObject extractGLIN(GRES a_objGRES) {
 		JSONObject ret = new JSONObject();
-		ArrayList<LinkedList<Integer>> acceptor = new ArrayList<LinkedList<Integer>>();
-		ArrayList<LinkedList<Integer>> donor = new ArrayList<LinkedList<Integer>>();
 		ArrayList<String> child = new ArrayList<String>();
+		ArrayList<LinkedList<Integer>> donor = new ArrayList<LinkedList<Integer>>();
+		ArrayList<LinkedList<Integer>> acceptor = new ArrayList<LinkedList<Integer>>();
 		
-		for(GLIN glinItem : a_objGRES.getAcceptorGLINs()) {
-			if(!glinItem.isRepeat()) {
-				//extract child position
-				donor.add(glinItem.getDonorPositions());
-				//extract parent position
-				acceptor.add(glinItem.getAcceptorPositions());
-				//extract child
-				for(MS childMS : glinItem.getDonorMSs()) child.add(childMS.getString());
-
-				ret.put("child", child);
-				ret.put("Donor", donor);
-				ret.put("Acceptor", acceptor);
+		for(GLIN aGLIN : a_objGRES.getAcceptorGLINs()) {
+			if(!aGLIN.isRepeat()) {
+				donor.add(aGLIN.getDonorPositions());
+				acceptor.add(aGLIN.getAcceptorPositions());
+				for(MS childMS : aGLIN.getDonorMSs()) child.add(childMS.getString());
 				continue;
 			}
 			
 			//extract repeating imformation
-			if(glinItem.getRepeatCountMax() != 0) {
+			if(aGLIN.getRepeatCountMax() != 0) {
 				JSONObject repeatEnd = new JSONObject();
-				repeatEnd.put("start", glinItem.getDonorMSs().getFirst().getString());
-				repeatEnd.put("min", glinItem.getRepeatCountMin());
-				repeatEnd.put("max", glinItem.getRepeatCountMax());
-				repeatEnd.put("bridge", glinItem.getMAP());
-				repeatEnd.put("donor", glinItem.getDonorPositions());
-				repeatEnd.put("acceptor", glinItem.getAcceptorPositions());
+				repeatEnd.put("start", aGLIN.getDonorMSs().getFirst().getString());
+				repeatEnd.put("min", aGLIN.getRepeatCountMin());
+				repeatEnd.put("max", aGLIN.getRepeatCountMax());
+				repeatEnd.put("bridge", aGLIN.getMAP());
+				repeatEnd.put("pDonor", aGLIN.getDonorPositions());
+				repeatEnd.put("pAcceptor", aGLIN.getAcceptorPositions());
+				repeatEnd.put("pos", "end");
 				ret.put("repeat", repeatEnd);					
+			}
+		}
+		
+		ret.put("child", child);
+		ret.put("pDonor", donor);
+		ret.put("pAcceptor", acceptor);
+		
+		System.out.println("===>" + ret);
+		
+		for(GLIN cGLIN : a_objGRES.getDonorGLINs()) {
+			if(cGLIN.getRepeatCountMax() != 0) {
+				JSONObject repeatStart = new JSONObject();
+				repeatStart.put("pos", "start");
+				repeatStart.put("cDonor", cGLIN.getDonorPositions());
+				repeatStart.put("cAcceptor", cGLIN.getAcceptorPositions());
+				repeatStart.put("end", cGLIN.getAcceptorMSs().getFirst().getString());
+				ret.put("repeat", repeatStart);
+			}
+			
+			if(!cGLIN.isRepeat()) {
+				ret.put("cDonor", cGLIN.getDonorPositions());
+				ret.put("cAcceptor", cGLIN.getAcceptorPositions());
 			}
 		}
 		

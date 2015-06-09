@@ -12,7 +12,7 @@ import org.glycoinfo.WURCSFramework.wurcs.graph.Modification;
 import org.glycoinfo.WURCSFramework.wurcs.graph.WURCSEdge;
 import org.glycoinfo.WURCSFramework.wurcs.graph.WURCSGraph;
 
-public class WURCSVisitorGroupBackbones implements WURCSVisitor {
+public class WURCSVisitorCollectConnectingBackboneGroups implements WURCSVisitor {
 
 	private LinkedList<HashSet<Backbone>> m_aBackboneGroups = new LinkedList<HashSet<Backbone>>();
 

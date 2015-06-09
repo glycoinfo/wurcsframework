@@ -1,10 +1,8 @@
 package org.glycoinfo.WURCSFramework.util.graph.comparator;
 
 import java.util.Comparator;
-import java.util.LinkedList;
 
 import org.glycoinfo.WURCSFramework.wurcs.graph.Backbone;
-import org.glycoinfo.WURCSFramework.wurcs.graph.BackboneCarbon;
 import org.glycoinfo.WURCSFramework.wurcs.graph.BackboneUnknown;
 
 /**
@@ -28,7 +26,7 @@ public class BackboneComparator implements Comparator<Backbone> {
 
 		// For backbone length
 		// Prioritize longer backbone
-		int t_iComp = b2.getBackboneCarbons().size() - b1.getBackboneCarbons().size();
+		int t_iComp = b2.getLength() - b1.getLength();
 		if ( t_iComp != 0 ) return t_iComp;
 
 		// For score of backbone carbons
@@ -46,8 +44,10 @@ public class BackboneComparator implements Comparator<Backbone> {
 	}
 
 	public int compareBackboneScore(Backbone b1, Backbone b2) {
-		int score1 = this.getBackboneScore(b1);
-		int score2 = this.getBackboneScore(b2);
+//		int score1 = this.getBackboneScore(b1);
+//		int score2 = this.getBackboneScore(b2);
+		int score1 = b1.getBackboneScore();
+		int score2 = b2.getBackboneScore();
 		// Prioritize smaller score
 		return score1 - score2;
 	}
@@ -59,9 +59,9 @@ public class BackboneComparator implements Comparator<Backbone> {
 	 */
 	private int getBackboneScore(Backbone b) {
 		int score = 0;
-		LinkedList<BackboneCarbon> t_aBCs = b.getBackboneCarbons();
-		for ( int i=0; i<t_aBCs.size(); i++ )
-			score += (i+1) * t_aBCs.get(i).getDesctriptor().getCarbonScore();
+		int length = b.getBackboneCarbons().size();
+		for ( int i=0; i<length; i++ )
+			score += (i+1) * b.getBackboneCarbons().get(i).getDesctriptor().getCarbonScore();
 		return score;
 	}
 }

@@ -16,6 +16,7 @@ import org.glycoinfo.WURCSFramework.wurcs.array.LIN;
 import org.glycoinfo.WURCSFramework.wurcs.array.LIP;
 import org.glycoinfo.WURCSFramework.wurcs.array.LIPs;
 import org.glycoinfo.WURCSFramework.wurcs.array.MOD;
+import org.glycoinfo.WURCSFramework.wurcs.array.MS;
 import org.glycoinfo.WURCSFramework.wurcs.array.RES;
 import org.glycoinfo.WURCSFramework.wurcs.array.UniqueRES;
 import org.glycoinfo.WURCSFramework.wurcs.array.WURCSArray;
@@ -109,33 +110,41 @@ public class WURCSExporter {
 	}
 
 	/**
-	 * Get string of UniqueRES
+	 * Get string of UniqueRES (same as getMSString())
 	 * @param a_oURES
 	 * @return String of UniqueRES
 	 */
 	public String getUniqueRESString( UniqueRES a_oURES ) {
+		return this.getMSString(a_oURES);
+	}
 
-		// SkeletonCode in UniqueRES
-		String t_strURES = a_oURES.getSkeletonCode();
+	/**
+	 * Get string of MS
+	 * @param a_oMS
+	 * @return String of MS
+	 */
+	public String getMSString( MS a_oMS ) {
+		// SkeletonCode in MS
+		String t_strMS = a_oMS.getSkeletonCode();
 
-		// Anomeric position and symbol in UniqueRES
-		if ( a_oURES.getAnomericPosition() != 0 ) {
-			String t_strAnomPos = ""+a_oURES.getAnomericPosition();
+		// Anomeric position and symbol in MS
+		if ( a_oMS.getAnomericPosition() != 0 ) {
+			String t_strAnomPos = ""+a_oMS.getAnomericPosition();
 			if ( t_strAnomPos.equals("-1") ) t_strAnomPos = "?";
-			t_strURES += "-" + t_strAnomPos + a_oURES.getAnomericSymbol();
+			t_strMS += "-" + t_strAnomPos + a_oMS.getAnomericSymbol();
 		}
 		// For open chain of unknown RES
-		if ( a_oURES.getAnomericPosition() == 0 && a_oURES.getAnomericSymbol() == 'o' ) {
-			t_strURES += "-0o";
+		if ( a_oMS.getSkeletonCode().equals("<0>") && a_oMS.getAnomericPosition() == 0 && a_oMS.getAnomericSymbol() == 'o' ) {
+			t_strMS += "-0o";
 		}
 
-		// MODs in UniqueRES
-		LinkedList<MOD> t_aMODs = a_oURES.getMODs();
+		// MODs in MS
+		LinkedList<MOD> t_aMODs = a_oMS.getMODs();
 		Collections.sort( t_aMODs, this.m_oMODComp );
 		for ( MOD t_oMOD : t_aMODs )
-			t_strURES += "_" + this.getMODString(t_oMOD);
+			t_strMS += "_" + this.getMODString(t_oMOD);
 
-		return t_strURES;
+		return t_strMS;
 	}
 
 	/**

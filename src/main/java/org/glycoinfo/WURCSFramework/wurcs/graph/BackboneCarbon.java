@@ -19,7 +19,7 @@ public class BackboneCarbon {
 	 * Private constructor
 	 * @param a_oBackbone Backbone which contain this
 	 * @param a_enumCarbonDescriptor CarbonDescriptor
-	 * @param a_bIsAnomeric Whether this is anomeric like or not 
+	 * @param a_bIsAnomeric Whether this is anomeric like or not
 	 * @param a_bIsUnknown Whether the length is unknown or not
 	 */
 	public BackboneCarbon( Backbone a_oBackbone, CarbonDescriptor a_enumCarbonDescriptor, boolean a_bIsAnomeric, boolean a_bIsUnknown ) {
