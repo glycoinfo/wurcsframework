@@ -46,7 +46,7 @@ public class WURCSGraphTraverserTreeStoppable extends WURCSGraphTraverserTree {
 		a_objEdge.accept(this.m_objVisitor);
 
 		if ( this.m_aSearchedEdges.contains(a_objEdge) )
-			throw new WURCSVisitorException("Illegal traverse.");
+			throw new WURCSVisitorException("Illegal traverse in class WURCSGraphTraverserTreeStoppable(traverse).");
 
 		this.m_aSearchedEdges.add(a_objEdge);
 

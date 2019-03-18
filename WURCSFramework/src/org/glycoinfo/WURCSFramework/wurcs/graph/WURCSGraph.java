@@ -37,7 +37,7 @@ public class WURCSGraph {
 		}
 		if ( t_aResult.size() > 0 ) return t_aResult;
 
-		throw new WURCSException("WURCSGraph seems not to have at least one root residue");
+		throw new WURCSException("WURCSGraph seems not to have at least one root residue in class WURCSGraph(getRootBackbones)");
 	}
 
 	/**
@@ -95,13 +95,13 @@ public class WURCSGraph {
 		WURCSEdge t_objLinkage;
 		WURCSComponent t_objResidue;
 		if ( a_objResidue == null )
-			throw new WURCSException("Invalide residue.");
+			throw new WURCSException("Invalide residue in class WURCSGraph(removeEdgesAroundComponent).");
 		// Search edges on the modification
 		while ( !a_objResidue.getEdges().isEmpty() ) {
 			t_objLinkage = a_objResidue.getEdges().getFirst();
 			t_objResidue = t_objLinkage.getBackbone();
 			if ( t_objResidue == null )
-				throw new WURCSException("A linkage with a null residue exists.");
+				throw new WURCSException("A linkage with a null residue exists in class WURCSGraph(removeEdgesAroundComponent).");
 			// Remove edge
 			t_objResidue.removeEdge(t_objLinkage);
 			a_objResidue.removeEdge(t_objLinkage);
@@ -132,7 +132,7 @@ public class WURCSGraph {
 	 */
 	public boolean addBackbone(Backbone a_objResidue) throws WURCSException {
 		if ( a_objResidue == null )
-			throw new WURCSException("Invalide residue.");
+			throw new WURCSException("Invalide residue in class WURCSGraph(addBAckbone).");
 
 		if ( this.m_aBackbones.contains(a_objResidue) ) return false;
 		a_objResidue.removeAllEdges();
@@ -149,9 +149,9 @@ public class WURCSGraph {
 	 */
 	public boolean addResidues(Backbone a_objBackbone, WURCSEdge a_objLinkage, Modification a_objModification) throws WURCSException {
 		if ( a_objBackbone == null || a_objModification == null )
-			throw new WURCSException("Invalide residue.");
+			throw new WURCSException("Invalide residue in class WURCSGraph(addResidues).");
 		if ( a_objLinkage == null )
-			throw new WURCSException("Invalide linkage.");
+			throw new WURCSException("Invalide linkage in class WURCSGraph(addResidues).");
 
 		// For new Backbone
 		if ( !this.m_aBackbones.contains(a_objBackbone) ) {
@@ -159,7 +159,7 @@ public class WURCSGraph {
 			this.m_aBackbones.add(a_objBackbone);
 		}
 		if ( !this.m_aBackbones.contains(a_objBackbone) )
-			throw new WURCSException("Critical error imposible to add residue.");
+			throw new WURCSException("Critical error imposible to add residue in class WURCSGraph(addResidues).");
 
 		// For new Modification
 		if ( !this.m_aModifications.contains(a_objModification) ) {
@@ -167,19 +167,19 @@ public class WURCSGraph {
 			this.m_aModifications.add(a_objModification);
 		}
 		if ( !this.m_aModifications.contains(a_objModification) )
-			throw new WURCSException("Critical error imposible to add residue.");
+			throw new WURCSException("Critical error imposible to add residue in class WURCSGraph(addResidues).");
 
 /*
-		// Check other linkage between the backbone and modification
-		for ( WURCSEdge edge : a_objBackbone.getEdges() ) {
-			if ( !edge.getModification().equals(a_objModification) ) continue;
-			throw new WURCSException("The backbone and modification has already been connected.");
-		}
-
-		for ( WURCSEdge edge : a_objModification.getEdges() ) {
-			if ( !edge.getBackbone().equals(a_objBackbone) ) continue;
-			throw new WURCSException("The backbone and modification has already been connected.");
-		}
+//		// Check other linkage between the backbone and modification
+//		for ( WURCSEdge edge : a_objBackbone.getEdges() ) {
+//			if ( !edge.getModification().equals(a_objModification) ) continue;
+//			throw new WURCSException("The backbone and modification has already been connected.");
+//		}
+//
+//		for ( WURCSEdge edge : a_objModification.getEdges() ) {
+//			if ( !edge.getBackbone().equals(a_objBackbone) ) continue;
+//			throw new WURCSException("The backbone and modification has already been connected.");
+//		}
 */
 		// Test for indirect cyclic structures
 //		if ( this.isParent(a_objModification,a_objBackbone) )
@@ -238,4 +238,36 @@ public class WURCSGraph {
 
 		return copy;
 	}
+// repeat and cyclic is not implemented in yet.
+	public void dump() {
+//		System.out.print("Dump>");
+		for (Backbone t_objBackbone : this.getBackbones()) {
+			System.out.print(this.getBackbones().indexOf(t_objBackbone)+","+t_objBackbone.getSkeletonCode()+"-"+t_objBackbone.getAnomericPosition()+t_objBackbone.getAnomericSymbol()+",");
+			for(WURCSEdge t_objEdge : t_objBackbone.getEdges()) {
+				System.out.print("["+this.getBackbones().indexOf(t_objEdge.getBackbone())+"-"+this.getModifications().indexOf(t_objEdge.getModification()));
+				if(t_objEdge.isReverse()) {System.out.print(",r");} else {System.out.print(",n");};
+				if(t_objEdge.isAnomeric()) {System.out.print(",a");} else {System.out.print(",n");};
+				for(LinkagePosition t_objLinkage : t_objEdge.getLinkages()) {
+					System.out.print("<"+t_objLinkage.getBackbonePosition()+","+t_objLinkage.getModificationPosition()+",");
+					System.out.print(t_objLinkage.getProbabilityLower()+"-"+t_objLinkage.getProbabilityUpper()+">");
+					}
+				System.out.print("]");
+				}
+//			System.out.println();
+			}
+		for (Modification t_objModification : this.getModifications()) {
+			System.out.print(this.getModifications().indexOf(t_objModification)+t_objModification.getMAPCode()+",");
+			for(WURCSEdge t_objEdge : t_objModification.getEdges()) {
+				System.out.print("["+this.getModifications().indexOf(t_objEdge.getModification())+"-"+this.getBackbones().indexOf(t_objEdge.getBackbone()));
+				if(t_objEdge.isReverse()) {System.out.print(",r");} else {System.out.print(",n");};
+				for(LinkagePosition t_objLinkage : t_objEdge.getLinkages()) {
+					System.out.print("<"+t_objLinkage.getBackbonePosition()+","+t_objLinkage.getModificationPosition()+",");
+					System.out.print(t_objLinkage.getProbabilityLower()+"-"+t_objLinkage.getProbabilityUpper()+">");
+					}
+				System.out.print("]");
+				}
+//			System.out.println();
+			}
+	}
+
 }

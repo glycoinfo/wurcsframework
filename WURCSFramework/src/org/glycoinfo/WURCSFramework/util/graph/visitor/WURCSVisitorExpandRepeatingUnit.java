@@ -76,12 +76,12 @@ public class WURCSVisitorExpandRepeatingUnit implements WURCSVisitor {
 			ModificationRepeat t_oModRep = (ModificationRepeat)t_oMod;
 
 			if ( t_oModRep.getMinRepeatCount() == -1 || t_oModRep.getMaxRepeatCount() == -1 ) {
-				System.err.println("Can't expand repeating unit with unknown repeat count.");
+				System.err.println("[info] Can't expand repeating unit with unknown repeat count in class WURCSVisitorExpandrepeatingUnit(start(WURCSEdge)).");
 				t_aIgnoreModReps.add(t_oModRep);
 				continue;
 			}
 			if ( t_oModRep.getMinRepeatCount() != t_oModRep.getMaxRepeatCount() ) {
-				System.err.println("Can't expand repeating unit with ranged repeat count.");
+				System.err.println("[info] Can't expand repeating unit with ranged repeat count. in class WURCSVisitorExpandrepeatingUnit(start(WURCSEdge))");
 				t_aIgnoreModReps.add(t_oModRep);
 				continue;
 			}
@@ -90,7 +90,7 @@ public class WURCSVisitorExpandRepeatingUnit implements WURCSVisitor {
 
 		if ( t_aModReps.isEmpty() ) return;
 
-		System.err.println("Repeating unit expansion>>>");
+		System.err.println("[info] Repeating unit expansion>>> in class WURCSVisitorExpandrepeatingUnit(start(WURCSEdge))");
 		// Check nested repeating structure
 		LinkedList<ModificationRepeat> t_aSortedModReps = new LinkedList<ModificationRepeat>();
 //		this.m_bCheckNested = true;
@@ -102,7 +102,7 @@ public class WURCSVisitorExpandRepeatingUnit implements WURCSVisitor {
 			this.traverseRepeat(t_oModRep);
 
 			if ( this.m_aModificationsOfRepeat.contains(t_oModRep) )
-				throw new WURCSVisitorException("Illegal composition of repeating unit is found.");
+				throw new WURCSVisitorException("Illegal composition of repeating unit is found in class WURCSVisitorExpandRepeatingUnit(start).");
 
 			// Add sorted list if no nested repeating unit in the repeating unit
 			boolean t_bCheckNested = false;
@@ -265,7 +265,7 @@ public class WURCSVisitorExpandRepeatingUnit implements WURCSVisitor {
 			t_oG2A.start(this.m_oGraph);
 			WURCSArray t_oArray = t_oG2A.getWURCSArray();
 			String t_strWURCS = (new WURCSExporter()).getWURCSString(t_oArray);
-			System.err.println(t_strWURCS);
+			System.err.println("[info] "+t_strWURCS+" in class expandRepeatingUnits(ModificationRepeat)");
 
 //			t_oStartRepB = t_mapOrig2CopyB.get(t_oStartRepB);
 //			t_oEndRepB = t_mapOrig2CopyB.get(t_oEndRepB);
@@ -279,13 +279,13 @@ public class WURCSVisitorExpandRepeatingUnit implements WURCSVisitor {
 
 	private void traverseRepeat(ModificationRepeat a_objRepeat) throws WURCSVisitorException {
 		if ( a_objRepeat.getEdges().size() != 2 )
-			throw new WURCSVisitorException("Repeat linkage must have two edges.");
+			throw new WURCSVisitorException("Repeat linkage must have two edges in class WURCSVisitorEXpandRepeatingUnit(traverseRepeat).");
 
 		// Set start and end edge on repeating linkage
 		boolean t_bFirstIsStart = this.isStartEdge(a_objRepeat.getEdges().getFirst());
 		boolean t_bLastIsStart  = this.isStartEdge(a_objRepeat.getEdges().getLast());
 		if ( ( t_bFirstIsStart &&  t_bLastIsStart ) || (!t_bFirstIsStart && !t_bLastIsStart ) )
-			throw new WURCSVisitorException("Can't be specified start edge for repeating unit.");
+			throw new WURCSVisitorException("Can't be specified start edge for repeating unit in class WURCSVisitorEXpandRepeatingUnit(traverseRepeat).");
 
 		this.m_oRepeatEdgeStartSide = (t_bFirstIsStart)? a_objRepeat.getEdges().getFirst() : a_objRepeat.getEdges().getLast();
 		this.m_oRepeatEdgeEndSide   = (t_bFirstIsStart)? a_objRepeat.getEdges().getLast()  : a_objRepeat.getEdges().getFirst();
@@ -310,9 +310,9 @@ public class WURCSVisitorExpandRepeatingUnit implements WURCSVisitor {
 		// Traverse from backbone of start edge
 		this.m_oTraverser = (WURCSGraphTraverserTreeStoppable)this.getTraverser(this);
 		// XXX remove comment
-		System.err.println(this.m_oRepeatEdgeStartSide.printEdge()+" : "+this.m_oRepeatEdgeEndSide.printEdge());
+		System.err.println("[info] "+this.m_oRepeatEdgeStartSide.printEdge()+" : "+this.m_oRepeatEdgeEndSide.printEdge()+"WURCSVisitorExpandRepeatingUnit(traverseRepeat(ModificationRepeat)");
 		if ( this.m_oUnitStartEdge != null && this.m_oUnitEndEdge != null )
-			System.err.println(this.m_oUnitStartEdge.printEdge()+" : "+this.m_oUnitEndEdge.printEdge());
+			System.err.println("[info] "+ this.m_oUnitStartEdge.printEdge()+" : "+this.m_oUnitEndEdge.printEdge()+"WURCSVisitorExpandRepeatingUnit(traverseRepeat(ModificationRepeat)");
 		this.m_oTraverser.traverse(this.m_oRepeatEdgeStartSide.getBackbone());
 
 	}

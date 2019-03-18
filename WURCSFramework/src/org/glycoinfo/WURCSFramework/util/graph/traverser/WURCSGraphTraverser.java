@@ -22,7 +22,7 @@ public abstract class WURCSGraphTraverser {
 
 	public WURCSGraphTraverser ( WURCSVisitor a_objVisitor ) throws WURCSVisitorException {
 		if ( a_objVisitor == null )
-			throw new WURCSVisitorException("Null visitor given to traverser");
+			throw new WURCSVisitorException("Null visitor given to traverser in class WURCSGraphTraverser(constructor)");
 
 		this.m_objVisitor = a_objVisitor;
 	}

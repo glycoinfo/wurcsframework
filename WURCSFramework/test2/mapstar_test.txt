@@ -1,0 +1,17 @@
+G74678YC	WURCS=2.0/3,6,5/[a2122h-1x_1-5_2*NCC/3=O][a2112h-1x_1-5][a2112h-1x_1-5_2*NCC/3=O]/1-2-1-2-3-2/a?-b1_c?-d1_e?-f1_a1-e?|f?}_c1-e?|f?}
+G94304ZN	WURCS=2.0/3,6,5/[a2122h-1b_1-5_2*NCC/3=O][a2112h-1b_1-5][a2112h-1x_1-5_2*NCC/3=O]/1-2-1-2-3-2/a4-b1_c4-d1_e3-f1_a1-e?|f?}_c1-e?|f?}
+G00194GV        WURCS=2.0/2,2,1/[uxxxxm][uxxxxh_2*NCC/3=O]/1-2/a?|b?}-{a?|b?
+G00165TI	WURCS=2.0/4,7,6/[uxxxxm][uxxxxh_2*NCC/3=O][uxxxxh][uxxxh]/1-2-2-2-3-3-4/a?|b?|c?|d?|e?|f?|g?}-{a?|b?|c?|d?|e?|f?|g?_a?|b?|c?|d?|e?|f?|g?}-{a?|b?|c?|d?|e?|f?|g?_a?|b?|c?|d?|e?|f?|g?}-{a?|b?|c?|d?|e?|f?|g?_a?|b?|c?|d?|e?|f?|g?}-{a?|b?|c?|d?|e?|f?|g?_a?|b?|c?|d?|e?|f?|g?}-{a?|b?|c?|d?|e?|f?|g?_a?|b?|c?|d?|e?|f?|g?}-{a?|b?|c?|d?|e?|f?|g?
+G00003VQ	WURCS=2.0/4,5,5/[a2112h-1b_1-5_2*NCC/3=O][a2122A-1b_1-5][a2112h-1a_1-5][a2122h-1b_1-5]/1-2-1-3-4/a3-b1_b4-c1_c4-d1_d3-e1_a1-e4~n
+G00019UX	WURCS=2.0/3,3,3/[a1122h-1a_1-5][a2211m-1a_1-5][a121h-1b_1-5]/1-2-3/a4-b1_b2-c1_a1-b3~n
+G00285OE	WURCS=2.0/2,3,3/[u2112A][a2112A-1a_1-5]/1-2-2/a4-b1_b4-c1_b1-b4~9
+G93234MH	WURCS=2.0/1,3,4/[a2122h-1a_1-5]/1-1-1/a1-c4_a4-b1_b4-c1_a1-a4~n
+G08645EI	WURCS=2.0/1,2,1/[hxh]/1-1/a3n1-b1n2*1NC(CCCC^ECC$4)/9I/8CNCCO/11=O/7I/6N*2/18CC/20=O/5I/3=O
+G98645EI	WURCS=2.0/2,2,1/[hxh][hxxxh]/1-2/a3n1-b1n2*1NC(CCCC^ECC$4)/9I/8CNCCO/11=O/7I/6N*2/18CC/20=O/5I/3=O
+G08645EJ	WURCS=2.0/1,2,1/[hxh]/1-1/a3n2-b1n1*1NC(CCCC^ECC$4)/9I/8CNCCO/11=O/7I/6N*2/18CC/20=O/5I/3=O
+G41720GA	WURCS=2.0/2,2,1/[hxh_1-2][hxh_2-3]/1-2/a3n1-b1n2*1O(C^ECC^ZCC^ZC$3)/6C(C^ZCC^ZCC^ZC$10/9=CC^ECCC^ZC$16)/19=O/17O$5/11CO*2/24=O
+G08098NX	WURCS=2.0/4,6,6/[a2211m-1a_1-5][a2122A-1b_1-5][a2122h-1b_1-5_3n2-4n1*1OC^RO*2/3CO/6=O/3C][a2112h-1b_1-5]/1-1-1-2-3-4/a2-b1_b3-c1_c2-d1_c3-f1_d4-e1_a1-f4~n
+G08098NY	WURCS=2.0/4,6,6/[a2211m-1a_1-5][a2122A-1b_1-5][a2122h-1b_1-5_3n1-4n2*1OC^RO*2/3CO/6=O/3C][a2112h-1b_1-5]/1-1-1-2-3-4/a2-b1_b3-c1_c2-d1_c3-f1_d4-e1_a1-f4~n
+G93257YT	WURCS=2.0/2,6,5/[o222h][a222h-1x_1-4]/1-2-2-2-2-2/c1-d1_e1-f1_a?-b1_b?-f?*OPO*/3O/3=O_c?-e?*OPO*/3O/3=O
+G93257YU	WURCS=2.0/2,6,5/[o222h][a222h-1x_1-4]/1-2-2-2-2-2/c1-d1_e1-f1_a?-b1_b?-e?*OPO*/3O/3=O_c?-f?*OPO*/3O/3=O
+

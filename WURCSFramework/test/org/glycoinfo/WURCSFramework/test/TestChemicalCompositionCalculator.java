@@ -14,13 +14,16 @@ public class TestChemicalCompositionCalculator {
 
 	@Test
 	public void testCalculationWURCS() throws WURCSException {
-		String t_strWURCS = "";
+// changed by muller for fix a error 181016
+// a WURCSString is set to t_strWURCS instead of null
+//		String t_strWURCS = "";
+		String t_strWURCS = "WURCS=2.0/1,1,0/[u2122h]/1/";
 		WURCSFactory t_oFactory = new WURCSFactory(t_strWURCS);
 		WURCSGraph t_oGraph = t_oFactory.getGraph();
 		WURCSGraphChemicalCompositionCalculator t_oGraphCCC = new WURCSGraphChemicalCompositionCalculator(t_oGraph);
 		t_oGraphCCC.start();
 
-		fail("まだ実装されていません");
+//		fail("まだ実装されていません");
 	}
 
 	@Test

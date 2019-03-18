@@ -41,7 +41,7 @@ public class WURCSGraphTraverserNoBranch extends WURCSGraphTraverser {
 	@Override
 	public void traverse(WURCSEdge a_objEdge) throws WURCSVisitorException {
 		if ( this.m_aSearchedEdges.contains(a_objEdge) )
-			throw new WURCSVisitorException("Illegal traverse.");
+			throw new WURCSVisitorException("Illegal traverse in class WURCSGraphTraverserNoBranch(traverse).");
 
 		// callback of the function before subtree
 		this.m_iState = WURCSGraphTraverser.ENTER;

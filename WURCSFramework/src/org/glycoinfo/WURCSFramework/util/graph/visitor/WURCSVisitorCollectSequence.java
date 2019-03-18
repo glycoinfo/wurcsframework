@@ -11,6 +11,7 @@ import org.glycoinfo.WURCSFramework.util.graph.traverser.WURCSGraphTraverserNoBr
 import org.glycoinfo.WURCSFramework.wurcs.graph.Backbone;
 import org.glycoinfo.WURCSFramework.wurcs.graph.InterfaceRepeat;
 import org.glycoinfo.WURCSFramework.wurcs.graph.Modification;
+import org.glycoinfo.WURCSFramework.wurcs.graph.ModificationAlternative;
 import org.glycoinfo.WURCSFramework.wurcs.graph.WURCSComponent;
 import org.glycoinfo.WURCSFramework.wurcs.graph.WURCSEdge;
 import org.glycoinfo.WURCSFramework.wurcs.graph.WURCSGraph;
@@ -28,6 +29,8 @@ public class WURCSVisitorCollectSequence implements WURCSVisitor {
 
 	private LinkedList<Modification> m_aRepeats = new LinkedList<Modification>();
 	private LinkedList<Modification> m_aLeaves  = new LinkedList<Modification>();
+	private LinkedList<ModificationAlternative> m_aCompositionLinkages = new LinkedList<ModificationAlternative>();
+	private LinkedList<ModificationAlternative> m_aCompositionSubstituents = new LinkedList<ModificationAlternative>();
 
 	private LinkedList<Integer> m_aBranchingPoints = new LinkedList<Integer>();
 	private int m_nBranchBackbone = 0;
@@ -81,6 +84,22 @@ public class WURCSVisitorCollectSequence implements WURCSVisitor {
 	 */
 	public LinkedList<Modification> getLeafModifications() {
 		return this.m_aLeaves;
+	}
+
+	/**
+	 * Get composition linkages
+	 * @return
+	 */
+	public LinkedList<ModificationAlternative> getCompositionLinkageModifications() {
+		return this.m_aCompositionLinkages;
+	}
+
+	/**
+	 * Get composition substituents
+	 * @return
+	 */
+	public LinkedList<ModificationAlternative> getCompositionSubstituentModifications() {
+		return this.m_aCompositionSubstituents;
 	}
 
 	/**
@@ -145,10 +164,10 @@ public class WURCSVisitorCollectSequence implements WURCSVisitor {
 	@Override
 	public void visit(Backbone a_objBackbone) throws WURCSVisitorException {
 		if ( this.m_aParentNodes.contains(a_objBackbone) )
-			throw new WURCSVisitorException("The backbone is already added in parent sequence.");
+			throw new WURCSVisitorException("The backbone is already added in parent sequence in class WURCSVisitorCollectSequence(visit).");
 
 		if ( this.m_aNodes.contains(a_objBackbone) )
-			throw new WURCSVisitorException("The backbone is already added.");
+			throw new WURCSVisitorException("The backbone is already added in class WURCSVisitorCollectSequence(visit).");
 
 		// Add node
 		this.m_aNodes.addLast(a_objBackbone);
@@ -203,11 +222,25 @@ public class WURCSVisitorCollectSequence implements WURCSVisitor {
 
 	@Override
 	public void visit(Modification a_objModification) throws WURCSVisitorException {
+		// 2018/10/02 Masaaki Added
+		// Collect composition linkages
+		if ( a_objModification instanceof ModificationAlternative ) {
+			ModificationAlternative t_oModAlt = (ModificationAlternative)a_objModification;
+			if ( t_oModAlt.isGlycosidicLinkageForComposition() ) {
+				if ( !this.m_aCompositionLinkages.contains(t_oModAlt) )
+					this.m_aCompositionLinkages.add(t_oModAlt);
+			}
+			if ( t_oModAlt.isUnderdeteminedSubstituent() ) {
+				if ( this.m_aCompositionSubstituents.contains(t_oModAlt))
+					this.m_aCompositionSubstituents.add(t_oModAlt);
+			}
+		}
+
 		// Ignore modificaitons of monosaccharide
 		if ( !a_objModification.isGlycosidic() ) return;
 
 		if ( this.m_aNodes.contains(a_objModification) )
-			throw new WURCSVisitorException("The modification is already added.");
+			throw new WURCSVisitorException("The modification is already added in class WURCSVisitorCollectSequence(visit).");
 
 		// Add node
 		this.m_aNodes.addLast(a_objModification);
@@ -242,7 +275,7 @@ public class WURCSVisitorCollectSequence implements WURCSVisitor {
 		// TODO: to make testcase
 		for ( LinkedList<WURCSEdge> t_aMultiEdge : this.m_aMultiEdges ) {
 			if ( t_aMultiEdge.contains(a_objWURCSEdge) )
-				throw new WURCSVisitorException("The edge is already added.");
+				throw new WURCSVisitorException("The edge is already added in class WURCSVisitorCollectSequence(visit).");
 		}
 		LinkedList<WURCSEdge> t_aEdge = new LinkedList<WURCSEdge>();
 		t_aEdge.addLast(a_objWURCSEdge);

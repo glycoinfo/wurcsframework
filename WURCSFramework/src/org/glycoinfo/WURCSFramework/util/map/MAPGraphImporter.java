@@ -113,7 +113,7 @@ public class MAPGraphImporter {
 
 			// Error if no stereochemistry on aromatic bond
 			if ( t_oPrevAtom != null && t_oPrevAtom.isAromatic() && t_oAtom.isAromatic() && t_enumBondStereo == null )
-				throw new WURCSFormatException("Aromatic bond must have stereochemistry.");
+				throw new WURCSFormatException("Aromatic bond must have stereochemistry in class MAPGraphImporter(parseMAP).");
 
 			// Connect atoms
 			if ( t_oPrevAtom != null ) {

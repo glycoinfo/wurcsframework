@@ -9,7 +9,7 @@ public enum DirectionDescriptor {
 	E('e', 4), // Trans (entgegen)
 	Z('z', 5), // Cis (zusammen)
 	X('x', 6), // Unknown chiral or unknown geometrical isomerism
-	_(' ', 7); // Compressed
+	L(' ', 7); // Compressed
 
 	private char m_cSymbol;
 	private int  m_iScore;

@@ -56,7 +56,7 @@ public class WURCSVisitorStripTypeIIIModification implements WURCSVisitor {
 			MAPGraphAnalyzer t_oMAPAnal = new MAPGraphAnalyzer(t_oMAP);
 			if ( !t_oMAPAnal.isTypeIII() ) return;
 		} catch (WURCSFormatException e) {
-			throw new WURCSVisitorException("Error in MAP import", e);
+			throw new WURCSVisitorException("Error in MAP import in class WURCSVisitorStripTypeIIIModification(visit)", e);
 		}
 
 		this.m_aStrippingMods.addLast(a_objModification);
@@ -79,7 +79,7 @@ public class WURCSVisitorStripTypeIIIModification implements WURCSVisitor {
 
 			// Strip Type-III substituent
 			for ( Modification t_oStrippingMod : this.m_aStrippingMods ) {
-				System.err.println( "Removed MAP: "+t_oStrippingMod.getMAPCode() );
+				System.err.println( "[info] Removed MAP: "+t_oStrippingMod.getMAPCode() + "WURCSVisitorStripTypeIIIModification(start(WURCSGraph))");
 				LinkedList<WURCSEdge> t_aRemoveEdges = new LinkedList<WURCSEdge>();
 				for ( WURCSEdge t_oEdge : t_oStrippingMod.getEdges() ) {
 					// Remove edge from Backbone and Modification

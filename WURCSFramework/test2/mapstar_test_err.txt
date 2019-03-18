@@ -1,0 +1,58 @@
+G00003VQ:
+Can't expand repeating unit with unknown repeat count.
+G00019UX:
+Can't expand repeating unit with unknown repeat count.
+G00165TI:
+G00285OE:
+Repeating unit expansion>>>
+a2112A_1~9 : a2112A_4~9
+a2112A_1 : a2112A_4
+a2112A_1~9 : a2112A_4~9
+a2112A_1 : a2112A_4
+WURCS=2.0/2,4,4/[u2112A][a2112A-1a_1-5]/1-2-2-2/a4-b1_b4-c1_c4-d1_b1-b4~8
+WURCS=2.0/2,5,5/[u2112A][a2112A-1a_1-5]/1-2-2-2-2/a4-b1_b4-c1_c4-d1_d4-e1_b1-b4~7
+WURCS=2.0/2,6,6/[u2112A][a2112A-1a_1-5]/1-2-2-2-2-2/a4-b1_b4-c1_c4-d1_d4-e1_e4-f1_b1-b4~6
+WURCS=2.0/2,7,7/[u2112A][a2112A-1a_1-5]/1-2-2-2-2-2-2/a4-b1_b4-c1_c4-d1_d4-e1_e4-f1_f4-g1_b1-b4~5
+WURCS=2.0/2,8,8/[u2112A][a2112A-1a_1-5]/1-2-2-2-2-2-2-2/a4-b1_b4-c1_c4-d1_d4-e1_e4-f1_f4-g1_g4-h1_b1-b4~4
+WURCS=2.0/2,9,9/[u2112A][a2112A-1a_1-5]/1-2-2-2-2-2-2-2-2/a4-b1_b4-c1_c4-d1_d4-e1_e4-f1_f4-g1_g4-h1_h4-i1_b1-b4~3
+WURCS=2.0/2,10,10/[u2112A][a2112A-1a_1-5]/1-2-2-2-2-2-2-2-2-2/a4-b1_b4-c1_c4-d1_d4-e1_e4-f1_f4-g1_g4-h1_h4-i1_i4-j1_b1-b4~2
+WURCS=2.0/2,11,11/[u2112A][a2112A-1a_1-5]/1-2-2-2-2-2-2-2-2-2-2/a4-b1_b4-c1_c4-d1_d4-e1_e4-f1_f4-g1_g4-h1_h4-i1_i4-j1_j4-k1_b1-b4~1
+G08098NX:
+Can't expand repeating unit with unknown repeat count.
+G08098NY:
+Can't expand repeating unit with unknown repeat count.
+G08645EI:
+Symmetry backbone: hxh
+Symmetry backbone: hxh
+class org.glycoinfo.WURCSFramework.wurcs.graph.Monosaccharide:posM:0
+class org.glycoinfo.WURCSFramework.wurcs.graph.Monosaccharide:posM:0
+2
+Invert Backbone
+G08645EJ:
+Symmetry backbone: hxh
+Symmetry backbone: hxh
+class org.glycoinfo.WURCSFramework.wurcs.graph.Monosaccharide:posM:0
+class org.glycoinfo.WURCSFramework.wurcs.graph.Monosaccharide:posM:0
+2
+Invert Backbone
+G41720GA:
+Symmetry backbone: hxh
+Symmetry backbone: hxh
+class org.glycoinfo.WURCSFramework.wurcs.graph.Monosaccharide:posM:0
+class org.glycoinfo.WURCSFramework.wurcs.graph.Monosaccharide:posM:0
+2
+Invert Backbone
+G74678YC:
+G93234MH:
+Cyclic part is found: 3 membered
+Can't expand repeating unit with unknown repeat count.
+G93257YT:
+G93257YU:
+G94304ZN:
+G98645EI:
+Symmetry backbone: hxh
+Symmetry backbone: hxxxh
+class org.glycoinfo.WURCSFramework.wurcs.graph.Monosaccharide:posM:0
+class org.glycoinfo.WURCSFramework.wurcs.graph.Monosaccharide:posM:0
+4
+Invert Backbone

@@ -41,13 +41,29 @@ public class WURCSComponentComparator implements Comparator<WURCSComponent> {
 		}
 
 		// For Modifications
-		if ( o1 instanceof Modification && o2 instanceof Modification ) {
-			Modification t_oM1 = (Modification)o1;
-			Modification t_oM2 = (Modification)o2;
-			ModificationComparator t_oComp = new ModificationComparator();
-			int t_iComp = t_oComp.compare(t_oM1, t_oM2);
-			if ( t_iComp != 0 ) return t_iComp;
+// muller modifyed 180606
+// 007-smnapshot original source code
+//		if ( o1 instanceof Modification && o2 instanceof Modification ) {
+//			Modification t_oM1 = (Modification)o1;
+//			Modification t_oM2 = (Modification)o2;
+//			ModificationComparator t_oComp = new ModificationComparator();
+//			int t_iComp = t_oComp.compare(t_oM1, t_oM2);
+//			if ( t_iComp != 0 ) return t_iComp;
+//		}
+// end of original code
+		int t_oNEdge1=o1.getEdges().size();
+		int t_oNEdge2=o2.getEdges().size();
+		int t_oNEdge =(t_oNEdge1 < t_oNEdge2 ) ? t_oNEdge1: t_oNEdge2;
+		ModificationComparator t_oComp = new ModificationComparator();
+		for (int i=0;i<t_oNEdge;i++) {
+			Modification t_oM1=o1.getEdges().get(i).getModification();
+			Modification t_oM2=o2.getEdges().get(i).getModification();
+			if(t_oM1.getMAPCode().length()!=0&&t_oM2.getMAPCode().length()!=0) {
+				int t_iComp=t_oComp.compare(t_oM1, t_oM2);
+				if(t_iComp!=0) return t_iComp;
+			}
 		}
+// muller end modify
 
 		//
 		int t_nEdge1 = o1.getEdges().size();

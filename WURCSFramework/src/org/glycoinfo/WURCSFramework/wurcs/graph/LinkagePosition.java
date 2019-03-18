@@ -41,19 +41,19 @@ public class LinkagePosition {
 
 	public void setProbabilityUpper(double prob) throws WURCSException {
 		if ( prob > 1 )
-			throw new WURCSException("Probability must be lower than 1.0.");
+			throw new WURCSException("Probability must be lower than 1.0 in class LinkagePosition(setProbabilityUpper).");
 		this.m_dProbabilityUpper = prob;
 	}
 
 	public void setProbabilityLower(double prob) throws WURCSException {
 		if ( prob > 1 )
-			throw new WURCSException("Probability must be lower than 1.0.");
+			throw new WURCSException("Probability must be lower than 1.0 in class LinkagePosition(setProbabilityLower).");
 		this.m_dProbabilityLower = prob;
 	}
 
 	public void setProbabilityPosition(int pos) throws WURCSException {
 		if ( pos != BACKBONESIDE && pos != MODIFICATIONSIDE )
-			throw new WURCSException("Probability position must be 1 (backbone side) or 2 (modification side).");
+			throw new WURCSException("Probability position must be 1 (backbone side) or 2 (modification side) in class LinkagePosition(setProbabilityPosition).");
 		this.m_iProbabilityPosition = pos;
 	}
 

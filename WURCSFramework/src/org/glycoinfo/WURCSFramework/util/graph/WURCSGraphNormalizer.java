@@ -14,6 +14,7 @@ import org.glycoinfo.WURCSFramework.util.graph.visitor.WURCSVisitorCollectSequen
 import org.glycoinfo.WURCSFramework.util.graph.visitor.WURCSVisitorExpandRepeatingUnit;
 import org.glycoinfo.WURCSFramework.wurcs.graph.Backbone;
 import org.glycoinfo.WURCSFramework.wurcs.graph.InterfaceRepeat;
+import org.glycoinfo.WURCSFramework.wurcs.graph.LinkagePosition;
 import org.glycoinfo.WURCSFramework.wurcs.graph.Modification;
 import org.glycoinfo.WURCSFramework.wurcs.graph.ModificationAlternative;
 import org.glycoinfo.WURCSFramework.wurcs.graph.Monosaccharide;
@@ -98,8 +99,16 @@ public class WURCSGraphNormalizer {
 
 			// Reorder direction of edge for root backbone
 			for ( WURCSEdge t_oEdge : t_objModification.getEdges() ) {
-				if ( t_oEdge.getBackbone() == t_oRoot ) continue;
-				t_oEdge.forward();
+// changed by muller 190221 to solve alternative problem in the case with 1-1 bonding
+// original code
+//				if ( t_oEdge.getBackbone() == t_oRoot ) continue;
+//				t_oEdge.forward();
+// end of original code 
+				if ( t_oEdge.getBackbone() == t_oRoot ) {
+					t_oEdge.forward();
+					continue;
+					}
+// end of change by muller
 			}
 			this.m_bAnomBond = true;
 
@@ -111,8 +120,21 @@ public class WURCSGraphNormalizer {
 			t_objModification = t_iterModification.next();
 			if ( !(t_objModification instanceof InterfaceRepeat) && !(t_objModification instanceof ModificationAlternative) ) continue;
 
-			for ( WURCSEdge t_oEdge : t_objModification.getEdges() )
+// changed by muller 181113 for solve a problem not to determine root backbone of WURCS G74678YC or G94304ZN
+// original code
+//			for ( WURCSEdge t_oEdge : t_objModification.getEdges() )
+//				t_oEdge.forward();
+//
+			for ( WURCSEdge t_oEdge : t_objModification.getEdges() ) {
 				t_oEdge.forward();
+				for(LinkagePosition t_oLink: t_oEdge.getLinkages()) {
+					if(!(t_objModification instanceof InterfaceRepeat)&&(t_oEdge.getBackbone().getAnomericPosition()==t_oLink.getBackbonePosition())) {
+						t_oEdge.reverse();
+						}
+					}
+				}
+// end of change
+
 		}
 
 		// For cyclic
@@ -130,7 +152,7 @@ public class WURCSGraphNormalizer {
 			if ( !this.checkCyclic(t_aCyclicBackbones) ) continue;
 
 			// XXX remove print
-			System.err.println("Cyclic part is found: "+t_aCyclicBackbones.size()+" membered");
+			System.err.println("[info] Cyclic part is found: "+t_aCyclicBackbones.size()+" membered in class WURCSGraphNormalizer(start(WURCSGraph))");
 
 			// Get root backbone in cyclic
 			Backbone t_oRoot = this.getRootOfBackbones(t_aCyclicBackbones, a_oGraph);
@@ -177,7 +199,7 @@ public class WURCSGraphNormalizer {
 
 			// Symmetry check
 			// XXX remove print
-			System.err.println( "Symmetry backbone: " + t_objBackbone.getSkeletonCode() );
+			System.err.println( "[info] Symmetry backbone: " + t_objBackbone.getSkeletonCode() +" in class WURCSGraphNormalizer(invertBackbones(WURCSGraph))");
 			t_aSymmetricBackbone.addLast(t_objBackbone);
 		}
 
@@ -194,8 +216,8 @@ public class WURCSGraphNormalizer {
 
 			if ( t_iComp > 0 ) {
 				// XXX remove print
-				System.err.println(t_iComp);
-				System.err.println("Invert Backbone");
+				System.err.println("[info] "+t_iComp + " in class WURCSGraphNormalizer(invertBackbones(WURCSGraph))");
+				System.err.println("[info] Invert Backbone"+" in class WURCSGraphNormalizer(invertBackbones(WURCSGraph))");
 				t_oOrigBackbone.invert();
 				this.m_bInverted = true;
 			}
@@ -427,7 +449,7 @@ public class WURCSGraphNormalizer {
 		}
 
 		if ( t_aSeqs.isEmpty() )
-			throw new WURCSException("There is no result sequence.");
+			throw new WURCSException("There is no result sequence in class WURCSGraphNormalizer(checkAllRoot).");
 
 		// Sort sequences
 		Collections.sort(t_aSeqs, new WURCSVisitorCollectSequenceComparator());
@@ -449,7 +471,11 @@ public class WURCSGraphNormalizer {
 			// Reverse edge of child backbones
 			for ( WURCSEdge t_oEdge2 : t_oMod.getEdges() ) {
 				if ( t_oEdge2.equals(t_oEdge) ) continue;
-				t_oEdge2.reverse();
+// changed by muller insert a condition to reverse a edge correct change the  starindex
+// 				comment out original code
+//				t_oEdge2.reverse();
+				if(t_oEdge2.getLinkages().getFirst().getBackbonePosition()==t_oEdge2.getBackbone().getAnomericPosition()) t_oEdge2.reverse();
+//  end of changed
 			}
 		}
 	}

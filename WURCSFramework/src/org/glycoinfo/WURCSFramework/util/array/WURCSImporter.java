@@ -80,7 +80,7 @@ public class WURCSImporter {
 		//if ( !wurcsMatch.find() )
 		//return null;
 		if ( ! t_oMatcher.find() )
-			throw new WURCSFormatException("Not match as WURCS.", a_strWURCS);
+			throw new WURCSFormatException("Not match as WURCS in class WURCSImporter(extractWURCSArray).", a_strWURCS);
 
 		t_strVersion     =                  t_oMatcher.group(t_iVersion);
 		t_numUniqueRES   = Integer.parseInt(t_oMatcher.group(t_iNumuRES));
@@ -100,10 +100,12 @@ public class WURCSImporter {
 		HashSet<String> t_aURESsCheck = new HashSet<String>();
 		int count = 0; // count of uniqueRES
 		for(String t_strURES : t_aURESs) {
+			// debug by muller 190124
+//			System.err.println("WURCSImporter t_strURES: "+t_strURES);
 			if (t_strURES.length() == 0) continue;
 			count++;
 			if ( a_bCheckStrict && t_aURESsCheck.contains(t_strURES) ) {
-				throw new WURCSFormatException("Duplicated UniqueRES is found.", t_strURES);
+				throw new WURCSFormatException("Duplicated UniqueRES is found in class WURCSImporter(extractWURCSArray).", t_strURES);
 			}
 			t_aURESsCheck.add(t_strURES);
 			UniqueRES t_oURES = this.extractUniqueRES(t_strURES, count);
@@ -111,7 +113,7 @@ public class WURCSImporter {
 		}
 
 		if ( a_bCheckStrict && t_numUniqueRES != count )
-			throw new WURCSFormatException("Number of UniqueRES is not correct.", t_numUniqueRES+" vs "+count);
+			throw new WURCSFormatException("Number of UniqueRES is not correct  in class WURCSImporter(extractWURCSArray).", t_numUniqueRES+" vs "+count);
 
 		// Extract RES sequence
 		// 1-2-3-4-2-5-4-2-6-7
@@ -145,7 +147,7 @@ public class WURCSImporter {
 			t_aUsedURESID.add(t_iRESID);
 			// UniqueRES ID
 			if ( t_iRESID > t_numUniqueRES )
-				throw new WURCSFormatException("Exceeded UniqueRES ID is found in RES sequence.", t_iRESID+" in "+t_strRESSequence);
+				throw new WURCSFormatException("Exceeded UniqueRES ID is found in RES sequence  in class WURCSImporter(extractWURCSArray).", t_iRESID+" in "+t_strRESSequence);
 
 			RES t_objRES = new RES( t_iRESID, WURCSDataConverter.convertRESIDToIndex(count) );
 			if ( !t_aRepIDs.isEmpty() )
@@ -154,24 +156,24 @@ public class WURCSImporter {
 			t_objWURCSContainer.addRES(t_objRES);
 		}
 		if ( t_aUsedURESID.size() < t_numUniqueRES )
-			throw new WURCSFormatException("Some UniqueRES is not used in RES sequence.", t_aUsedURESID.toString());
+			throw new WURCSFormatException("Some UniqueRES is not used in RES sequence  in class WURCSImporter(extractWURCSArray).", t_aUsedURESID.toString());
 
 /*
-		// Split by "-"
-		String[] t_aRESSequence = t_strRESSequence.split("\\-");
-		count = 1; // count RES
-		for(String t_strRES : t_aRESSequence) {
-			if (t_strRES.length() == 0) continue;
-			if (! t_strRES.matches("\\d+") )
-				throw new WURCSFormatException("UniqueRES ID in RES sequence must be numeric: "+t_strRESSequence);
-
-			count++;
-			RES t_objRES = new RES( Integer.parseInt(t_strRES), WURCSDataConverter.convertRESIDToIndex(count) );
-			t_objWURCSContainer.addRES(t_objRES);
-		}
+//		// Split by "-"
+//		String[] t_aRESSequence = t_strRESSequence.split("\\-");
+//		count = 1; // count RES
+//		for(String t_strRES : t_aRESSequence) {
+//			if (t_strRES.length() == 0) continue;
+//			if (! t_strRES.matches("\\d+") )
+//				throw new WURCSFormatException("UniqueRES ID in RES sequence must be numeric: "+t_strRESSequence);
+//
+//			count++;
+//			RES t_objRES = new RES( Integer.parseInt(t_strRES), WURCSDataConverter.convertRESIDToIndex(count) );
+//			t_objWURCSContainer.addRES(t_objRES);
+//		}
 */
 		if ( a_bCheckStrict && t_numRES != count )
-			throw new WURCSFormatException("Number of RES is not correct.", t_numRES+" vs "+count);
+			throw new WURCSFormatException("Number of RES is not correct  in class WURCSImporter(extractWURCSArray).", t_numRES+" vs "+count);
 
 		if ( t_strLINs == null || t_strLINs.equals("") )
 			return t_objWURCSContainer;
@@ -189,7 +191,7 @@ public class WURCSImporter {
 		}
 
 		if ( a_bCheckStrict && t_numLIN != count )
-			throw new WURCSFormatException("Number of LIN is not correct.", t_numLIN+" vs "+count);
+			throw new WURCSFormatException("Number of LIN is not correct  in class WURCSImporter(extractWURCSArray) .", t_numLIN+" vs "+count);
 
 		return t_objWURCSContainer;
 	}
@@ -227,13 +229,15 @@ public class WURCSImporter {
 		String t_strSkeletonCode   = t_aSplitSC[0];
 		int    t_iAnomericPosition = 0;
 		char   t_cAnomericSymbol   = 'o';
+		// debug skeleton code 190124 muller
+//		System.err.println("WURCSImporter SkeletonCode: "+t_strSkeletonCode);
 		// if Anomeric information is exist
 		if ( t_aSplitSC.length > 1 ) {
 			String strExp = "(\\?|[0-9]+)([abudxo])";
 			Matcher matchAnomerInfo = Pattern.compile(strExp).matcher(t_aSplitSC[1]);
 
 			if (! matchAnomerInfo.find() )
-				throw new WURCSFormatException("Error in extract anomeric information.", a_strMS);
+				throw new WURCSFormatException("Error in extract anomeric information in class WURCSImporter(extractUniqueRES).", a_strMS);
 
 			t_iAnomericPosition = (matchAnomerInfo.group(1).equals("?") ? -1 : Integer.parseInt(matchAnomerInfo.group(1))) ;
 			t_cAnomericSymbol = matchAnomerInfo.group(2).toCharArray()[0];
@@ -339,7 +343,7 @@ public class WURCSImporter {
 		//	group(7)	.5
 
 		if ( !size.find() )
-			throw new WURCSFormatException("Not match as LIP.", a_strLIP);
+			throw new WURCSFormatException("Not match as LIP in class WURCSImporter(extractLIP).", a_strLIP);
 
 		String t_strSCPos     = size.group(3);
 		String t_strDirection = size.group(4);
@@ -351,7 +355,7 @@ public class WURCSImporter {
 
 		if ( t_strSCPos.equals("?") ) t_strSCPos = "-1";
 		if (! WURCSNumberUtils.isInteger(t_strSCPos) )
-			throw new WURCSFormatException("SkeletonCode position must be number in LIP.", a_strLIP);
+			throw new WURCSFormatException("SkeletonCode position must be number in LIP  in class WURCSImporter(extractLIP).", a_strLIP);
 
 		t_iSCPos = Integer.parseInt(t_strSCPos);
 
@@ -362,7 +366,7 @@ public class WURCSImporter {
 			if ( t_strMAPPos.equals("?") ) t_strMAPPos = "-1";
 
 			if (! WURCSNumberUtils.isInteger(t_strMAPPos) )
-				throw new WURCSFormatException("MAP position must be number in LIP.", a_strLIP);
+				throw new WURCSFormatException("MAP position must be number in LIP  in class WURCSImporter(extractLIP).", a_strLIP);
 			t_iMAPPos = Integer.parseInt(t_strMAPPos);
 		}
 
@@ -530,7 +534,7 @@ public class WURCSImporter {
 		//	group(8)	.5
 
 		if ( !size.find() )
-			throw new WURCSFormatException("Not match as GLIP.", a_strGLIP);
+			throw new WURCSFormatException("Not match as GLIP in class WURCSImporter(extractGLIP).", a_strGLIP);
 
 		String t_strRESIndex  = size.group(3);
 		String t_strSCPos     = size.group(4);
@@ -544,7 +548,7 @@ public class WURCSImporter {
 		// SkeletonCode position
 		t_strSCPos = t_strSCPos.equals("?") ? "-1" : t_strSCPos ;
 		if (! WURCSNumberUtils.isInteger(t_strSCPos) )
-			throw new WURCSFormatException("SkeletonCode position must be number in GLIP.", a_strGLIP);
+			throw new WURCSFormatException("SkeletonCode position must be number in GLIP in class WURCSImporter(extractGLIP).", a_strGLIP);
 
 		t_iSC_Position = Integer.parseInt(t_strSCPos);
 
@@ -557,7 +561,7 @@ public class WURCSImporter {
 			t_strMAPPos = t_strMAPPos.equals("?") ? "-1" : t_strMAPPos ;
 
 			if (! WURCSNumberUtils.isInteger(t_strMAPPos) )
-				throw new WURCSFormatException("MAP position must be number in GLIP.", a_strGLIP);
+				throw new WURCSFormatException("MAP position must be number in GLIP in class WURCSImporter(extractGLIP).", a_strGLIP);
 			t_iModStarPositionOnMAP = Integer.parseInt(t_strMAPPos);
 		}
 
@@ -596,26 +600,26 @@ public class WURCSImporter {
 		// t_adProbs[1] : Upper probability
 		double[] t_adProbs = {1.0, 1.0};
 
-		String[] t_asProbs = a_strProb.split(":");
+		String[] t_asProbs = a_strProb.split("-");
 		if ( t_asProbs[0].matches("[^\\?\\.0-9]") )
-			throw new WURCSFormatException("Not match as probability in LIP/GLIP.", a_strProb);
+			throw new WURCSFormatException("Not match as probability in LIP/GLIP in class WURCSImporter(extractProbabilities).", a_strProb);
 
 		// Lower
 		if ( t_asProbs[0].equals("?") ) t_asProbs[0] = "-1";
 //		System.out.println(t_asProbs[0]);
 		if (! WURCSNumberUtils.isDouble(t_asProbs[0]) )
-			throw new WURCSFormatException("probability must be double type number.", a_strProb);
+			throw new WURCSFormatException("probability must be double type number in class WURCSImporter(extractProbabilities).", a_strProb);
 
 		t_adProbs[0] = Double.parseDouble(t_asProbs[0]);
 		t_adProbs[1] = t_adProbs[0];
 		// Upper (if exist)
 		if ( t_asProbs.length > 1 ) {
 			if ( t_asProbs[1].matches("[^\\?\\.0-9]") )
-				throw new WURCSFormatException("Not match as probability in LIP/GLIP.", a_strProb);
+				throw new WURCSFormatException("Not match as probability in LIP/GLIP in class WURCSImporter(extractProbabilities).", a_strProb);
 
 			if ( t_asProbs[1].equals("?") ) t_asProbs[1] = "-1";
 			if (! WURCSNumberUtils.isDouble(t_asProbs[1]) )
-				throw new WURCSFormatException("probability must be double type number.", a_strProb);
+				throw new WURCSFormatException("probability must be double type number in class WURCSImporter(extractProbabilities).", a_strProb);
 			t_adProbs[1] = Double.parseDouble(t_asProbs[1]);
 		}
 
@@ -641,11 +645,11 @@ public class WURCSImporter {
 		// t_aiReps[1] : Max repeat count
 		int[] t_aiReps = {1, 1};
 		// Split min and max
-		String[] t_asRep = a_strRepeat.split(":");
+		String[] t_asRep = a_strRepeat.split("-");
 
 		if ( t_asRep[0].equals("n") ) t_asRep[0] = "-1";
 		if (! WURCSNumberUtils.isInteger( t_asRep[0] ) )
-			throw new WURCSFormatException("Repeat unit is must be a number or \"n\".", "~"+a_strRepeat);
+			throw new WURCSFormatException("in class WURCSImporter(extractProbabilities). Repeat unit is must be a number or \"n\".", "~"+a_strRepeat);
 
 		t_aiReps[0] = Integer.parseInt(t_asRep[0]);
 		t_aiReps[1] = t_aiReps[0];
@@ -656,7 +660,7 @@ public class WURCSImporter {
 
 		if ( t_asRep[1].equals("n") ) t_asRep[1] = "-1";
 		if (! WURCSNumberUtils.isInteger( t_asRep[1] ) )
-			throw new WURCSFormatException("Repeat unit is must be number or \"n\".", "~"+a_strRepeat);
+			throw new WURCSFormatException("in class WURCSImporter(extractProbabilities). Repeat unit is must be number or \"n\".", "~"+a_strRepeat);
 
 		t_aiReps[1] = Integer.parseInt(t_asRep[1]);
 

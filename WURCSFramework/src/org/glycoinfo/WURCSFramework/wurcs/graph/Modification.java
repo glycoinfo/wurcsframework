@@ -121,9 +121,12 @@ public class Modification extends WURCSComponent{
 		HashSet<Backbone> uniqBackbones = new HashSet<Backbone>();
 		for ( WURCSEdge edge : edges ) {
 			uniqBackbones.add( edge.getBackbone() );
+			if ( uniqBackbones.size() > 1 ) // 2018/10/02 Masaaki added to speed up
+				return true;
 		}
-		if ( uniqBackbones.size() < 2 ) return false;
-		return true;
+		return false;
+//		if ( uniqBackbones.size() < 2 ) return false;
+//		return true;
 	}
 
 	/**
@@ -141,7 +144,10 @@ public class Modification extends WURCSComponent{
 		Backbone t_oBackbone = edges.getFirst().getBackbone();
 		int t_iAnomPos = t_oBackbone.getAnomericPosition();
 		// False if backbone has no anomeric position (connected Backbone has no or unknown anomeric position)
-		if ( t_iAnomPos == -1 || t_iAnomPos == -1 ) return false;
+//		if ( t_iAnomPos == -1 || t_iAnomPos == -1 ) return false;
+// corrected by muller 190205 t_iAnomPos have to be 0 or -1 
+// because no anomeric position or unknown anomeric position is correct condition
+		if ( t_iAnomPos == 0 || t_iAnomPos == -1 ) return false;
 		// False if not connected to anomeric position (not have a linkage to anomeric position)
 		int t_nConnAnom = 0;
 		for ( WURCSEdge edge : edges ) {

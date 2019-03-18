@@ -66,7 +66,7 @@ public abstract class WURCSComponent implements WURCSVisitable{
 	 */
 	public boolean removeEdge( WURCSEdge edge ) throws WURCSException {
 		if ( edge == null )
-			throw new WURCSException("Can not delete null linkage.");
+			throw new WURCSException("Can not delete null linkage in class WURCSCoponent(removeEdge).");
 		if ( !this.m_aEdges.contains(edge) ) return false;
 		return this.m_aEdges.remove(edge);
 	}

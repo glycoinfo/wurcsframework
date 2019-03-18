@@ -99,7 +99,7 @@ public class WURCSEdge implements WURCSVisitable {
 		for ( LinkagePosition t_oLiP : this.getLinkages() ) {
 			if ( !t_strEdge.equals("") ) t_strEdge += "|";
 			t_strEdge += t_oLiP.getBackbonePosition();
-			if ( t_oLiP.getDirection() != DirectionDescriptor._ )
+			if ( t_oLiP.getDirection() != DirectionDescriptor.L )
 				t_strEdge += t_oLiP.getDirection();
 			if ( t_oLiP.getModificationPosition() != 0 )
 				t_strEdge += t_oLiP.getModificationPosition();

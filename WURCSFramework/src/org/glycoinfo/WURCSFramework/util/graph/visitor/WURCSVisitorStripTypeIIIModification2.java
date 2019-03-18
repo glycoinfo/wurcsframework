@@ -44,7 +44,7 @@ public class WURCSVisitorStripTypeIIIModification2 implements WURCSVisitor {
 		try {
 			if ( !this.isTypeIIIEdge(a_objWURCSEdge) ) return;
 		} catch (WURCSFormatException e) {
-			throw new WURCSVisitorException("Error in MAP import", e);
+			throw new WURCSVisitorException("Error in MAP import in class WURCSvisitorStropTypeIIIModification(visit)", e);
 		}
 
 		// Add target list

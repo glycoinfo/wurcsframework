@@ -18,6 +18,9 @@ public class WURCSVisitorCollectSequenceComparator implements Comparator<WURCSVi
 
 		// For first edge
 		int t_iComp = this.compareMultiEdge( o1.getMultiEdges().getFirst(), o2.getMultiEdges().getFirst() );
+// debug muller 190214
+//		System.err.println("compareMultiEdge: "+t_iComp);
+// end of muller
 //		int t_iComp = t_oCompEdge.compare(o1.getEdges().getFirst(), o2.getEdges().getFirst());
 		if ( t_iComp != 0 ) return t_iComp;
 
@@ -26,27 +29,45 @@ public class WURCSVisitorCollectSequenceComparator implements Comparator<WURCSVi
 
 		// For node count, bigger comes first
 		t_iComp = o2.getNodes().size() - o1.getNodes().size();
+// debug muller 190214
+//		System.err.println("Node size: "+t_iComp);
+// end of muller
 		if ( t_iComp != 0 ) return t_iComp;
 
 		// For depth, deeper comes first
 		t_iComp = o2.getDepth() - o1.getDepth();
+// debug muller 190214
+//		System.err.println("getDepth size: "+t_iComp);
+// end of muller
 		if ( t_iComp != 0 ) return t_iComp;
 
 		// For terminal count, larger comes first
 		t_iComp = o2.getTerminalCount() - o1.getTerminalCount();
+// debug muller 190214
+//		System.err.println("terminalCount: "+t_iComp);
+// end of muller
 		if ( t_iComp != 0 ) return t_iComp;
 
 		// For branching point count, smaller comes first
 		t_iComp = o1.getBranchCountOnBackbone() - o2.getBranchCountOnBackbone();
+// debug muller 190214
+//		System.err.println("terminalCount: "+t_iComp);
+// end of muller
 		if ( t_iComp != 0 ) return t_iComp;
 
 		// For each branching point, deeper comes first
 		int t_nBranch = o1.getBranchingPoints().size();
 		for ( int i=0; i<t_nBranch; i++ ) {
 			t_iComp = o2.getBranchingPoints().get(i) - o1.getBranchingPoints().get(i);
+// debug muller 190214
+//		System.err.println("brancingpoints: "+i+" "+t_iComp);
+// end of muller
 			if ( t_iComp != 0 ) return t_iComp;
 		}
 		t_iComp = o1.getBranchCountOnModification() - o2.getBranchCountOnModification();
+// debug muller 190214
+//		System.err.println("branchCountOnModification: "+t_iComp);
+// end of muller
 		if ( t_iComp != 0 ) return t_iComp;
 
 
@@ -145,6 +166,9 @@ public class WURCSVisitorCollectSequenceComparator implements Comparator<WURCSVi
 		// Prioritize large number of edges
 		int t_nEdge1 = a_aEdges1.size();
 		int t_nEdge2 = a_aEdges2.size();
+// debug muller 190214
+//		System.err.print("compare multiEdge size: "+t_nEdge1+" "+t_nEdge2);
+// end of muller
 		int t_iComp = t_nEdge1 - t_nEdge2;
 		if ( t_iComp != 0 ) return t_iComp;
 
@@ -155,6 +179,9 @@ public class WURCSVisitorCollectSequenceComparator implements Comparator<WURCSVi
 			WURCSEdge t_oEdge1 = a_aEdges1.get(i);
 			WURCSEdge t_oEdge2 = a_aEdges2.get(i);
 			t_iComp = t_oCompEdge.compare(t_oEdge1, t_oEdge2);
+// debug muller 190214
+//		System.err.print("compare multiEdge each edge compare: "+t_iComp);
+// end of muller
 			if ( t_iComp != 0 ) return t_iComp;
 		}
 		return 0;

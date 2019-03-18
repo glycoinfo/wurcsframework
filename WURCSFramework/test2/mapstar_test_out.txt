@@ -1,0 +1,40 @@
+G00285OE:
+	WURCS=2.0/2,3,3/[u2112A][a2112A-1a_1-5]/1-2-2/a4-b1_b4-c1_b1-b4~9
+	WURCS=2.0/2,11,10/[u2112A][a2112A-1a_1-5]/1-2-2-2-2-2-2-2-2-2-2/a4-b1_b4-c1_c4-d1_d4-e1_e4-f1_f4-g1_g4-h1_h4-i1_i4-j1_j4-k1
+G08645EI: Invert :
+	WURCS=2.0/1,2,1/[hxh]/1-1/a3n1-b1n2*1NC(CCCC^ECC$4)/9I/8CNCCO/11=O/7I/6N*2/18CC/20=O/5I/3=O
+	WURCS=2.0/1,2,1/[hxh]/1-1/a3n1-b3n2*1NC(CCCC^ECC$4)/9I/8CNCCO/11=O/7I/6N*2/18CC/20=O/5I/3=O
+G08645EJ: Invert :
+	WURCS=2.0/1,2,1/[hxh]/1-1/a3n2-b1n1*1NC(CCCC^ECC$4)/9I/8CNCCO/11=O/7I/6N*2/18CC/20=O/5I/3=O
+	WURCS=2.0/1,2,1/[hxh]/1-1/a3n2-b3n1*1NC(CCCC^ECC$4)/9I/8CNCCO/11=O/7I/6N*2/18CC/20=O/5I/3=O
+G41720GA: Invert :
+	WURCS=2.0/2,2,1/[hxh_1-2][hxh_2-3]/1-2/a3n1-b1n2*1O(C^ECC^ZCC^ZC$3)/6C(C^ZCC^ZCC^ZC$10/9=CC^ECCC^ZC$16)/19=O/17O$5/11CO*2/24=O
+	WURCS=2.0/1,2,1/[hxh_1-2]/1-1/a3n1-b3n2*1O(C^ECC^ZCC^ZC$3)/6C(C^ZCC^ZCC^ZC$10/9=CC^ECCC^ZC$16)/19=O/17O$5/11CO*2/24=O
+G74678YC:
+	WURCS=2.0/3,6,5/[a2122h-1x_1-5_2*NCC/3=O][a2112h-1x_1-5][a2112h-1x_1-5_2*NCC/3=O]/1-2-1-2-3-2/a?-b1_c?-d1_e?-f1_a1-e?|f?}_c1-e?|f?}
+	WURCS=2.0/3,6,5/[a2112h-1x_1-5_2*NCC/3=O][a2112h-1x_1-5][a2122h-1x_1-5_2*NCC/3=O]/1-2-3-2-3-2/a?-b1_c?-d1_e?-f1_c1-a?|b?}_e1-a?|b?}
+G93257YT: Anomeric linkage :
+	WURCS=2.0/2,6,5/[o222h][a222h-1x_1-4]/1-2-2-2-2-2/c1-d1_e1-f1_a?-b1_b?-f?*OPO*/3O/3=O_c?-e?*OPO*/3O/3=O
+	WURCS=2.0/2,6,5/[o222h][a222h-1x_1-4]/1-2-2-2-2-2/c1-d1_e1-f1_a?-b1_b?-e?*OPO*/3O/3=O_c?-f?*OPO*/3O/3=O
+G93257YU: Anomeric linkage :
+	WURCS=2.0/2,6,5/[o222h][a222h-1x_1-4]/1-2-2-2-2-2/c1-d1_e1-f1_a?-b1_b?-e?*OPO*/3O/3=O_c?-f?*OPO*/3O/3=O
+	WURCS=2.0/2,6,5/[o222h][a222h-1x_1-4]/1-2-2-2-2-2/c1-d1_e1-f1_a?-b1_b?-f?*OPO*/3O/3=O_c?-e?*OPO*/3O/3=O
+G94304ZN:
+	WURCS=2.0/3,6,5/[a2122h-1b_1-5_2*NCC/3=O][a2112h-1b_1-5][a2112h-1x_1-5_2*NCC/3=O]/1-2-1-2-3-2/a4-b1_c4-d1_e3-f1_a1-e?|f?}_c1-e?|f?}
+	WURCS=2.0/3,6,5/[a2112h-1x_1-5_2*NCC/3=O][a2122h-1b_1-5_2*NCC/3=O][a2112h-1b_1-5]/1-2-3-2-3-3/a3-f1_b4-c1_d4-e1_b1-a?|f?}_d1-a?|f?}
+G98645EI: Invert :
+	WURCS=2.0/2,2,1/[hxh][hxxxh]/1-2/a3n1-b1n2*1NC(CCCC^ECC$4)/9I/8CNCCO/11=O/7I/6N*2/18CC/20=O/5I/3=O
+	WURCS=2.0/2,2,1/[hxxxh][hxh]/1-2/a5n2-b3n1*1NC(CCCC^ECC$4)/9I/8CNCCO/11=O/7I/6N*2/18CC/20=O/5I/3=O
+
+Total change count: 9
+Sort change count: 0
+
+Invert count: 4
+G08645EI,G08645EJ,G41720GA,G98645EI
+Anomeric bonding count: 2
+G93257YT,G93257YU
+Cyclic count: 0
+
+Other count: 3
+G00285OE,G74678YC,G94304ZN
+Duplicate:

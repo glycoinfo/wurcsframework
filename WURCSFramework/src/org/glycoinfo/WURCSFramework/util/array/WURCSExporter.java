@@ -276,7 +276,7 @@ public class WURCSExporter {
 			int t_iMaxRep = a_oLIN.getMaxRepeatCount();
 			t_strLIN += (t_iMinRep == -1)? "n" : ""+t_iMinRep;
 			if ( t_iMinRep != t_iMaxRep )
-				t_strLIN += (t_iMaxRep == -1)? ":n" : ":"+t_iMaxRep;
+				t_strLIN += (t_iMaxRep == -1)? "-n" : "-"+t_iMaxRep;
 		}
 
 		return t_strLIN;
@@ -425,7 +425,7 @@ public class WURCSExporter {
 		String t_strProb = "";
 		t_strProb = ( a_dLower < 0.0 )? "?" : NumberFormat.getNumberInstance().format( a_dLower ).substring(1);
 		if ( a_dUpper != a_dLower ) {
-			t_strProb += ":";
+			t_strProb += "-";
 			t_strProb += ( a_dUpper < 0.0 )? "?" : NumberFormat.getNumberInstance().format( a_dUpper ).substring(1);
 		}
 		return "%"+t_strProb+"%";

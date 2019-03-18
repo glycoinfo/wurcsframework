@@ -57,7 +57,8 @@ public class WURCSArrayToGraph {
 		for ( RES t_oRES : a_oArray.getRESs() ) {
 			int t_iURESID = t_oRES.getUniqueRESID();
 			UniqueRES t_oURES = a_oArray.getUniqueRESs().get(t_iURESID-1);
-
+// debug by muller 190124
+//			System.err.println("WURCSArrayToGraph (start): "+t_oURES.getSkeletonCode());
 			Backbone t_oBackbone = this.convertToBackbone( t_oURES );
 			// For each MOD in UniqueRES
 			for ( MOD t_oMOD : t_oURES.getMODs() ) {
@@ -80,13 +81,13 @@ public class WURCSArrayToGraph {
 			for ( GLIPs t_oGLIPs : t_oLIN.getListOfGLIPs() ) {
 				if ( t_oGLIPs.getAlternativeType() == null ) continue;
 				if ( t_oGLIPs.getGLIPs().size() < 2 )
-					throw new WURCSExchangeException("Alternative GLIPs must have two or more GLIP. : "+t_oExport.getGLIPsString(t_oGLIPs));
+					throw new WURCSExchangeException("Alternative GLIPs must have two or more GLIP in WURCSArrayToGraph(start). : "+t_oExport.getGLIPsString(t_oGLIPs));
 
 				if ( t_oGLIPs.getAlternativeType().equals("}") ) t_aLeadInGLIPs.add(t_oGLIPs);
 				if ( t_oGLIPs.getAlternativeType().equals("{") ) t_aLeadOutGLIPs.add(t_oGLIPs);
 			}
-			if ( t_aLeadInGLIPs.size()  > 1 ) throw new WURCSExchangeException("Two or more lead in GLIPs is found. : ");
-			if ( t_aLeadOutGLIPs.size() > 1 ) throw new WURCSExchangeException("Two or more lead out GLIPs is found. : ");
+			if ( t_aLeadInGLIPs.size()  > 1 ) throw new WURCSExchangeException("Two or more lead in GLIPs is found in WURCSArrayToGraph(start). : ");
+			if ( t_aLeadOutGLIPs.size() > 1 ) throw new WURCSExchangeException("Two or more lead out GLIPs is found in WURCSArrayToGraph(start). : ");
 
 			// Construct modification (or its subclasses)
 			Modification t_oModif = new Modification( t_oLIN.getMAPCode() );
@@ -161,7 +162,7 @@ public class WURCSArrayToGraph {
 		boolean t_bCompressMPos = ( t_iMPos == 0 );
 		DirectionDescriptor t_enumDirection = DirectionDescriptor.forChar( t_oLIP.getBackboneDirection() );
 		if ( t_enumDirection == null )
-			throw new WURCSExchangeException("Unknown DirectionDescriptor is found.");
+			throw new WURCSExchangeException("Unknown DirectionDescriptor is found in WURCSArrayToGraph(ConvertToLInkagePosition).");
 		LinkagePosition t_oLinkPos = new LinkagePosition(t_iBPos, t_enumDirection, t_bCompressDirection, t_iMPos, t_bCompressMPos);
 
 		// Set probabilities
@@ -201,6 +202,13 @@ public class WURCSArrayToGraph {
 
 //			BackboneCarbon t_oBC = new BackboneCarbon( t_oBackbone, CarbonDescriptor.forCharacter(t_strCD.charAt(0) ,t_bIsTerminal), t_bIsAnomeric );
 			BackboneCarbon t_oBC = new BackboneCarbon( t_oBackbone, CarbonDescriptor_TBD.forCharacter(t_strCD.charAt(0) ,t_bIsTerminal) );
+			// debug by muller 190124
+//			System.err.print("'"+t_strCD.charAt(0)+"'-"+"'"+t_oBC.getDesctriptor().getChar()+"' ");
+//			if(t_strCD.charAt(0)!=t_oBC.getDesctriptor().getChar()) System.err.print("false   ");
+//changed by muller 190124 if carbondescriptor in inputed WURCS isn't in enum of CarbonDescriptor_TBD throw exception
+			if(t_strCD.charAt(0)!=t_oBC.getDesctriptor().getChar()) 
+				throw new WURCSExchangeException("Unknown CarbonDescriptor is found in WURCSArrayToGraph(ConvertToBackbone). "+t_strCD.charAt(0)+" of "+a_oMS.getSkeletonCode());
+// end of changed by muller
 			t_oBackbone.addBackboneCarbon(t_oBC);
 		}
 
@@ -210,24 +218,30 @@ public class WURCSArrayToGraph {
 	private LinkedList<String> parseSkeletonCode(String a_strSkeletonCode) throws WURCSExchangeException {
 		LinkedList<String> t_aCDString = new LinkedList<String>();
 		int length = a_strSkeletonCode.length();
+		// debug by muller 190124
+//		System.err.println("WURCSGraphToArray (parseSkeleconCode): "+a_strSkeletonCode);
 		for ( int i=0; i<length; i++ ) {
 			char t_cName = a_strSkeletonCode.charAt(i);
+			// debug by muller 190124
+//			System.err.print("'"+t_cName+"'");
 			if ( Character.isAlphabetic(t_cName) || Character.isDigit(t_cName) ) {
 				t_aCDString.add(""+t_cName);
 				continue;
 			}
 			// For unknown length
 			if ( t_cName != '<' )
-				throw new WURCSExchangeException("unknown CarbonDescriptor is found : "+a_strSkeletonCode);
+				throw new WURCSExchangeException("unknown CarbonDescriptor is found in class WURCSArrayToGraph(parseSkeletonCode): "+a_strSkeletonCode);
 			char t_cNameX = a_strSkeletonCode.charAt(++i);
 			if ( Character.isAlphabetic(t_cName) || Character.isDigit(t_cName) )
-				throw new WURCSExchangeException("unknown CarbonDescriptor is found : "+a_strSkeletonCode);
+				throw new WURCSExchangeException("unknown CarbonDescriptor is found in class WURCSArrayToGraph(parseSkeletonCode): "+a_strSkeletonCode);
 			t_cName = a_strSkeletonCode.charAt(++i);
 			if ( t_cName != '>' )
-				throw new WURCSExchangeException("unknown CarbonDescriptor is found : "+a_strSkeletonCode);
+				throw new WURCSExchangeException("unknown CarbonDescriptor is found in class WURCSArrayToGraph(parseSkeletonCode): "+a_strSkeletonCode);
 
 			t_aCDString.add("<"+t_cNameX+">");
 		}
+		// debug by muller 190124
+//		System.err.println("WURCSArrayToGraph(parseSkeletonCode)"+t_aCDString);
 		return t_aCDString;
 	}
 

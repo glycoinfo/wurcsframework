@@ -65,6 +65,19 @@ public class WURCSGraphToArray implements WURCSVisitor {
 		return this.m_oWURCS;
 	}
 
+// add three methods for test routine get Backbones and Modifications
+// by muller 181016
+		public LinkedList<Backbone> getG2ABackbones() {
+			return m_aBackbones;
+			}
+		public LinkedList<Modification> getG2AModifications() {
+			return m_aGlycosidicModifications;
+			}
+		public LinkedList<ModificationAlternative> getG2AModificationAlternatives() {
+			return m_aGlycosidicModificationAlternatives;
+			}
+// end of addition
+
 	@Override
 	public void visit(Backbone a_objBackbone) throws WURCSVisitorException {
 		if ( this.m_aBackbones.contains(a_objBackbone) ) return;
@@ -105,7 +118,7 @@ public class WURCSGraphToArray implements WURCSVisitor {
 
 			if ( !t_oMODEdge.isReverse() ) continue;
 			// XXX remove print
-			System.err.println("has parent");
+			System.err.println("[info] has parent in class WURCSGraphToArray (visit(backbone))");
 		}
 
 		// Comb out for omiting MOD
@@ -174,7 +187,7 @@ public class WURCSGraphToArray implements WURCSVisitor {
 
 	private void visit(ModificationAlternative a_objModificationAlternative) throws WURCSVisitorException {
 		if ( !a_objModificationAlternative.isGlycosidic() )
-			throw new WURCSVisitorException("ModificationAlternative must be Glycosidic linkage.");
+			throw new WURCSVisitorException("ModificationAlternative must be Glycosidic linkage in class WURCSGraphToArray(visit).");
 		// Add modifiation at glycosidic linkage
 		if ( this.m_aGlycosidicModificationAlternatives.contains(a_objModificationAlternative) ) return;
 		this.m_aGlycosidicModificationAlternatives.addLast(a_objModificationAlternative);

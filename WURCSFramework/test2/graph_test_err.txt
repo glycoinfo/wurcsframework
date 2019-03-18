@@ -1,0 +1,537 @@
+G00285OE:
+in: WURCS=2.0/2,3,3/[u2112A][a2112A-1a_1-5]/1-2-2/a4-b1_b4-c1_b1-b4~9
+Repeating unit expansion>>>
+a2112A_1~9 : a2112A_4~9
+a2112A_1 : a2112A_4
+a2112A_1~9 : a2112A_4~9
+a2112A_1 : a2112A_4
+WURCS=2.0/2,4,4/[u2112A][a2112A-1a_1-5]/1-2-2-2/a4-b1_b4-c1_c4-d1_b1-b4~8
+WURCS=2.0/2,5,5/[u2112A][a2112A-1a_1-5]/1-2-2-2-2/a4-b1_b4-c1_c4-d1_d4-e1_b1-b4~7
+WURCS=2.0/2,6,6/[u2112A][a2112A-1a_1-5]/1-2-2-2-2-2/a4-b1_b4-c1_c4-d1_d4-e1_e4-f1_b1-b4~6
+WURCS=2.0/2,7,7/[u2112A][a2112A-1a_1-5]/1-2-2-2-2-2-2/a4-b1_b4-c1_c4-d1_d4-e1_e4-f1_f4-g1_b1-b4~5
+WURCS=2.0/2,8,8/[u2112A][a2112A-1a_1-5]/1-2-2-2-2-2-2-2/a4-b1_b4-c1_c4-d1_d4-e1_e4-f1_f4-g1_g4-h1_b1-b4~4
+WURCS=2.0/2,9,9/[u2112A][a2112A-1a_1-5]/1-2-2-2-2-2-2-2-2/a4-b1_b4-c1_c4-d1_d4-e1_e4-f1_f4-g1_g4-h1_h4-i1_b1-b4~3
+WURCS=2.0/2,10,10/[u2112A][a2112A-1a_1-5]/1-2-2-2-2-2-2-2-2-2/a4-b1_b4-c1_c4-d1_d4-e1_e4-f1_f4-g1_g4-h1_h4-i1_i4-j1_b1-b4~2
+WURCS=2.0/2,11,11/[u2112A][a2112A-1a_1-5]/1-2-2-2-2-2-2-2-2-2-2/a4-b1_b4-c1_c4-d1_d4-e1_e4-f1_f4-g1_g4-h1_h4-i1_i4-j1_j4-k1_b1-b4~1
+in: WURCS=2.0/2,11,10/[u2112A][a2112A-1a_1-5]/1-2-2-2-2-2-2-2-2-2-2/a4-b1_b4-c1_c4-d1_d4-e1_e4-f1_f4-g1_g4-h1_h4-i1_i4-j1_j4-k1
+in_compareTwoBackbones: 
+size of backbone: 11,11
+0skeleton:u2112A 0o u2112A 0o edge size:1 1
+edges0:|_u2112A|_u2112A|reverse false false| anomericfalse false|isGlycosidic: true true|isAglycone: false false|isRing: false false|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 4 4|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+1skeleton:a2112A 1a a2112A 1a edge size:4 4
+edges0:|_a2112A|_a2112A|reverse false false| anomerictrue true|isGlycosidic: false false|isAglycone: false false|isRing: true true|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 1 1|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges1:|_a2112A|_a2112A|reverse false false| anomericfalse false|isGlycosidic: true true|isAglycone: false false|isRing: false false|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 4 4|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges2:|_a2112A|_a2112A|reverse false false| anomericfalse false|isGlycosidic: false false|isAglycone: false false|isRing: true true|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 5 5|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges3:|_a2112A|_a2112A|reverse true true| anomerictrue true|isGlycosidic: true true|isAglycone: false false|isRing: false false|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 1 1|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+2skeleton:a2112A 1a a2112A 1a edge size:4 4
+edges0:|_a2112A|_a2112A|reverse false false| anomerictrue true|isGlycosidic: false false|isAglycone: false false|isRing: true true|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 1 1|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges1:|_a2112A|_a2112A|reverse false false| anomericfalse false|isGlycosidic: true true|isAglycone: false false|isRing: false false|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 4 4|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges2:|_a2112A|_a2112A|reverse false false| anomericfalse false|isGlycosidic: false false|isAglycone: false false|isRing: true true|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 5 5|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges3:|_a2112A|_a2112A|reverse true true| anomerictrue true|isGlycosidic: true true|isAglycone: false false|isRing: false false|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 1 1|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+3skeleton:a2112A 1a a2112A 1a edge size:4 4
+edges0:|_a2112A|_a2112A|reverse false false| anomerictrue true|isGlycosidic: false false|isAglycone: false false|isRing: true true|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 1 1|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges1:|_a2112A|_a2112A|reverse false false| anomericfalse false|isGlycosidic: true true|isAglycone: false false|isRing: false false|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 4 4|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges2:|_a2112A|_a2112A|reverse false false| anomericfalse false|isGlycosidic: false false|isAglycone: false false|isRing: true true|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 5 5|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges3:|_a2112A|_a2112A|reverse true true| anomerictrue true|isGlycosidic: true true|isAglycone: false false|isRing: false false|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 1 1|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+4skeleton:a2112A 1a a2112A 1a edge size:4 4
+edges0:|_a2112A|_a2112A|reverse false false| anomerictrue true|isGlycosidic: false false|isAglycone: false false|isRing: true true|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 1 1|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges1:|_a2112A|_a2112A|reverse false false| anomericfalse false|isGlycosidic: true true|isAglycone: false false|isRing: false false|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 4 4|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges2:|_a2112A|_a2112A|reverse false false| anomericfalse false|isGlycosidic: false false|isAglycone: false false|isRing: true true|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 5 5|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges3:|_a2112A|_a2112A|reverse true true| anomerictrue true|isGlycosidic: true true|isAglycone: false false|isRing: false false|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 1 1|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+5skeleton:a2112A 1a a2112A 1a edge size:4 4
+edges0:|_a2112A|_a2112A|reverse false false| anomerictrue true|isGlycosidic: false false|isAglycone: false false|isRing: true true|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 1 1|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges1:|_a2112A|_a2112A|reverse false false| anomericfalse false|isGlycosidic: true true|isAglycone: false false|isRing: false false|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 4 4|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges2:|_a2112A|_a2112A|reverse false false| anomericfalse false|isGlycosidic: false false|isAglycone: false false|isRing: true true|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 5 5|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges3:|_a2112A|_a2112A|reverse true true| anomerictrue true|isGlycosidic: true true|isAglycone: false false|isRing: false false|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 1 1|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+6skeleton:a2112A 1a a2112A 1a edge size:4 4
+edges0:|_a2112A|_a2112A|reverse false false| anomerictrue true|isGlycosidic: false false|isAglycone: false false|isRing: true true|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 1 1|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges1:|_a2112A|_a2112A|reverse false false| anomericfalse false|isGlycosidic: true true|isAglycone: false false|isRing: false false|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 4 4|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges2:|_a2112A|_a2112A|reverse false false| anomericfalse false|isGlycosidic: false false|isAglycone: false false|isRing: true true|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 5 5|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges3:|_a2112A|_a2112A|reverse true true| anomerictrue true|isGlycosidic: true true|isAglycone: false false|isRing: false false|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 1 1|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+7skeleton:a2112A 1a a2112A 1a edge size:4 4
+edges0:|_a2112A|_a2112A|reverse false false| anomerictrue true|isGlycosidic: false false|isAglycone: false false|isRing: true true|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 1 1|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges1:|_a2112A|_a2112A|reverse false false| anomericfalse false|isGlycosidic: true true|isAglycone: false false|isRing: false false|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 4 4|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges2:|_a2112A|_a2112A|reverse false false| anomericfalse false|isGlycosidic: false false|isAglycone: false false|isRing: true true|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 5 5|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges3:|_a2112A|_a2112A|reverse true true| anomerictrue true|isGlycosidic: true true|isAglycone: false false|isRing: false false|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 1 1|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+8skeleton:a2112A 1a a2112A 1a edge size:4 4
+edges0:|_a2112A|_a2112A|reverse false false| anomerictrue true|isGlycosidic: false false|isAglycone: false false|isRing: true true|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 1 1|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges1:|_a2112A|_a2112A|reverse false false| anomericfalse false|isGlycosidic: true true|isAglycone: false false|isRing: false false|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 4 4|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges2:|_a2112A|_a2112A|reverse false false| anomericfalse false|isGlycosidic: false false|isAglycone: false false|isRing: true true|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 5 5|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges3:|_a2112A|_a2112A|reverse true true| anomerictrue true|isGlycosidic: true true|isAglycone: false false|isRing: false false|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 1 1|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+9skeleton:a2112A 1a a2112A 1a edge size:4 4
+edges0:|_a2112A|_a2112A|reverse false false| anomerictrue true|isGlycosidic: false false|isAglycone: false false|isRing: true true|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 1 1|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges1:|_a2112A|_a2112A|reverse false false| anomericfalse false|isGlycosidic: true true|isAglycone: false false|isRing: false false|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 4 4|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges2:|_a2112A|_a2112A|reverse false false| anomericfalse false|isGlycosidic: false false|isAglycone: false false|isRing: true true|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 5 5|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges3:|_a2112A|_a2112A|reverse true true| anomerictrue true|isGlycosidic: true true|isAglycone: false false|isRing: false false|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 1 1|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+10skeleton:a2112A 1a a2112A 1a edge size:3 3
+edges0:|_a2112A|_a2112A|reverse false false| anomerictrue true|isGlycosidic: false false|isAglycone: false false|isRing: true true|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 1 1|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges1:|_a2112A|_a2112A|reverse false false| anomericfalse false|isGlycosidic: false false|isAglycone: false false|isRing: true true|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 5 5|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges2:|_a2112A|_a2112A|reverse true true| anomerictrue true|isGlycosidic: true true|isAglycone: false false|isRing: false false|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 1 1|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+glycosidicModifications: 
+size of glycosidicModification: 10 10
+glycosidicModification||isAglycone: false false|isGlycosidic: true true|isRing: false false|
+Edges: reverse false false anomeric false false linkage size: 1 1 Linkage 4 4|0 0|Edges: reverse true true anomeric true true linkage size: 1 1 Linkage 1 1|0 0|
+glycosidicModification||isAglycone: false false|isGlycosidic: true true|isRing: false false|
+Edges: reverse false false anomeric false false linkage size: 1 1 Linkage 4 4|0 0|Edges: reverse true true anomeric true true linkage size: 1 1 Linkage 1 1|0 0|
+glycosidicModification||isAglycone: false false|isGlycosidic: true true|isRing: false false|
+Edges: reverse false false anomeric false false linkage size: 1 1 Linkage 4 4|0 0|Edges: reverse true true anomeric true true linkage size: 1 1 Linkage 1 1|0 0|
+glycosidicModification||isAglycone: false false|isGlycosidic: true true|isRing: false false|
+Edges: reverse false false anomeric false false linkage size: 1 1 Linkage 4 4|0 0|Edges: reverse true true anomeric true true linkage size: 1 1 Linkage 1 1|0 0|
+glycosidicModification||isAglycone: false false|isGlycosidic: true true|isRing: false false|
+Edges: reverse false false anomeric false false linkage size: 1 1 Linkage 4 4|0 0|Edges: reverse true true anomeric true true linkage size: 1 1 Linkage 1 1|0 0|
+glycosidicModification||isAglycone: false false|isGlycosidic: true true|isRing: false false|
+Edges: reverse false false anomeric false false linkage size: 1 1 Linkage 4 4|0 0|Edges: reverse true true anomeric true true linkage size: 1 1 Linkage 1 1|0 0|
+glycosidicModification||isAglycone: false false|isGlycosidic: true true|isRing: false false|
+Edges: reverse false false anomeric false false linkage size: 1 1 Linkage 4 4|0 0|Edges: reverse true true anomeric true true linkage size: 1 1 Linkage 1 1|0 0|
+glycosidicModification||isAglycone: false false|isGlycosidic: true true|isRing: false false|
+Edges: reverse false false anomeric false false linkage size: 1 1 Linkage 4 4|0 0|Edges: reverse true true anomeric true true linkage size: 1 1 Linkage 1 1|0 0|
+glycosidicModification||isAglycone: false false|isGlycosidic: true true|isRing: false false|
+Edges: reverse false false anomeric false false linkage size: 1 1 Linkage 4 4|0 0|Edges: reverse true true anomeric true true linkage size: 1 1 Linkage 1 1|0 0|
+glycosidicModification||isAglycone: false false|isGlycosidic: true true|isRing: false false|
+Edges: reverse false false anomeric false false linkage size: 1 1 Linkage 4 4|0 0|Edges: reverse true true anomeric true true linkage size: 1 1 Linkage 1 1|0 0|glycosidicModificationsAlternative: 
+size of glycosidicModificationAlternative: 0 0G61365VY:
+in: WURCS=2.0/2,19,19/[<Q>-?b_6*OCC/3=O][<Q>-?b]/1-1-1-1-1-2-2-2-2-1-1-1-1-2-1-2-2-2-2/a1-b7_b1-c7_c1-d7_d1-e7_e1-f7_f1-g7_g1-h7_h1-i7_i1-j7_j1-k7_k1-l7_l1-m7_m1-n7_n1-o7_o1-p7_p1-q7_q1-r7_r1-s7_a7-s1~n
+Symmetry backbone: <Q>
+Symmetry backbone: <Q>
+Symmetry backbone: <Q>
+Symmetry backbone: <Q>
+Symmetry backbone: <Q>
+Symmetry backbone: <Q>
+Symmetry backbone: <Q>
+Symmetry backbone: <Q>
+Symmetry backbone: <Q>
+Symmetry backbone: <Q>
+Symmetry backbone: <Q>
+Symmetry backbone: <Q>
+Symmetry backbone: <Q>
+Symmetry backbone: <Q>
+Symmetry backbone: <Q>
+Symmetry backbone: <Q>
+Symmetry backbone: <Q>
+Symmetry backbone: <Q>
+Symmetry backbone: <Q>
+class org.glycoinfo.WURCSFramework.wurcs.graph.Monosaccharide:posM:0
+class org.glycoinfo.WURCSFramework.wurcs.graph.Monosaccharide:posM:0
+class org.glycoinfo.WURCSFramework.wurcs.graph.Monosaccharide:posM:0
+class org.glycoinfo.WURCSFramework.wurcs.graph.Monosaccharide:posM:0
+class org.glycoinfo.WURCSFramework.wurcs.graph.Monosaccharide:posM:0
+class org.glycoinfo.WURCSFramework.wurcs.graph.Monosaccharide:posM:0
+class org.glycoinfo.WURCSFramework.wurcs.graph.Monosaccharide:posM:0
+class org.glycoinfo.WURCSFramework.wurcs.graph.Monosaccharide:posM:0
+class org.glycoinfo.WURCSFramework.wurcs.graph.Monosaccharide:posM:0
+class org.glycoinfo.WURCSFramework.wurcs.graph.Monosaccharide:posM:0
+class org.glycoinfo.WURCSFramework.wurcs.graph.Monosaccharide:posM:0
+class org.glycoinfo.WURCSFramework.wurcs.graph.Monosaccharide:posM:0
+class org.glycoinfo.WURCSFramework.wurcs.graph.Monosaccharide:posM:0
+class org.glycoinfo.WURCSFramework.wurcs.graph.Monosaccharide:posM:0
+class org.glycoinfo.WURCSFramework.wurcs.graph.Monosaccharide:posM:0
+class org.glycoinfo.WURCSFramework.wurcs.graph.Monosaccharide:posM:0
+class org.glycoinfo.WURCSFramework.wurcs.graph.Monosaccharide:posM:0
+class org.glycoinfo.WURCSFramework.wurcs.graph.Monosaccharide:posM:0
+class org.glycoinfo.WURCSFramework.wurcs.graph.Monosaccharide:posM:0
+Can't expand repeating unit with unknown repeat count.
+in: WURCS=2.0/2,19,19/[<Q>-?b][<Q>-?b_6*OCC/3=O]/1-1-1-1-2-1-2-2-2-2-1-1-1-1-2-2-2-2-2/a7-b1_b7-c1_c7-d1_d7-e1_e7-f1_f7-g1_g7-h1_h7-i1_i7-j1_j7-k1_k7-l1_l7-m1_m7-n1_n7-o1_o7-p1_p7-q1_q7-r1_r7-s1_a1-s7~n
+Symmetry backbone: <Q>
+Symmetry backbone: <Q>
+Symmetry backbone: <Q>
+Symmetry backbone: <Q>
+Symmetry backbone: <Q>
+Symmetry backbone: <Q>
+Symmetry backbone: <Q>
+Symmetry backbone: <Q>
+Symmetry backbone: <Q>
+Symmetry backbone: <Q>
+Symmetry backbone: <Q>
+Symmetry backbone: <Q>
+Symmetry backbone: <Q>
+Symmetry backbone: <Q>
+Symmetry backbone: <Q>
+Symmetry backbone: <Q>
+Symmetry backbone: <Q>
+Symmetry backbone: <Q>
+Symmetry backbone: <Q>
+class org.glycoinfo.WURCSFramework.wurcs.graph.Monosaccharide:posM:0
+28
+Invert Backbone
+class org.glycoinfo.WURCSFramework.wurcs.graph.Monosaccharide:posM:0
+24
+Invert Backbone
+class org.glycoinfo.WURCSFramework.wurcs.graph.Monosaccharide:posM:0
+22
+Invert Backbone
+class org.glycoinfo.WURCSFramework.wurcs.graph.Monosaccharide:posM:0
+20
+Invert Backbone
+class org.glycoinfo.WURCSFramework.wurcs.graph.Monosaccharide:posM:0
+18
+Invert Backbone
+class org.glycoinfo.WURCSFramework.wurcs.graph.Monosaccharide:posM:0
+8
+Invert Backbone
+class org.glycoinfo.WURCSFramework.wurcs.graph.Monosaccharide:posM:0
+6
+Invert Backbone
+class org.glycoinfo.WURCSFramework.wurcs.graph.Monosaccharide:posM:0
+4
+Invert Backbone
+class org.glycoinfo.WURCSFramework.wurcs.graph.Monosaccharide:posM:0
+2
+Invert Backbone
+class org.glycoinfo.WURCSFramework.wurcs.graph.Monosaccharide:posM:0
+class org.glycoinfo.WURCSFramework.wurcs.graph.Monosaccharide:posM:0
+36
+Invert Backbone
+class org.glycoinfo.WURCSFramework.wurcs.graph.Monosaccharide:posM:0
+34
+Invert Backbone
+class org.glycoinfo.WURCSFramework.wurcs.graph.Monosaccharide:posM:0
+32
+Invert Backbone
+class org.glycoinfo.WURCSFramework.wurcs.graph.Monosaccharide:posM:0
+30
+Invert Backbone
+class org.glycoinfo.WURCSFramework.wurcs.graph.Monosaccharide:posM:0
+26
+Invert Backbone
+class org.glycoinfo.WURCSFramework.wurcs.graph.Monosaccharide:posM:0
+16
+Invert Backbone
+class org.glycoinfo.WURCSFramework.wurcs.graph.Monosaccharide:posM:0
+14
+Invert Backbone
+class org.glycoinfo.WURCSFramework.wurcs.graph.Monosaccharide:posM:0
+12
+Invert Backbone
+class org.glycoinfo.WURCSFramework.wurcs.graph.Monosaccharide:posM:0
+10
+Invert Backbone
+Can't expand repeating unit with unknown repeat count.
+in_compareTwoBackbones: 
+size of backbone: 19,19
+0skeleton:<Q> -1b <Q> -1b edge size:2 2
+edges0:|_<Q>|_<Q>|reverse false false| anomericfalse false|isGlycosidic: true true|isAglycone: false false|isRing: false false|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 1 1|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges1:|_<Q>|_<Q>|reverse false false| anomericfalse false|isGlycosidic: true true|isAglycone: false false|isRing: false false|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 7 7|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+1skeleton:<Q> -1b <Q> -1b edge size:2 2
+edges0:|_<Q>|_<Q>|reverse false false| anomericfalse false|isGlycosidic: true true|isAglycone: false false|isRing: false false|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 7 7|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges1:|_<Q>|_<Q>|reverse true true| anomericfalse false|isGlycosidic: true true|isAglycone: false false|isRing: false false|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 1 1|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+2skeleton:<Q> -1b <Q> -1b edge size:2 2
+edges0:|_<Q>|_<Q>|reverse false false| anomericfalse false|isGlycosidic: true true|isAglycone: false false|isRing: false false|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 7 7|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges1:|_<Q>|_<Q>|reverse true true| anomericfalse false|isGlycosidic: true true|isAglycone: false false|isRing: false false|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 1 1|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+3skeleton:<Q> -1b <Q> -1b edge size:2 2
+edges0:|_<Q>|_<Q>|reverse false false| anomericfalse false|isGlycosidic: true true|isAglycone: false false|isRing: false false|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 7 7|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges1:|_<Q>|_<Q>|reverse true true| anomericfalse false|isGlycosidic: true true|isAglycone: false false|isRing: false false|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 1 1|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+4skeleton:<Q> -1b <Q> -1b edge size:3 3
+edges0:|*OCC/3=O_<Q>|*OCC/3=O_<Q>|reverse false false| anomericfalse false|isGlycosidic: false false|isAglycone: false false|isRing: false false|canOmitMAP: false false|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 6 6|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges1:|_<Q>|_<Q>|reverse false false| anomericfalse false|isGlycosidic: true true|isAglycone: false false|isRing: false false|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 7 7|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges2:|_<Q>|_<Q>|reverse true true| anomericfalse false|isGlycosidic: true true|isAglycone: false false|isRing: false false|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 1 1|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+5skeleton:<Q> -1b <Q> -1b edge size:2 2
+edges0:|_<Q>|_<Q>|reverse false false| anomericfalse false|isGlycosidic: true true|isAglycone: false false|isRing: false false|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 7 7|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges1:|_<Q>|_<Q>|reverse true true| anomericfalse false|isGlycosidic: true true|isAglycone: false false|isRing: false false|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 1 1|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+6skeleton:<Q> -1b <Q> -1b edge size:3 3
+edges0:|*OCC/3=O_<Q>|*OCC/3=O_<Q>|reverse false false| anomericfalse false|isGlycosidic: false false|isAglycone: false false|isRing: false false|canOmitMAP: false false|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 6 6|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges1:|_<Q>|_<Q>|reverse false false| anomericfalse false|isGlycosidic: true true|isAglycone: false false|isRing: false false|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 7 7|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges2:|_<Q>|_<Q>|reverse true true| anomericfalse false|isGlycosidic: true true|isAglycone: false false|isRing: false false|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 1 1|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+7skeleton:<Q> -1b <Q> -1b edge size:3 3
+edges0:|*OCC/3=O_<Q>|*OCC/3=O_<Q>|reverse false false| anomericfalse false|isGlycosidic: false false|isAglycone: false false|isRing: false false|canOmitMAP: false false|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 6 6|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges1:|_<Q>|_<Q>|reverse false false| anomericfalse false|isGlycosidic: true true|isAglycone: false false|isRing: false false|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 7 7|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges2:|_<Q>|_<Q>|reverse true true| anomericfalse false|isGlycosidic: true true|isAglycone: false false|isRing: false false|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 1 1|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+8skeleton:<Q> -1b <Q> -1b edge size:3 3
+edges0:|*OCC/3=O_<Q>|*OCC/3=O_<Q>|reverse false false| anomericfalse false|isGlycosidic: false false|isAglycone: false false|isRing: false false|canOmitMAP: false false|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 6 6|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges1:|_<Q>|_<Q>|reverse false false| anomericfalse false|isGlycosidic: true true|isAglycone: false false|isRing: false false|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 7 7|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges2:|_<Q>|_<Q>|reverse true true| anomericfalse false|isGlycosidic: true true|isAglycone: false false|isRing: false false|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 1 1|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+9skeleton:<Q> -1b <Q> -1b edge size:3 3
+edges0:|*OCC/3=O_<Q>|*OCC/3=O_<Q>|reverse false false| anomericfalse false|isGlycosidic: false false|isAglycone: false false|isRing: false false|canOmitMAP: false false|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 6 6|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges1:|_<Q>|_<Q>|reverse false false| anomericfalse false|isGlycosidic: true true|isAglycone: false false|isRing: false false|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 7 7|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges2:|_<Q>|_<Q>|reverse true true| anomericfalse false|isGlycosidic: true true|isAglycone: false false|isRing: false false|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 1 1|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+10skeleton:<Q> -1b <Q> -1b edge size:2 2
+edges0:|_<Q>|_<Q>|reverse false false| anomericfalse false|isGlycosidic: true true|isAglycone: false false|isRing: false false|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 7 7|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges1:|_<Q>|_<Q>|reverse true true| anomericfalse false|isGlycosidic: true true|isAglycone: false false|isRing: false false|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 1 1|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+11skeleton:<Q> -1b <Q> -1b edge size:2 2
+edges0:|_<Q>|_<Q>|reverse false false| anomericfalse false|isGlycosidic: true true|isAglycone: false false|isRing: false false|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 7 7|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges1:|_<Q>|_<Q>|reverse true true| anomericfalse false|isGlycosidic: true true|isAglycone: false false|isRing: false false|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 1 1|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+12skeleton:<Q> -1b <Q> -1b edge size:2 2
+edges0:|_<Q>|_<Q>|reverse false false| anomericfalse false|isGlycosidic: true true|isAglycone: false false|isRing: false false|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 7 7|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges1:|_<Q>|_<Q>|reverse true true| anomericfalse false|isGlycosidic: true true|isAglycone: false false|isRing: false false|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 1 1|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+13skeleton:<Q> -1b <Q> -1b edge size:2 2
+edges0:|_<Q>|_<Q>|reverse false false| anomericfalse false|isGlycosidic: true true|isAglycone: false false|isRing: false false|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 7 7|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges1:|_<Q>|_<Q>|reverse true true| anomericfalse false|isGlycosidic: true true|isAglycone: false false|isRing: false false|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 1 1|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+14skeleton:<Q> -1b <Q> -1b edge size:3 3
+edges0:|*OCC/3=O_<Q>|*OCC/3=O_<Q>|reverse false false| anomericfalse false|isGlycosidic: false false|isAglycone: false false|isRing: false false|canOmitMAP: false false|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 6 6|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges1:|_<Q>|_<Q>|reverse false false| anomericfalse false|isGlycosidic: true true|isAglycone: false false|isRing: false false|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 7 7|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges2:|_<Q>|_<Q>|reverse true true| anomericfalse false|isGlycosidic: true true|isAglycone: false false|isRing: false false|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 1 1|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+15skeleton:<Q> -1b <Q> -1b edge size:3 3
+edges0:|*OCC/3=O_<Q>|*OCC/3=O_<Q>|reverse false false| anomericfalse false|isGlycosidic: false false|isAglycone: false false|isRing: false false|canOmitMAP: false false|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 6 6|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges1:|_<Q>|_<Q>|reverse false false| anomericfalse false|isGlycosidic: true true|isAglycone: false false|isRing: false false|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 7 7|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges2:|_<Q>|_<Q>|reverse true true| anomericfalse false|isGlycosidic: true true|isAglycone: false false|isRing: false false|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 1 1|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+16skeleton:<Q> -1b <Q> -1b edge size:3 3
+edges0:|*OCC/3=O_<Q>|*OCC/3=O_<Q>|reverse false false| anomericfalse false|isGlycosidic: false false|isAglycone: false false|isRing: false false|canOmitMAP: false false|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 6 6|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges1:|_<Q>|_<Q>|reverse false false| anomericfalse false|isGlycosidic: true true|isAglycone: false false|isRing: false false|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 7 7|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges2:|_<Q>|_<Q>|reverse true true| anomericfalse false|isGlycosidic: true true|isAglycone: false false|isRing: false false|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 1 1|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+17skeleton:<Q> -1b <Q> -1b edge size:3 3
+edges0:|*OCC/3=O_<Q>|*OCC/3=O_<Q>|reverse false false| anomericfalse false|isGlycosidic: false false|isAglycone: false false|isRing: false false|canOmitMAP: false false|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 6 6|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges1:|_<Q>|_<Q>|reverse false false| anomericfalse false|isGlycosidic: true true|isAglycone: false false|isRing: false false|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 7 7|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges2:|_<Q>|_<Q>|reverse true true| anomericfalse false|isGlycosidic: true true|isAglycone: false false|isRing: false false|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 1 1|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+18skeleton:<Q> -1b <Q> -1b edge size:3 3
+edges0:|*OCC/3=O_<Q>|*OCC/3=O_<Q>|reverse false false| anomericfalse false|isGlycosidic: false false|isAglycone: false false|isRing: false false|canOmitMAP: false false|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 6 6|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges1:|_<Q>|_<Q>|reverse false false| anomericfalse false|isGlycosidic: true true|isAglycone: false false|isRing: false false|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 7 7|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges2:|_<Q>|_<Q>|reverse true true| anomericfalse false|isGlycosidic: true true|isAglycone: false false|isRing: false false|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 1 1|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+glycosidicModifications: 
+size of glycosidicModification: 19 19
+glycosidicModification||isAglycone: false false|isGlycosidic: true true|isRing: false false|
+Edges: reverse false false anomeric false false linkage size: 1 1 Linkage 7 7|0 0|Edges: reverse true true anomeric false false linkage size: 1 1 Linkage 1 1|0 0|
+glycosidicModification||isAglycone: false false|isGlycosidic: true true|isRing: false false|
+Edges: reverse false false anomeric false false linkage size: 1 1 Linkage 7 7|0 0|Edges: reverse true true anomeric false false linkage size: 1 1 Linkage 1 1|0 0|
+glycosidicModification||isAglycone: false false|isGlycosidic: true true|isRing: false false|
+Edges: reverse false false anomeric false false linkage size: 1 1 Linkage 7 7|0 0|Edges: reverse true true anomeric false false linkage size: 1 1 Linkage 1 1|0 0|
+glycosidicModification||isAglycone: false false|isGlycosidic: true true|isRing: false false|
+Edges: reverse false false anomeric false false linkage size: 1 1 Linkage 7 7|0 0|Edges: reverse true true anomeric false false linkage size: 1 1 Linkage 1 1|0 0|
+glycosidicModification||isAglycone: false false|isGlycosidic: true true|isRing: false false|
+Edges: reverse false false anomeric false false linkage size: 1 1 Linkage 7 7|0 0|Edges: reverse true true anomeric false false linkage size: 1 1 Linkage 1 1|0 0|
+glycosidicModification||isAglycone: false false|isGlycosidic: true true|isRing: false false|
+Edges: reverse false false anomeric false false linkage size: 1 1 Linkage 7 7|0 0|Edges: reverse true true anomeric false false linkage size: 1 1 Linkage 1 1|0 0|
+glycosidicModification||isAglycone: false false|isGlycosidic: true true|isRing: false false|
+Edges: reverse false false anomeric false false linkage size: 1 1 Linkage 7 7|0 0|Edges: reverse true true anomeric false false linkage size: 1 1 Linkage 1 1|0 0|
+glycosidicModification||isAglycone: false false|isGlycosidic: true true|isRing: false false|
+Edges: reverse false false anomeric false false linkage size: 1 1 Linkage 7 7|0 0|Edges: reverse true true anomeric false false linkage size: 1 1 Linkage 1 1|0 0|
+glycosidicModification||isAglycone: false false|isGlycosidic: true true|isRing: false false|
+Edges: reverse false false anomeric false false linkage size: 1 1 Linkage 7 7|0 0|Edges: reverse true true anomeric false false linkage size: 1 1 Linkage 1 1|0 0|
+glycosidicModification||isAglycone: false false|isGlycosidic: true true|isRing: false false|
+Edges: reverse false false anomeric false false linkage size: 1 1 Linkage 7 7|0 0|Edges: reverse true true anomeric false false linkage size: 1 1 Linkage 1 1|0 0|
+glycosidicModification||isAglycone: false false|isGlycosidic: true true|isRing: false false|
+Edges: reverse false false anomeric false false linkage size: 1 1 Linkage 7 7|0 0|Edges: reverse true true anomeric false false linkage size: 1 1 Linkage 1 1|0 0|
+glycosidicModification||isAglycone: false false|isGlycosidic: true true|isRing: false false|
+Edges: reverse false false anomeric false false linkage size: 1 1 Linkage 7 7|0 0|Edges: reverse true true anomeric false false linkage size: 1 1 Linkage 1 1|0 0|
+glycosidicModification||isAglycone: false false|isGlycosidic: true true|isRing: false false|
+Edges: reverse false false anomeric false false linkage size: 1 1 Linkage 7 7|0 0|Edges: reverse true true anomeric false false linkage size: 1 1 Linkage 1 1|0 0|
+glycosidicModification||isAglycone: false false|isGlycosidic: true true|isRing: false false|
+Edges: reverse false false anomeric false false linkage size: 1 1 Linkage 7 7|0 0|Edges: reverse true true anomeric false false linkage size: 1 1 Linkage 1 1|0 0|
+glycosidicModification||isAglycone: false false|isGlycosidic: true true|isRing: false false|
+Edges: reverse false false anomeric false false linkage size: 1 1 Linkage 7 7|0 0|Edges: reverse true true anomeric false false linkage size: 1 1 Linkage 1 1|0 0|
+glycosidicModification||isAglycone: false false|isGlycosidic: true true|isRing: false false|
+Edges: reverse false false anomeric false false linkage size: 1 1 Linkage 7 7|0 0|Edges: reverse true true anomeric false false linkage size: 1 1 Linkage 1 1|0 0|
+glycosidicModification||isAglycone: false false|isGlycosidic: true true|isRing: false false|
+Edges: reverse false false anomeric false false linkage size: 1 1 Linkage 7 7|0 0|Edges: reverse true true anomeric false false linkage size: 1 1 Linkage 1 1|0 0|
+glycosidicModification||isAglycone: false false|isGlycosidic: true true|isRing: false false|
+Edges: reverse false false anomeric false false linkage size: 1 1 Linkage 7 7|0 0|Edges: reverse true true anomeric false false linkage size: 1 1 Linkage 1 1|0 0|
+glycosidicModification||isAglycone: false false|isGlycosidic: true true|isRing: false false|
+Edges: reverse false false anomeric false false linkage size: 1 1 Linkage 1 1|0 0|Edges: reverse false false anomeric false false linkage size: 1 1 Linkage 7 7|0 0|glycosidicModificationsAlternative: 
+size of glycosidicModificationAlternative: 0 0G93257YT:
+in: WURCS=2.0/2,6,5/[o222h][a222h-1x_1-4]/1-2-2-2-2-2/c1-d1_e1-f1_a?-b1_b?-f?*OPO*/3O/3=O_c?-e?*OPO*/3O/3=O
+in: WURCS=2.0/2,6,5/[o222h][a222h-1x_1-4]/1-2-2-2-2-2/c1-d1_e1-f1_a?-b1_b?-e?*OPO*/3O/3=O_c?-f?*OPO*/3O/3=O
+in_compareTwoBackbones: 
+size of backbone: 6,6
+0skeleton:o222h 0o o222h 0o edge size:1 1
+edges0:|_o222h|_o222h|reverse false false| anomericfalse false|isGlycosidic: true true|isAglycone: false false|isRing: false false|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: -1 -1|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+1skeleton:a222h 1x a222h 1x edge size:4 4
+edges0:|_a222h|_a222h|reverse false false| anomerictrue true|isGlycosidic: false false|isAglycone: false false|isRing: true true|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 1 1|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges1:|_a222h|_a222h|reverse false false| anomericfalse false|isGlycosidic: false false|isAglycone: false false|isRing: true true|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 4 4|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges2:|*OPO*/3O/3=O_a222h|*OPO*/3O/3=O_a222h|reverse false false| anomericfalse false|isGlycosidic: true true|isAglycone: false false|isRing: false false|canOmitMAP: false false|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: -1 -1|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges3:|_a222h|_a222h|reverse true true| anomerictrue true|isGlycosidic: true true|isAglycone: false false|isRing: false false|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 1 1|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+2skeleton:a222h 1x a222h 1x edge size:4 4
+edges0:|_a222h|_a222h|reverse false false| anomerictrue true|isGlycosidic: false false|isAglycone: false false|isRing: true true|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 1 1|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges1:|_a222h|_a222h|reverse false false| anomerictrue true|isGlycosidic: true true|isAglycone: true true|isRing: false false|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 1 1|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges2:|_a222h|_a222h|reverse false false| anomericfalse false|isGlycosidic: false false|isAglycone: false false|isRing: true true|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 4 4|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges3:|*OPO*/3O/3=O_a222h|*OPO*/3O/3=O_a222h|reverse false false| anomericfalse false|isGlycosidic: true true|isAglycone: false false|isRing: false false|canOmitMAP: false false|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: -1 -1|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+3skeleton:a222h 1x a222h 1x edge size:3 3
+edges0:|_a222h|_a222h|reverse false false| anomerictrue true|isGlycosidic: false false|isAglycone: false false|isRing: true true|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 1 1|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges1:|_a222h|_a222h|reverse false false| anomericfalse false|isGlycosidic: false false|isAglycone: false false|isRing: true true|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 4 4|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges2:|_a222h|_a222h|reverse true true| anomerictrue true|isGlycosidic: true true|isAglycone: true true|isRing: false false|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 1 1|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+4skeleton:a222h 1x a222h 1x edge size:4 4
+edges0:|_a222h|_a222h|reverse false false| anomerictrue true|isGlycosidic: false false|isAglycone: false false|isRing: true true|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 1 1|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges1:|_a222h|_a222h|reverse false false| anomerictrue true|isGlycosidic: true true|isAglycone: true true|isRing: false false|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 1 1|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges2:|_a222h|_a222h|reverse false false| anomericfalse false|isGlycosidic: false false|isAglycone: false false|isRing: true true|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 4 4|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges3:|*OPO*/3O/3=O_a222h|*OPO*/3O/3=O_a222h|reverse false false| anomericfalse false|isGlycosidic: true true|isAglycone: false false|isRing: false false|canOmitMAP: false false|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: -1 -1|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+5skeleton:a222h 1x a222h 1x edge size:4 4
+edges0:|_a222h|_a222h|reverse false false| anomerictrue true|isGlycosidic: false false|isAglycone: false false|isRing: true true|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 1 1|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges1:|_a222h|_a222h|reverse false false| anomericfalse false|isGlycosidic: false false|isAglycone: false false|isRing: true true|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 4 4|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges2:|*OPO*/3O/3=O_a222h|*OPO*/3O/3=O_a222h|reverse false false| anomericfalse false|isGlycosidic: true true|isAglycone: false false|isRing: false false|canOmitMAP: false false|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: -1 -1|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges3:|_a222h|_a222h|reverse true true| anomerictrue true|isGlycosidic: true true|isAglycone: true true|isRing: false false|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 1 1|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+glycosidicModifications: 
+size of glycosidicModification: 5 5
+glycosidicModification||isAglycone: false false|isGlycosidic: true true|isRing: false false|
+Edges: reverse false false anomeric false false linkage size: 1 1 Linkage -1 -1|0 0|Edges: reverse true true anomeric true true linkage size: 1 1 Linkage 1 1|0 0|
+glycosidicModification||isAglycone: true true|isGlycosidic: true true|isRing: false false|
+Edges: reverse false false anomeric true true linkage size: 1 1 Linkage 1 1|0 0|Edges: reverse true true anomeric true true linkage size: 1 1 Linkage 1 1|0 0|
+glycosidicModification||isAglycone: true true|isGlycosidic: true true|isRing: false false|
+Edges: reverse false false anomeric true true linkage size: 1 1 Linkage 1 1|0 0|Edges: reverse true true anomeric true true linkage size: 1 1 Linkage 1 1|0 0|
+glycosidicModification|*OPO*/3O/3=O|*OPO*/3O/3=OisAglycone: false false|isGlycosidic: true true|isRing: false false|
+Edges: reverse false false anomeric false false linkage size: 1 1 Linkage -1 -1|0 0|Edges: reverse false false anomeric false false linkage size: 1 1 Linkage -1 -1|0 0|
+glycosidicModification|*OPO*/3O/3=O|*OPO*/3O/3=OisAglycone: false false|isGlycosidic: true true|isRing: false false|
+Edges: reverse false false anomeric false false linkage size: 1 1 Linkage -1 -1|0 0|Edges: reverse false false anomeric false false linkage size: 1 1 Linkage -1 -1|0 0|glycosidicModificationsAlternative: 
+size of glycosidicModificationAlternative: 0 0G95507UH:
+in: WURCS=2.0/1,3,4/[a2122h-1a_1-5_2*OC_3*OC_6*N]/1-1-1/a1-c4_a4-b1_b4-c1_c1-c4~4-6
+Cyclic part is found: 3 membered
+Can't expand repeating unit with ranged repeat count.
+in: WURCS=2.0/1,3,4/[a2122h-1a_1-5_2*OC_3*OC_6*N]/1-1-1/a1-c4_a4-b1_b4-c1_a1-a4~4-6
+Cyclic part is found: 3 membered
+Can't expand repeating unit with ranged repeat count.
+in_compareTwoBackbones: 
+size of backbone: 3,3
+0skeleton:a2122h 1a a2122h 1a edge size:9 9
+edges0:|_a2122h|_a2122h|reverse false false| anomerictrue true|isGlycosidic: false false|isAglycone: false false|isRing: true true|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 1 1|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges1:|_a2122h|_a2122h|reverse false false| anomerictrue true|isGlycosidic: true true|isAglycone: false false|isRing: false false|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 1 1|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges2:|_a2122h|_a2122h|reverse false false| anomerictrue true|isGlycosidic: false false|isAglycone: false false|isRing: false false|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 1 1|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges3:|*OC_a2122h|*OC_a2122h|reverse false false| anomericfalse false|isGlycosidic: false false|isAglycone: false false|isRing: false false|canOmitMAP: false false|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 2 2|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges4:|*OC_a2122h|*OC_a2122h|reverse false false| anomericfalse false|isGlycosidic: false false|isAglycone: false false|isRing: false false|canOmitMAP: false false|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 3 3|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges5:|_a2122h|_a2122h|reverse false false| anomericfalse false|isGlycosidic: true true|isAglycone: false false|isRing: false false|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 4 4|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges6:|_a2122h|_a2122h|reverse false false| anomericfalse false|isGlycosidic: false false|isAglycone: false false|isRing: false false|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 4 4|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges7:|_a2122h|_a2122h|reverse false false| anomericfalse false|isGlycosidic: false false|isAglycone: false false|isRing: true true|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 5 5|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges8:|*N_a2122h|*N_a2122h|reverse false false| anomericfalse false|isGlycosidic: false false|isAglycone: false false|isRing: false false|canOmitMAP: false false|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 6 6|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+1skeleton:a2122h 1a a2122h 1a edge size:7 7
+edges0:|_a2122h|_a2122h|reverse false false| anomerictrue true|isGlycosidic: false false|isAglycone: false false|isRing: true true|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 1 1|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges1:|*OC_a2122h|*OC_a2122h|reverse false false| anomericfalse false|isGlycosidic: false false|isAglycone: false false|isRing: false false|canOmitMAP: false false|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 2 2|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges2:|*OC_a2122h|*OC_a2122h|reverse false false| anomericfalse false|isGlycosidic: false false|isAglycone: false false|isRing: false false|canOmitMAP: false false|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 3 3|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges3:|_a2122h|_a2122h|reverse false false| anomericfalse false|isGlycosidic: true true|isAglycone: false false|isRing: false false|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 4 4|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges4:|_a2122h|_a2122h|reverse false false| anomericfalse false|isGlycosidic: false false|isAglycone: false false|isRing: true true|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 5 5|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges5:|*N_a2122h|*N_a2122h|reverse false false| anomericfalse false|isGlycosidic: false false|isAglycone: false false|isRing: false false|canOmitMAP: false false|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 6 6|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges6:|_a2122h|_a2122h|reverse true true| anomerictrue true|isGlycosidic: true true|isAglycone: false false|isRing: false false|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 1 1|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+2skeleton:a2122h 1a a2122h 1a edge size:7 7
+edges0:|_a2122h|_a2122h|reverse false false| anomerictrue true|isGlycosidic: false false|isAglycone: false false|isRing: true true|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 1 1|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges1:|*OC_a2122h|*OC_a2122h|reverse false false| anomericfalse false|isGlycosidic: false false|isAglycone: false false|isRing: false false|canOmitMAP: false false|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 2 2|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges2:|*OC_a2122h|*OC_a2122h|reverse false false| anomericfalse false|isGlycosidic: false false|isAglycone: false false|isRing: false false|canOmitMAP: false false|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 3 3|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges3:|_a2122h|_a2122h|reverse false false| anomericfalse false|isGlycosidic: true true|isAglycone: false false|isRing: false false|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 4 4|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges4:|_a2122h|_a2122h|reverse false false| anomericfalse false|isGlycosidic: false false|isAglycone: false false|isRing: true true|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 5 5|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges5:|*N_a2122h|*N_a2122h|reverse false false| anomericfalse false|isGlycosidic: false false|isAglycone: false false|isRing: false false|canOmitMAP: false false|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 6 6|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+edges6:|_a2122h|_a2122h|reverse true true| anomerictrue true|isGlycosidic: true true|isAglycone: false false|isRing: false false|canOmitMAP: true true|hasBackboneCarbonOrder: false false linkage: 1 1|
+Linkage: 1 1|0 0|   | upper: 1.0 1.0 lower: 1.0 1.0
+glycosidicModifications: 
+size of glycosidicModification: 4 4
+glycosidicModification||isAglycone: false false|isGlycosidic: false false|isRing: false false|
+Edges: reverse false false anomeric true true linkage size: 1 1 Linkage 1 1|0 0|Edges: reverse false false anomeric false false linkage size: 1 1 Linkage 4 4|0 0|
+glycosidicModification||isAglycone: false false|isGlycosidic: true true|isRing: false false|
+Edges: reverse false false anomeric false false linkage size: 1 1 Linkage 4 4|0 0|Edges: reverse true true anomeric true true linkage size: 1 1 Linkage 1 1|0 0|
+glycosidicModification||isAglycone: false false|isGlycosidic: true true|isRing: false false|
+Edges: reverse false false anomeric false false linkage size: 1 1 Linkage 4 4|0 0|Edges: reverse true true anomeric true true linkage size: 1 1 Linkage 1 1|0 0|
+glycosidicModification||isAglycone: false false|isGlycosidic: true true|isRing: false false|
+Edges: reverse false false anomeric true true linkage size: 1 1 Linkage 1 1|0 0|Edges: reverse false false anomeric false false linkage size: 1 1 Linkage 4 4|0 0|glycosidicModificationsAlternative: 
+size of glycosidicModificationAlternative: 0 0

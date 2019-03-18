@@ -13,25 +13,29 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-import org.glycoinfo.WURCSFramework.util.WURCSException;
-import org.glycoinfo.WURCSFramework.util.array.WURCSExporter;
-import org.glycoinfo.WURCSFramework.util.array.WURCSFormatException;
-import org.glycoinfo.WURCSFramework.util.array.WURCSImporter;
-import org.glycoinfo.WURCSFramework.util.exchange.WURCSArrayToGraph;
-import org.glycoinfo.WURCSFramework.util.exchange.WURCSGraphToArray;
-import org.glycoinfo.WURCSFramework.util.graph.WURCSGraphNormalizer;
-import org.glycoinfo.WURCSFramework.wurcs.array.WURCSArray;
-import org.glycoinfo.WURCSFramework.wurcs.graph.WURCSGraph;
 
 public class NormalizeWURCSTestFromFile {
 
 	public static void main(String[] args) {
 
-		String t_strDir = "E:\\GlycoCTList\\20160215\\";
-		String t_strWURCSFile = "20160215result-GlyTouCan_WURCSList.txt";
+//		String t_strDir = "/Users/muller/work/wurcs/test_clone/wurcsframework/WURCSFramework/test2/";
+		String t_strDir = "/Users/muller/work/wurcs/test2/";
+// <<<<<<< HEAD
+//		String t_strWURCSFile = "alter_test3.txt";
+//		String t_strWURCSFile = "all_wurcs181113h.txt";
+//		String t_strWURCSFile = "test0.txt";
+//		String input = "src/org/glycoinfo/WURCSFramework/testresource/" + t_strWURCSFile;
+//		String input  = t_strDir + t_strWURCSFile;
+//		String output = t_strDir + "alter_test3_out.txt";
+//		String output = t_strDir + "all_wurcs181113h_out.txt";
+// =======
+		String t_strWURCSFile = "alter_test4.txt";
+//		String t_strWURCSFile = "test0.txt";
 //		String input = "src/org/glycoinfo/WURCSFramework/testresource/" + t_strWURCSFile;
 		String input  = t_strDir + t_strWURCSFile;
-		String output = t_strDir + "20160215result-GlyTouCan_WURCStoWURCS.txt";
+		String output = t_strDir + "alter_test4_out.txt";
+// >>>>>>> 7c3a35059eb545c2948e4e6067ea1c6c83f9b5c6
+//		String output = t_strDir + "test0_out.txt";
 
 		TreeMap<String, String> t_mapWURCSIndex = new TreeMap<String, String>();
 		WURCSImporter t_objImporter = new WURCSImporter();

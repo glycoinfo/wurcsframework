@@ -50,7 +50,7 @@ public class MonosaccharideComparatorForInvertBackbone implements Comparator<Mon
 		// Prioritize smaller score
 		t_iComp = score1 - score2;
 		// XXX: remove print
-		System.err.println(MS1.getClass()+":posM:"+t_iComp);
+		System.err.println("[info] "+MS1.getClass()+":posM:"+t_iComp+" in class MonosaccharideComparatorForInvertBackbone (compare(ms1,ms2))");
 		if ( t_iComp != 0 ) return t_iComp;
 
 
