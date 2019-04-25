@@ -27,7 +27,7 @@ public class TestWURCSImporter {
 		try {
 			t_oImporter.extractWURCSArray(t_strWURCS);
 		} catch (WURCSFormatException e) {
-			assertEquals( "Not match as WURCS.", e.getErrorMessage() );
+			assertEquals( "Not match as WURCS in class WURCSImporter(extractWURCSArray).", e.getErrorMessage() );
 			assertEquals( t_strWURCS, e.getInputString() );
 		}
 	}
