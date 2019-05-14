@@ -1,5 +1,15 @@
 package org.glycoinfo.WURCSFramework.exec;
 
+import org.glycoinfo.WURCSFramework.util.WURCSException;
+import org.glycoinfo.WURCSFramework.util.array.WURCSExporter;
+import org.glycoinfo.WURCSFramework.util.array.WURCSFormatException;
+import org.glycoinfo.WURCSFramework.util.array.WURCSImporter;
+import org.glycoinfo.WURCSFramework.util.exchange.WURCSArrayToGraph;
+import org.glycoinfo.WURCSFramework.util.exchange.WURCSGraphToArray;
+import org.glycoinfo.WURCSFramework.util.graph.WURCSGraphNormalizer;
+import org.glycoinfo.WURCSFramework.wurcs.array.WURCSArray;
+import org.glycoinfo.WURCSFramework.wurcs.graph.WURCSGraph;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
